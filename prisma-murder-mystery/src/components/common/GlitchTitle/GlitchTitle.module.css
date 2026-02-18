@@ -8,7 +8,7 @@
 
 .titleWrapper {
     position: relative;
-    color: #fff;
+    color: var(--text-header);
     font-family: var(--font-display);
     font-weight: 900;
     font-size: clamp(4rem, 12vw, 10rem);
@@ -16,6 +16,22 @@
     letter-spacing: 0.15em;
     line-height: 1;
     user-select: none;
+    text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Red Scratch line (V2.5) */
+.redScratch {
+    position: absolute;
+    top: 55%;
+    left: -5%;
+    width: 110%;
+    height: 1px;
+    background: var(--color-blood-accent);
+    opacity: 0.4;
+    transform: rotate(-1.5deg);
+    z-index: 5;
+    pointer-events: none;
+    box-shadow: 0 0 5px rgba(122, 14, 18, 0.5);
 }
 
 .baseLayer {

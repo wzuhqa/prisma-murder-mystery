@@ -29,27 +29,36 @@ const GlitchTitle = ({ text = "PRISMA" }) => {
                 ease: "none"
             });
 
-            // 2. Aggressive Burst Glitch (Periodic)
+            // 2. Aggressive Burst Glitch (Periodic - V2.5 Refinement)
             const triggerBurst = () => {
                 const tl = gsap.timeline({
                     onComplete: () => {
-                        gsap.delayedCall(gsap.utils.random(3, 6), triggerBurst);
+                        gsap.delayedCall(gsap.utils.random(15, 25), triggerBurst); // Slower, more threatening
                     }
                 });
 
                 // Violent Shake
                 tl.to(containerRef.current, {
-                    x: () => gsap.utils.random(-20, 20),
-                    y: () => gsap.utils.random(-10, 10),
-                    skewX: () => gsap.utils.random(-10, 10),
-                    scale: 1.05,
+                    x: () => gsap.utils.random(-15, 15),
+                    y: () => gsap.utils.random(-8, 8),
+                    skewX: () => gsap.utils.random(-8, 8),
+                    scale: 1.03,
                     duration: 0.05,
-                    repeat: 5,
+                    repeat: 4,
                 });
 
+                // Red Scratch Flicker (V2.5)
+                tl.to(`.${styles.redScratch}`, {
+                    opacity: 0.8,
+                    scaleX: 1.1,
+                    duration: 0.05,
+                    repeat: 3,
+                    yoyo: true
+                }, 0);
+
                 // RGB Split Expansion
-                tl.to(redRef.current, { x: -15, duration: 0.03 }, 0);
-                tl.to(cyanRef.current, { x: 15, duration: 0.03 }, 0);
+                tl.to(redRef.current, { x: -10, duration: 0.03 }, 0);
+                tl.to(cyanRef.current, { x: 10, duration: 0.03 }, 0);
 
                 // Clip-path Slice
                 tl.set([redRef.current, cyanRef.current, baseRef.current], {
@@ -61,7 +70,7 @@ const GlitchTitle = ({ text = "PRISMA" }) => {
                 }, 0.1);
 
                 // Flash Overlay
-                tl.to(flashRef.current, { opacity: 0.5, backgroundColor: "#7a0000", duration: 0.02 }, 0.05);
+                tl.to(flashRef.current, { opacity: 0.4, backgroundColor: "#7a0000", duration: 0.02 }, 0.05);
                 tl.to(flashRef.current, { opacity: 0, duration: 0.02 }, 0.07);
 
                 // Reset
@@ -74,14 +83,14 @@ const GlitchTitle = ({ text = "PRISMA" }) => {
                 }, 0.2);
 
                 // Random 1-frame blackout
-                if (Math.random() > 0.7) {
+                if (Math.random() > 0.8) {
                     tl.to(containerRef.current, { opacity: 0, duration: 0.05 }, 0.1);
                     tl.to(containerRef.current, { opacity: 1, duration: 0.01 }, 0.15);
                 }
             };
 
-            // Start the cycle
-            gsap.delayedCall(2, triggerBurst);
+            // Start the cycle with a long delay
+            gsap.delayedCall(10, triggerBurst);
 
         }, containerRef);
 
@@ -95,6 +104,7 @@ const GlitchTitle = ({ text = "PRISMA" }) => {
             <div className={styles.scanlines} />
 
             <div className={styles.titleWrapper}>
+                <div className={styles.redScratch} />
                 <span ref={redRef} className={`${styles.glitchLayer} ${styles.redLayer} select-none`}>
                     {text}
                 </span>

@@ -10,25 +10,36 @@ const HeroSection = () => {
   const [investigateHover, setInvestigateHover] = useState(false);
   const [trailPoints, setTrailPoints] = useState([]);
 
-  // GSAP Entrance Animations
+  const lampRef = useRef(null);
+  const [isLampOn, setIsLampOn] = useState(false);
+
+  // Cinematic Entrance: "Lamp Turn On" (V2.5)
   useEffect(() => {
     const tl = gsap.timeline();
 
-    // Fade in section
-    tl.from(sectionRef.current, {
-      opacity: 0,
-      duration: 1.5,
-      ease: 'power2.out'
-    });
+    // Initial State: Darkness
+    gsap.set(sectionRef.current, { opacity: 0 });
+    gsap.set(lampRef.current, { scale: 0, opacity: 0 });
+    gsap.set(cardRef.current, { y: 60, opacity: 0, rotateX: 20 });
 
-    // Animate the folder card
-    tl.from(cardRef.current, {
-      y: 100,
-      rotate: 10,
-      opacity: 0,
+    // Step 1: Flicker & Lamp On
+    tl.to(sectionRef.current, { opacity: 1, duration: 0.1 });
+    tl.to(lampRef.current, {
+      scale: 1,
+      opacity: 1,
       duration: 1.2,
-      ease: 'back.out(1.7)'
-    }, '-=1');
+      ease: "power4.out",
+      onStart: () => setIsLampOn(true)
+    }, "+=0.5");
+
+    // Step 2: Physical Elements Rise
+    tl.to(cardRef.current, {
+      y: 0,
+      opacity: 1,
+      rotateX: 0,
+      duration: 1.5,
+      ease: "power3.out"
+    }, "-=0.8");
   }, []);
 
   // Blood Cursor Trail Logic
@@ -50,6 +61,16 @@ const HeroSection = () => {
       className={styles.heroRoot}
       onMouseMove={handleMouseMove}
     >
+      {/* Cinematic Lamp Glow (V2.5) */}
+      <div ref={lampRef} className={styles.lampGlow} />
+
+      {/* Hidden Unease Text (V2.5) */}
+      <div className={styles.hiddenUneaseText}>
+        <p>THE TRUTH IS OUT THERE</p>
+        <p>YOU ARE NOT ALONE</p>
+        <p>THEY ARE WATCHING</p>
+      </div>
+
       {/* Blood Cursor Trail */}
       {trailPoints.map((p, i) => (
         <div
