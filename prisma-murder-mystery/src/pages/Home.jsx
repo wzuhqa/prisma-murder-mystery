@@ -5,6 +5,7 @@ import HeroSection from '../components/hero/HeroSection'
 const EnhancedCountdown = lazy(() => import('../components/home/EnhancedCountdown'))
 const EventLineupReveal = lazy(() => import('../components/home/EventLineupReveal'))
 const SpecterArchive = lazy(() => import('../components/home/SpecterArchive'))
+const EvidenceBoard = lazy(() => import('../components/evidence/EvidenceBoard/EvidenceBoard'))
 
 // Loading placeholder for lazy components
 const SectionLoader = () => (
@@ -37,7 +38,10 @@ const Home = () => {
         </Suspense>
       </section>
 
-
+      {/* ===== EVIDENCE BOARD (SPONSORS) ===== */}
+      <Suspense fallback={<SectionLoader />}>
+        <EvidenceBoard />
+      </Suspense>
 
       {/* ===== SPECTER ARCHIVE SECTION ===== */}
       <section className="relative">
