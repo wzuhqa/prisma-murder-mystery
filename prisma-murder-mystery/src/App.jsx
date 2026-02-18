@@ -101,11 +101,11 @@ import ErrorBoundary from './components/ErrorBoundary'
 function App() {
   return (
     <ErrorBoundary>
-      <Router basename="/prisma">
+      <HashRouter basename="/prisma-event-page">
         <NavigationProvider>
           <AppContent />
         </NavigationProvider>
-      </Router>
+      </HashRouter>
     </ErrorBoundary>
   )
 }
