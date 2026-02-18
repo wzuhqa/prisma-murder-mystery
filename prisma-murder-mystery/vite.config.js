@@ -47,7 +47,7 @@ export default defineConfig({
 
     // Drop console.logs and debugger in production
     esbuildOptions: {
-      drop: ['console', 'debugger'],
+      drop: ['debugger'],
     },
 
     // CSS code splitting

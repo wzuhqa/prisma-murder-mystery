@@ -265,7 +265,7 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
 
   // Determine current active section from route
   const getActiveFromPath = (pathname) => {
-    if (pathname === '/' || pathname === '/prisma-murder-mystery') return 'home'
+    if (pathname === '/') return 'home'
     const segment = pathname.split('/').filter(Boolean).pop() || 'home'
     // Map old paths to new ones for backwards compatibility
     const pathMap = {
@@ -281,7 +281,7 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
   // Handle navigation click without slash animation
   const handleNavClick = useCallback((path) => {
     // Normalize paths for comparison
-    const currentPath = location.pathname === '/prisma-murder-mystery' ? '/' : location.pathname
+    const currentPath = location.pathname
     const targetPath = path
 
     // Prevent clicking the same section (allow refresh to home)
