@@ -79,105 +79,119 @@ const HeroSection = memo(function HeroSection() {
         <path d="M200,50 L500,300 L800,100" stroke="rgba(196,30,58,0.12)" fill="none" strokeWidth="0.6" />
       </svg>
 
-      {/* Case File Card */}
+      {/* Case File Card (Manila Folder) */}
       <div ref={cardRef} className={styles.caseCard}>
-        {/* Case File ID */}
-        <div className={styles.caseFileId}>CASE FILE: #PR-2026-X</div>
-
-        {/* Main content row: university label + PRISMA title */}
-        <div className={styles.titleRow}>
-          <div className={styles.universityBadge}>SRM UNIVERSITY DELHI-NCR</div>
-          <h1 className={styles.prismaTitle} data-text="PRISMA">PRISMA</h1>
+        {/* Physical Folder Tab */}
+        <div className={styles.folderTab}>
+          <span className={styles.tabId}>PR-2026-X</span>
         </div>
 
-        {/* Subtitle */}
-        <p className={styles.subtitle}>ANNUAL TECH &amp; CULTURAL FEST</p>
+        {/* Paper Texture Overlay */}
+        <div className={styles.paperTexture} />
 
-        {/* Hashtag */}
-        <p className={styles.hashtag}>#TheMysteryUnfolds</p>
+        {/* Folder Crease */}
+        <div className={styles.folderCrease} />
 
-        {/* Date */}
-        <p className={styles.date}>28 February to 1 March 2025</p>
+        {/* Case File Content */}
+        <div className={styles.cardInner}>
+          {/* Case File ID */}
+          <div className={styles.caseFileId}>DEPARTMENT OF INVESTIGATION: #PR-2026-X</div>
 
-        {/* Confidential Stamp */}
-        <div className={styles.confidentialStamp}>CONFIDENTIAL</div>
-
-        {/* Evidence Tag */}
-        <div className={styles.evidenceTag}>
-          <span className={styles.tagLabel}>EVIDENCE</span>
-          <span className={styles.tagId}>#204</span>
-        </div>
-
-        {/* Case Metadata */}
-        <div className={styles.metaBlock}>
-          <div className={styles.metaRow}>
-            <span className={styles.metaLabel}>LEAD INVESTIGATOR:</span>
-            <span className={styles.metaValue}>UNKNOWN</span>
+          {/* Main content row: university label + PRISMA title */}
+          <div className={styles.titleRow}>
+            <div className={styles.universityBadge}>SRM UNIVERSITY DELHI-NCR</div>
+            <h1 className={styles.prismaTitle} data-text="PRISMA">PRISMA</h1>
           </div>
-          <div className={styles.metaRow}>
-            <span className={styles.metaLabel}>STATUS:</span>
-            <span className={styles.metaValue}>OPEN</span>
+
+          {/* Subtitle */}
+          <p className={styles.subtitle}>ANNUAL TECH &amp; CULTURAL FEST</p>
+
+          {/* Hashtag */}
+          <p className={styles.hashtag}>#TheMysteryUnfolds</p>
+
+          {/* Date */}
+          <p className={styles.date}>28 February to 1 March 2025</p>
+
+          {/* Confidential Stamp */}
+          <div className={styles.confidentialStamp}>CONFIDENTIAL</div>
+
+          {/* Evidence Tag */}
+          <div className={styles.evidenceTag}>
+            <span className={styles.tagLabel}>EVIDENCE</span>
+            <span className={styles.tagId}>#204</span>
           </div>
-          <div className={styles.metaRow}>
-            <span className={styles.metaLabel}>THREAT LEVEL:</span>
-            <span className={styles.metaValue} style={{ color: '#c41e3a' }}>HIGH</span>
+
+          {/* Case Metadata */}
+          <div className={styles.metaBlock}>
+            <div className={styles.metaRow}>
+              <span className={styles.metaLabel}>LEAD INVESTIGATOR:</span>
+              <span className={styles.metaValue}>UNKNOWN</span>
+            </div>
+            <div className={styles.metaRow}>
+              <span className={styles.metaLabel}>STATUS:</span>
+              <span className={styles.metaValue}>OPEN</span>
+            </div>
+            <div className={styles.metaRow}>
+              <span className={styles.metaLabel}>THREAT LEVEL:</span>
+              <span className={styles.metaValue} style={{ color: '#c41e3a' }}>HIGH</span>
+            </div>
           </div>
-        </div>
 
-        {/* CTA Buttons */}
-        <div className={styles.buttonGroup}>
-          <Link
-            to="/events"
-            className={`${styles.btn} ${styles.btnRed}`}
-            onClick={(e) => {
-              const btn = e.currentTarget;
-              const circle = document.createElement('span');
-              const diameter = Math.max(btn.clientWidth, btn.clientHeight);
-              const radius = diameter / 2;
-              const rect = btn.getBoundingClientRect();
+          {/* CTA Buttons */}
+          <div className={styles.buttonGroup}>
+            <Link
+              to="/events"
+              className={`${styles.btn} ${styles.btnRed}`}
+              onClick={(e) => {
+                const btn = e.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+                const radius = diameter / 2;
+                const rect = btn.getBoundingClientRect();
 
-              circle.style.width = circle.style.height = `${diameter}px`;
-              circle.style.left = `${e.clientX - rect.left - radius}px`;
-              circle.style.top = `${e.clientY - rect.top - radius}px`;
-              circle.classList.add(styles.ripple);
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${e.clientX - rect.left - radius}px`;
+                circle.style.top = `${e.clientY - rect.top - radius}px`;
+                circle.classList.add(styles.ripple);
 
-              const ripple = btn.getElementsByClassName(styles.ripple)[0];
-              if (ripple) {
-                ripple.remove();
-              }
+                const ripple = btn.getElementsByClassName(styles.ripple)[0];
+                if (ripple) {
+                  ripple.remove();
+                }
 
-              btn.appendChild(circle);
-            }}
-          >
-            <span className={styles.btnIcon}>⌕</span>
-            INVESTIGATE EVENTS →
-          </Link>
-          <Link
-            to="/register"
-            className={`${styles.btn} ${styles.btnGold}`}
-            onClick={(e) => {
-              const btn = e.currentTarget;
-              const circle = document.createElement('span');
-              const diameter = Math.max(btn.clientWidth, btn.clientHeight);
-              const radius = diameter / 2;
-              const rect = btn.getBoundingClientRect();
+                btn.appendChild(circle);
+              }}
+            >
+              <span className={styles.btnIcon}>⌕</span>
+              INVESTIGATE EVENTS →
+            </Link>
+            <Link
+              to="/register"
+              className={`${styles.btn} ${styles.btnGold}`}
+              onClick={(e) => {
+                const btn = e.currentTarget;
+                const circle = document.createElement('span');
+                const diameter = Math.max(btn.clientWidth, btn.clientHeight);
+                const radius = diameter / 2;
+                const rect = btn.getBoundingClientRect();
 
-              circle.style.width = circle.style.height = `${diameter}px`;
-              circle.style.left = `${e.clientX - rect.left - radius}px`;
-              circle.style.top = `${e.clientY - rect.top - radius}px`;
-              circle.classList.add(styles.ripple);
+                circle.style.width = circle.style.height = `${diameter}px`;
+                circle.style.left = `${e.clientX - rect.left - radius}px`;
+                circle.style.top = `${e.clientY - rect.top - radius}px`;
+                circle.classList.add(styles.ripple);
 
-              const ripple = btn.getElementsByClassName(styles.ripple)[0];
-              if (ripple) {
-                ripple.remove();
-              }
+                const ripple = btn.getElementsByClassName(styles.ripple)[0];
+                if (ripple) {
+                  ripple.remove();
+                }
 
-              btn.appendChild(circle);
-            }}
-          >
-            <span className={styles.btnIcon}>⇥</span>
-            GRAB YOUR PASSES
-          </Link>
+                btn.appendChild(circle);
+              }}
+            >
+              <span className={styles.btnIcon}>⇥</span>
+              GRAB YOUR PASSES
+            </Link>
+          </div>
         </div>
       </div>
 
