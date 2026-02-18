@@ -154,11 +154,21 @@
     line-height: 1.4;
 }
 
+.sponsorName {
+    font-weight: 800;
+    font-size: 1.3rem;
+    display: block;
+    margin-bottom: 0.1rem;
+    text-transform: uppercase;
+    color: #111;
+}
+
 .codename {
-    font-weight: 700;
-    font-size: 1.2rem;
+    font-weight: 600;
+    font-size: 1rem;
     display: block;
     margin-bottom: 0.25rem;
+    opacity: 0.8;
 }
 
 .note {

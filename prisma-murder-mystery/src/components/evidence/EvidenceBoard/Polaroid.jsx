@@ -20,6 +20,7 @@ const Polaroid = memo(({ sponsor, rotation = 0 }) => {
             </div>
 
             <div className={styles.handwrittenText}>
+                <span className={styles.sponsorName}>{sponsor.name}</span>
                 <span className={styles.codename}>{sponsor.codename}</span>
                 <span className={styles.note}>“{sponsor.note}”</span>
             </div>
