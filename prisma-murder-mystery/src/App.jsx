@@ -100,7 +100,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 
 function App() {
   useEffect(() => {
-    console.log("PRISMA APP V1.9 - HASHROUTER ACTIVE - MANILA FOLDER REDESIGN");
+    console.log("PRISMA APP V2.0 - HASHROUTER ACTIVE - PHYSICAL CASE FILE OVERHAUL");
   }, []);
 
   return (

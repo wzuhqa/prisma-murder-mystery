@@ -1,45 +1,82 @@
 .heroRoot {
   position: relative;
   min-height: 100vh;
-  background-color: #0a0a0a;
+  /* DESK BACKGROUND: Dark Wood Texture with Vignette */
+  background-color: #0d0b0a;
+  background-image:
+    radial-gradient(circle at 60% 40%, rgba(255, 255, 230, 0.05) 0%, transparent 60%),
+    /* Subtle Desk Lamp */
+    radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.6) 100%),
+    /* Vignette */
+    linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.8)),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='wood'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01 0.4' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0.1 0 1 0 0 0.05 0 0 1 0 0.02 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23wood)' opacity='0.4'/%3E%3C/svg%3E");
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: 2rem 1rem;
+  padding: 4rem 1rem;
+}
+
+.deskBackground {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ── Dust Particles Layer ── */
+.dustOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  z-index: 5;
+  animation: dust-flicker 8s infinite steps(2);
+}
+
+@keyframes dust-flicker {
+
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: translate(0, 0);
+  }
+
+  25% {
+    opacity: 0.5;
+    transform: translate(2px, -2px);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: translate(-1px, 1px);
+  }
 }
 
 /* ── Background: CONFIDENTIAL watermarks ── */
-.watermarkLeft {
+.watermarkLeft,
+.watermarkRight {
   position: absolute;
-  top: 18%;
-  left: -2%;
-  font-family: 'Courier New', Courier, monospace;
+  font-family: 'Courier New', monospace;
   font-size: clamp(3rem, 8vw, 7rem);
   font-weight: 900;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.04);
-  transform: rotate(-25deg);
+  color: rgba(255, 255, 255, 0.02);
   pointer-events: none;
   user-select: none;
-  white-space: nowrap;
   z-index: 0;
 }
 
+.watermarkLeft {
+  top: 18%;
+  left: -2%;
+  transform: rotate(-25deg);
+}
+
 .watermarkRight {
-  position: absolute;
   bottom: 18%;
   right: -2%;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: clamp(3rem, 8vw, 7rem);
-  font-weight: 900;
-  letter-spacing: 0.15em;
-  color: rgba(255, 255, 255, 0.04);
   transform: rotate(15deg);
-  pointer-events: none;
-  user-select: none;
-  white-space: nowrap;
-  z-index: 0;
 }
 
 /* ── Background: Red string lines ── */
@@ -49,369 +86,346 @@
   width: 100%;
   height: 100%;
   pointer-events: none;
-  z-index: 0;
+  z-index: 1;
+  opacity: 0.3;
 }
 
 /* ── Case File Card (Manila Folder) ── */
 .caseCard {
   position: relative;
-  z-index: 1;
-  width: min(720px, 92vw);
-  background-color: #e3d9c6;
-  /* Manila Beige */
+  z-index: 10;
+  width: min(740px, 94vw);
+  background-color: #dbc9a7;
+  /* Deeper Manila */
   background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E"),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 100%);
-  padding: clamp(2.5rem, 6vw, 4rem) clamp(1.5rem, 5vw, 4rem);
-  text-align: center;
-  transform: rotate(-1.2deg);
-  /* Added physical rotation */
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='grain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23grain)' opacity='0.08'/%3E%3C/svg%3E");
+  padding: clamp(3rem, 7vw, 5rem) clamp(2rem, 6vw, 5rem);
+  transform: translateX(-20px) rotate(-1.5deg);
+  /* Shifted left + Non-perfect centering */
   box-shadow:
-    /* Layered shadows for physical depth */
-    2px 2px 5px rgba(0, 0, 0, 0.3),
-    15px 25px 50px rgba(0, 0, 0, 0.6),
-    inset -2px -2px 5px rgba(0, 0, 0, 0.1),
-    inset 2px 2px 5px rgba(255, 255, 255, 0.3);
+    5px 10px 30px rgba(0, 0, 0, 0.8),
+    20px 40px 80px rgba(0, 0, 0, 0.6),
+    inset -5px -5px 15px rgba(0, 0, 0, 0.1);
 
-  /* Uneven border radius for "worn" look */
-  border-radius: 2px 40px 5px 15px / 3px 5px 3px 40px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  /* Torn edge effect using clip-path */
+  clip-path: polygon(0% 0%, 100% 0%,
+      100% 95%, 98% 97%, 95% 94%, 92% 98%, 88% 95%,
+      85% 99%, 80% 94%, 75% 97%, 0% 100%);
+
+  border-radius: 2px 40px 5px 2px;
   overflow: visible;
-  /* Show the tab */
 }
 
 /* ── Folder Tab ── */
 .folderTab {
   position: absolute;
-  top: -30px;
-  left: 40px;
-  height: 32px;
-  width: 140px;
-  background-color: #e3d9c6;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
-  border-radius: 12px 25px 0 0;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  border-bottom: none;
-  box-shadow: -2px -2px 5px rgba(0, 0, 0, 0.1);
+  top: -38px;
+  left: 60px;
+  height: 40px;
+  width: 180px;
+  background-color: #c9b794;
+  /* Slightly darker */
+  border-radius: 15px 30px 0 0;
+  box-shadow: -2px -5px 10px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: -1;
+  transform: rotate(0.5deg);
 }
 
 .tabId {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.6rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
   font-weight: 900;
-  color: rgba(0, 0, 0, 0.4);
+  color: rgba(0, 0, 0, 0.35);
+  letter-spacing: 0.15em;
+}
+
+/* ── Paperclip ── */
+.paperclip {
+  position: absolute;
+  top: -20px;
+  right: 80px;
+  width: 40px;
+  height: 80px;
+  color: #a0a0a0;
+  transform: rotate(15deg);
+  filter: drop-shadow(2px 4px 3px rgba(0, 0, 0, 0.4));
+  z-index: 50;
+}
+
+/* ── Restricted Stamp ── */
+.restrictedStamp {
+  position: absolute;
+  top: 40px;
+  right: -30px;
+  border: 4px solid #8b0000;
+  color: #8b0000;
+  font-family: 'Courier New', monospace;
+  font-size: 1.2rem;
+  font-weight: 900;
+  padding: 0.4rem 1.2rem;
+  transform: rotate(25deg);
+  opacity: 0.4;
+  mix-blend-mode: multiply;
+  pointer-events: none;
   letter-spacing: 0.1em;
 }
 
-/* ── Folder Textures & Details ── */
-.paperTexture {
+/* ── Handwritten Scribble ── */
+.handwrittenScribble {
+  position: absolute;
+  top: 150px;
+  right: 40px;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 1.1rem;
+  color: #1a1a1a;
+  opacity: 0.2;
+  transform: rotate(-5deg);
+  pointer-events: none;
+}
+
+.reopenNote {
+  position: absolute;
+  top: -20px;
+  right: -40px;
+  font-family: 'Patrick Hand', cursive;
+  font-size: 0.9rem;
+  color: #8b0000;
+  opacity: 0.3;
+  transform: rotate(10deg);
+}
+
+/* ── Evidence Threads Overlay ── */
+.evidenceThreads {
   position: absolute;
   inset: 0;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.02'/%3E%3C/svg%3E");
-  z-index: 1;
-  opacity: 0.5;
-}
-
-.folderCrease {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 50px;
-  width: 2px;
-  background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.05), transparent);
+  width: 100%;
+  height: 100%;
   pointer-events: none;
   z-index: 1;
 }
 
-.cardInner {
-  position: relative;
-  z-index: 2;
+.threadPath {
+  stroke: #8b0000;
+  stroke-width: 1.5;
+  fill: none;
+  opacity: 0.15;
+  stroke-dasharray: 4 2;
 }
 
 /* ── Case File ID ── */
 .caseFileId {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.75rem;
-  letter-spacing: 0.2em;
-  color: rgba(0, 0, 0, 0.6);
-  text-transform: uppercase;
-  margin-bottom: 2rem;
-  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: rgba(0, 0, 0, 0.5);
+  margin-bottom: 3rem;
+  font-weight: 900;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+  padding-bottom: 5px;
   display: inline-block;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-  padding-bottom: 4px;
 }
 
-/* ── Title Row: university badge + PRISMA ── */
+/* ── Title Row ── */
 .titleRow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-  margin-bottom: 1.25rem;
+  position: relative;
+  margin-bottom: 2rem;
 }
 
-.universityBadge {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.6rem;
-  letter-spacing: 0.22em;
-  color: rgba(0, 0, 0, 0.45);
-  text-transform: uppercase;
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  padding: 0.35rem 0.75rem;
-  white-space: nowrap;
-  flex-shrink: 0;
+.titleWrapper {
+  position: relative;
+  display: inline-block;
 }
 
 .prismaTitle {
-  font-family: 'Playfair Display', 'Georgia', serif;
-  font-size: clamp(4rem, 14vw, 8rem);
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4rem, 15vw, 9rem);
   font-weight: 900;
   color: #1a1a1a;
-  /* Darker ink */
-  line-height: 0.9;
-  letter-spacing: -0.02em;
   margin: 0;
-  text-shadow:
-    1px 1px 2px rgba(255, 255, 255, 0.5),
-    -1px -1px 2px rgba(0, 0, 0, 0.1);
   mix-blend-mode: multiply;
-  /* Make it look like ink on paper */
+  line-height: 0.85;
 }
 
-/* ── Subtitle ── */
-.subtitle {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: clamp(0.7rem, 2vw, 0.85rem);
-  letter-spacing: 0.3em;
-  color: rgba(0, 0, 0, 0.6);
-  text-transform: uppercase;
-  margin: 1.5rem 0 0.75rem;
-  font-weight: 700;
-}
-
-/* ── Hashtag ── */
-.hashtag {
-  font-family: Georgia, 'Times New Roman', serif;
-  font-style: italic;
-  font-size: clamp(1rem, 2.8vw, 1.25rem);
-  color: #c41e3a;
-  /* Blood red accent */
-  margin: 0 0 1rem;
-  letter-spacing: 0.04em;
-  opacity: 0.9;
-}
-
-/* ── Date ── */
-.date {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: clamp(0.7rem, 1.8vw, 0.85rem);
-  letter-spacing: 0.2em;
+.universityBadge {
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
   color: rgba(0, 0, 0, 0.5);
-  text-transform: uppercase;
-  margin: 0 0 2.25rem;
-  font-weight: 600;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  padding: 0.4rem 1rem;
+  margin-bottom: 1.5rem;
+  display: inline-block;
 }
 
-/* ── Confidential Stamp ── */
-.confidentialStamp {
-  position: absolute;
-  top: 10%;
-  right: 5%;
-  border: 4px solid rgba(196, 30, 58, 0.4);
-  color: rgba(196, 30, 58, 0.4);
-  font-family: 'Courier New', Courier, monospace;
-  /* Or a stamp font if available */
-  font-size: 1.5rem;
+/* ── Institutional Meta ── */
+.metaBlock {
+  position: relative;
+  margin: 3rem 0;
+  padding-left: 1.5rem;
+  border-left: 3px solid #8b0000;
+  text-align: left;
+}
+
+.metaRow {
+  display: flex;
+  font-family: 'Courier New', monospace;
+  font-size: 0.75rem;
+  margin-bottom: 0.5rem;
+  white-space: pre;
+}
+
+.metaLabel {
+  width: 220px;
+  opacity: 0.4;
   font-weight: 900;
-  text-transform: uppercase;
-  padding: 0.5rem 1rem;
-  letter-spacing: 0.2rem;
-  transform: rotate(-15deg);
-  pointer-events: none;
-  z-index: 0;
-  mask-image: url("data:image/svg+xml,%3Csvg width='200' height='100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.5' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.7'/%3E%3C/svg%3E");
-  mask-mode: alpha;
-  mix-blend-mode: multiply;
 }
 
-/* ── Evidence Tag ── */
+.metaValue {
+  font-weight: 900;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* ── Evidence Tag (Layered Above) ── */
 .evidenceTag {
   position: absolute;
-  bottom: -20px;
-  right: -20px;
-  background: #f0e68c;
+  bottom: 20px;
+  right: -50px;
+  /* Hanging outside more */
+  background: #e8d89a;
   color: #222;
-  padding: 0.5rem 1rem;
+  padding: 0.8rem 1.2rem;
   font-family: 'Courier New', monospace;
-  transform: rotate(5deg);
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  border: 1px solid #c9a96e;
-  z-index: 2;
+  transform: rotate(8deg);
+  box-shadow: 4px 8px 15px rgba(0, 0, 0, 0.5);
+  border: 1px solid #d4c48a;
+  z-index: 50;
 }
 
 .evidenceTag::before {
   content: '';
   position: absolute;
-  top: -10px;
+  top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 10px;
-  height: 10px;
-  background: #222;
+  width: 12px;
+  height: 12px;
+  background: #111;
   border-radius: 50%;
-  box-shadow: 0 0 0 2px #f0e68c;
+  box-shadow: 0 0 0 3px #e8d89a;
 }
 
 .tagLabel {
-  font-size: 0.5rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
+  font-size: 0.6rem;
+  font-weight: 900;
+  display: block;
 }
 
 .tagId {
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: 900;
-  letter-spacing: 0.05em;
-  color: #c41e3a;
+  color: #8b0000;
 }
 
-/* ── Case Metadata ── */
-.metaBlock {
-  top: 2.5rem;
-  left: 2rem;
-  bottom: auto;
-  text-align: left;
+/* ── CTA Buttons: Tabs & Slips ── */
+.buttonGroup {
+  display: flex;
+  gap: 2rem;
+  align-items: flex-end;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.tabButton {
+  background: #c9b794;
+  /* Tab color */
+  color: #1a1a1a;
+  padding: 0.8rem 2rem;
   font-family: 'Courier New', monospace;
-  font-size: 0.6rem;
-  color: rgba(216, 211, 196, 0.6);
-  border-left: 2px solid rgba(196, 30, 58, 0.3);
-  padding-left: 0.8rem;
+  font-weight: 900;
+  text-decoration: none;
+  border-radius: 0 0 8px 8px;
+  /* Extends from bottom */
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  font-size: 0.8rem;
+}
+
+.tabButton:hover {
+  transform: translateY(5px);
+  background: #dbc9a7;
+}
+
+.approvalClip {
+  position: relative;
+  background: #fdfaf0;
+  /* Slip color */
+  padding: 1rem 1.5rem;
+  color: #1a1a1a;
+  text-decoration: none;
+  font-family: 'Courier New', monospace;
+  border: 1px solid #eee;
+  box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.3);
+  transform: rotate(-2deg);
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
-  z-index: 0;
+  transition: all 0.2s;
 }
 
-.metaRow {
-  display: flex;
-  gap: 0.5rem;
+.clipPin {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 25px;
+  height: 8px;
+  background: #8b0000;
+  /* Red tape/pin */
+  border-radius: 2px;
 }
 
-.metaLabel {
+.clipText {
+  font-weight: 900;
+  font-size: 0.9rem;
+  color: #222;
+}
+
+.clipSubtext {
+  font-size: 0.6rem;
   opacity: 0.5;
 }
 
-.metaValue {
+.approvalClip:hover {
+  transform: rotate(0deg) scale(1.05);
+  box-shadow: 8px 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+/* ── Typography Cleanup ── */
+.subtitle,
+.hashtag,
+.date {
+  color: rgba(0, 0, 0, 0.5);
+  font-family: 'Courier New', monospace;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  color: rgba(216, 211, 196, 0.9);
 }
 
-@media (max-width: 768px) {
-  .confidentialStamp {
-    font-size: 1rem;
-    top: 5%;
-    right: 2%;
-  }
-
-  .metaBlock {
-    position: static;
-    margin-top: 2rem;
-    align-items: center;
-    border-left: none;
-    border-top: 2px solid rgba(196, 30, 58, 0.3);
-    padding-left: 0;
-    padding-top: 1rem;
-  }
-
-  .evidenceTag {
-    right: 10px;
-    bottom: -10px;
-  }
+.hashtag {
+  color: #8b0000;
+  font-style: italic;
 }
 
-/* ── CTA Buttons ── */
-.buttonGroup {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-/* ── Scanline effect keyframes ── */
-@keyframes scanline-move {
-  0% {
-    background-position: 0 0;
-  }
-
-  100% {
-    background-position: 0 100%;
-  }
-}
-
-.btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0.9rem 2rem;
-  background: rgba(0, 0, 0, 0.03);
-  border: 2px solid;
-  transition: all 0.2s ease-out;
-  cursor: pointer;
-  z-index: 1;
-  box-shadow: 2px 2px 0px rgba(0, 0, 0, 0.1);
-}
-
-.btnRed {
-  color: #c41e3a;
-  border-color: #c41e3a;
-}
-
-.btnRed:hover {
-  background: #c41e3a;
-  color: #fff;
-  transform: translateY(-2px) rotate(1deg);
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
-}
-
-.btnGold {
-  color: #8c7851;
-  border-color: #8c7851;
-}
-
-.btnGold:hover {
-  background: #8c7851;
-  color: #fff;
-  transform: translateY(-2px) rotate(-1deg);
-  box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.2);
-}
-
-.btnIcon {
-  font-size: 0.9rem;
-  opacity: 0.8;
-  transition: transform 0.2s ease;
-}
-
-.btn:hover .btnIcon {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 5px currentColor);
+.confidentialStamp {
+  position: absolute;
+  bottom: 100px;
+  left: 20px;
+  border: 4px solid rgba(139, 0, 0, 0.2);
+  color: rgba(139, 0, 0, 0.2);
+  font-family: 'Courier New', monospace;
+  font-size: 1.5rem;
+  font-weight: 900;
+  padding: 0.5rem 1.5rem;
+  transform: rotate(-10deg);
+  pointer-events: none;
 }
 
 /* ── Scroll Indicator ── */
@@ -423,63 +437,51 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  cursor: pointer;
-  z-index: 1;
-  opacity: 0.45;
-  transition: opacity 0.2s;
-}
-
-.scrollIndicator:hover {
-  opacity: 0.75;
+  opacity: 0.3;
+  z-index: 100;
 }
 
 .scrollLine {
   width: 1px;
   height: 32px;
-  background: linear-gradient(to bottom, transparent, rgba(216, 211, 196, 0.6));
+  background: #fff;
 }
 
 .scrollText {
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.55rem;
-  letter-spacing: 0.3em;
-  color: rgba(216, 211, 196, 0.7);
-  text-transform: uppercase;
+  font-family: 'Courier New', monospace;
+  font-size: 0.6rem;
+  color: #fff;
+  margin-top: 5px;
 }
 
-/* ── Ripple Effect ── */
-.ripple {
-  position: absolute;
-  border-radius: 50%;
-  transform: scale(0);
-  animation: ripple-animation 0.6s linear;
-  background: radial-gradient(circle, rgba(196, 30, 58, 0.4) 0%, transparent 70%);
-  pointer-events: none;
-}
-
-@keyframes ripple-animation {
-  to {
-    transform: scale(4);
-    opacity: 0;
+/* ── Mobile Optimization ── */
+@media (max-width: 768px) {
+  .caseCard {
+    transform: none;
+    width: 95vw;
+    padding: 3rem 1.5rem;
+    clip-path: none;
+    border-radius: 10px;
   }
-}
 
-/* ── Responsive ── */
-@media (max-width: 480px) {
-  .titleRow {
-    flex-direction: column;
-    gap: 0.75rem;
+  .folderTab,
+  .paperclip,
+  .restrictedStamp,
+  .evidenceTag {
+    display: none;
   }
 
   .buttonGroup {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
   }
 
-  .btn {
-    width: 100%;
-    max-width: 260px;
-    justify-content: center;
+  .metaRow {
+    flex-direction: column;
+    white-space: normal;
+  }
+
+  .metaLabel {
+    width: auto;
   }
 }

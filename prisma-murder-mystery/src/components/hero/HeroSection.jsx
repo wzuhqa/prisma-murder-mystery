@@ -72,125 +72,106 @@ const HeroSection = memo(function HeroSection() {
       <div className={styles.watermarkLeft} aria-hidden="true">CONFIDENTIAL</div>
       <div className={styles.watermarkRight} aria-hidden="true">CONFIDENTIAL</div>
 
-      {/* Background: Red string lines */}
+      {/* Background: Red string lines (Atmospheric) */}
       <svg className={styles.redStrings} viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-        <path d="M50,100 L300,350 L700,200 L950,450" stroke="rgba(196,30,58,0.25)" fill="none" strokeWidth="1" />
-        <path d="M100,500 L400,250 L650,400 L900,150" stroke="rgba(196,30,58,0.18)" fill="none" strokeWidth="0.8" />
-        <path d="M200,50 L500,300 L800,100" stroke="rgba(196,30,58,0.12)" fill="none" strokeWidth="0.6" />
+        <path d="M50,100 L300,350 L700,200 L950,450" stroke="rgba(139,0,0,0.15)" fill="none" strokeWidth="1" />
+        <path d="M100,500 L400,250 L650,400 L900,150" stroke="rgba(139,0,0,0.12)" fill="none" strokeWidth="0.8" />
       </svg>
 
-      {/* Case File Card (Manila Folder) */}
-      <div ref={cardRef} className={styles.caseCard}>
-        {/* Physical Folder Tab */}
-        <div className={styles.folderTab}>
-          <span className={styles.tabId}>PR-2026-X</span>
+      {/* Dust Particles Layer */}
+      <div className={styles.dustOverlay} />
+
+      {/* Desk Background Wrapper */}
+      <div className={styles.deskBackground}>
+        {/* Physical Paperclip */}
+        <div className={styles.paperclip}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48" />
+          </svg>
         </div>
 
-        {/* Paper Texture Overlay */}
-        <div className={styles.paperTexture} />
+        {/* Restricted Stamp */}
+        <div className={styles.restrictedStamp}>
+          RESTRICTED ACCESS
+        </div>
 
-        {/* Folder Crease */}
-        <div className={styles.folderCrease} />
-
-        {/* Case File Content */}
-        <div className={styles.cardInner}>
-          {/* Case File ID */}
-          <div className={styles.caseFileId}>DEPARTMENT OF INVESTIGATION: #PR-2026-X</div>
-
-          {/* Main content row: university label + PRISMA title */}
-          <div className={styles.titleRow}>
-            <div className={styles.universityBadge}>SRM UNIVERSITY DELHI-NCR</div>
-            <h1 className={styles.prismaTitle} data-text="PRISMA">PRISMA</h1>
+        {/* Case File Card (Manila Folder) */}
+        <div ref={cardRef} className={styles.caseCard}>
+          {/* Folder Tab */}
+          <div className={styles.folderTab}>
+            <span className={styles.tabId}>FILE: #PR-2026-X</span>
           </div>
 
-          {/* Subtitle */}
-          <p className={styles.subtitle}>ANNUAL TECH &amp; CULTURAL FEST</p>
+          <div className={styles.paperTexture} />
+          <div className={styles.folderCrease} />
 
-          {/* Hashtag */}
-          <p className={styles.hashtag}>#TheMysteryUnfolds</p>
-
-          {/* Date */}
-          <p className={styles.date}>28 February to 1 March 2025</p>
-
-          {/* Confidential Stamp */}
-          <div className={styles.confidentialStamp}>CONFIDENTIAL</div>
-
-          {/* Evidence Tag */}
-          <div className={styles.evidenceTag}>
-            <span className={styles.tagLabel}>EVIDENCE</span>
-            <span className={styles.tagId}>#204</span>
-          </div>
-
-          {/* Case Metadata */}
-          <div className={styles.metaBlock}>
-            <div className={styles.metaRow}>
-              <span className={styles.metaLabel}>LEAD INVESTIGATOR:</span>
-              <span className={styles.metaValue}>UNKNOWN</span>
+          <div className={styles.cardInner}>
+            {/* Handwritten Scribble */}
+            <div className={styles.handwrittenScribble}>
+              "Check the timestamps..."
             </div>
-            <div className={styles.metaRow}>
-              <span className={styles.metaLabel}>STATUS:</span>
-              <span className={styles.metaValue}>OPEN</span>
+
+            <div className={styles.caseFileId}>DEPARTMENT OF INVESTIGATION: CLASSIFIED</div>
+
+            {/* Evidence Threads (Logic Connections) */}
+            <svg className={styles.evidenceThreads} viewBox="0 0 600 400">
+              {/* Thread from PRISMA to Threat Level */}
+              <path d="M300,100 Q350,150 150,220" className={styles.threadPath} />
+              {/* Thread from Threat Level to Investigate Button */}
+              <path d="M100,240 Q150,300 220,340" className={styles.threadPath} />
+            </svg>
+
+            {/* Main content: university label + PRISMA title */}
+            <div className={styles.titleRow}>
+              <div className={styles.universityBadge}>SRM UNIVERSITY DELHI-NCR</div>
+              <div className={styles.titleWrapper}>
+                <h1 className={styles.prismaTitle}>PRISMA</h1>
+                <span className={styles.reopenNote}>Reopen inquiry?</span>
+              </div>
             </div>
-            <div className={styles.metaRow}>
-              <span className={styles.metaLabel}>THREAT LEVEL:</span>
-              <span className={styles.metaValue} style={{ color: '#c41e3a' }}>HIGH</span>
+
+            <p className={styles.subtitle}>ANNUAL TECH &amp; CULTURAL FEST</p>
+            <p className={styles.hashtag}>#TheMysteryUnfolds</p>
+            <p className={styles.date}>FEB 28 – MAR 01, 2026</p>
+
+            {/* Confidential Stamp */}
+            <div className={styles.confidentialStamp}>CONFIDENTIAL</div>
+
+            {/* Evidence Tag (Pinned on top) */}
+            <div className={styles.evidenceTag}>
+              <span className={styles.tagLabel}>EVIDENCE</span>
+              <span className={styles.tagId}>#204</span>
             </div>
-          </div>
 
-          {/* CTA Buttons */}
-          <div className={styles.buttonGroup}>
-            <Link
-              to="/events"
-              className={`${styles.btn} ${styles.btnRed}`}
-              onClick={(e) => {
-                const btn = e.currentTarget;
-                const circle = document.createElement('span');
-                const diameter = Math.max(btn.clientWidth, btn.clientHeight);
-                const radius = diameter / 2;
-                const rect = btn.getBoundingClientRect();
+            {/* Case Metadata (Institutional Formatting) */}
+            <div className={styles.metaBlock}>
+              <div className={styles.metaRow}>
+                <span className={styles.metaLabel}>LEAD INVESTIGATOR:</span>
+                <span className={styles.metaValue}>UNKNOWN</span>
+              </div>
+              <div className={styles.metaRow}>
+                <span className={styles.metaLabel}>CASE STATUS:</span>
+                <span className={styles.metaValue}>ACTIVE</span>
+              </div>
+              <div className={styles.metaRow}>
+                <span className={styles.metaLabel}>THREAT CLASSIFICATION:</span>
+                <span className={styles.metaValue} style={{ color: '#8b0000', fontWeight: '900' }}>HIGH</span>
+              </div>
+            </div>
 
-                circle.style.width = circle.style.height = `${diameter}px`;
-                circle.style.left = `${e.clientX - rect.left - radius}px`;
-                circle.style.top = `${e.clientY - rect.top - radius}px`;
-                circle.classList.add(styles.ripple);
+            {/* CTA Buttons (Tabs & Slips) */}
+            <div className={styles.buttonGroup}>
+              <Link to="/events" className={styles.tabButton}>
+                <span className={styles.tabIcon}>⌕</span>
+                INVESTIGATE EVENTS
+              </Link>
 
-                const ripple = btn.getElementsByClassName(styles.ripple)[0];
-                if (ripple) {
-                  ripple.remove();
-                }
-
-                btn.appendChild(circle);
-              }}
-            >
-              <span className={styles.btnIcon}>⌕</span>
-              INVESTIGATE EVENTS →
-            </Link>
-            <Link
-              to="/register"
-              className={`${styles.btn} ${styles.btnGold}`}
-              onClick={(e) => {
-                const btn = e.currentTarget;
-                const circle = document.createElement('span');
-                const diameter = Math.max(btn.clientWidth, btn.clientHeight);
-                const radius = diameter / 2;
-                const rect = btn.getBoundingClientRect();
-
-                circle.style.width = circle.style.height = `${diameter}px`;
-                circle.style.left = `${e.clientX - rect.left - radius}px`;
-                circle.style.top = `${e.clientY - rect.top - radius}px`;
-                circle.classList.add(styles.ripple);
-
-                const ripple = btn.getElementsByClassName(styles.ripple)[0];
-                if (ripple) {
-                  ripple.remove();
-                }
-
-                btn.appendChild(circle);
-              }}
-            >
-              <span className={styles.btnIcon}>⇥</span>
-              GRAB YOUR PASSES
-            </Link>
+              <Link to="/register" className={styles.approvalClip}>
+                <div className={styles.clipPin} />
+                <span className={styles.clipText}>APPROVE ACCESS</span>
+                <span className={styles.clipSubtext}>GRAB PASSES</span>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
