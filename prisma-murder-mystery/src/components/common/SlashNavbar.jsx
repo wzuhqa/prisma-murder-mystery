@@ -7,12 +7,11 @@ import './SlashNavbar.css'
 // Murder Mystery themed navigation
 // ============================================
 const NAV_ITEMS = [
-  { id: 'home', label: 'Home', path: '/' },
-  { id: 'events', label: 'Events', path: '/events' },
-
-  { id: 'team', label: 'Team', path: '/team' },
-  { id: 'about', label: 'About', path: '/about' },
-  { id: 'contact', label: 'Contact', path: '/contact' }
+  { id: 'home', label: 'HOME', path: '/' },
+  { id: 'events', label: 'ACTIVE CLUES', path: '/events' },
+  { id: 'team', label: 'INVESTIGATORS', path: '/team' },
+  { id: 'about', label: 'ARCHIVES', path: '/about' },
+  { id: 'contact', label: 'SUBMIT REPORT', path: '/contact' }
 ]
 
 
@@ -344,15 +343,24 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
         role="navigation"
         aria-label="Main navigation"
       >
+        {/* Physical Structural Depth: Nail Heads */}
+        <div className="navbar-nail navbar-nail--tl"></div>
+        <div className="navbar-nail navbar-nail--tr"></div>
+
         <div className="navbar-brand">
-          <div className="brand-main">
-            <span className="brand-text">PRISMA</span>
-            <span className="brand-year">2026</span>
+          <div className="brand-header">
+            <span className="brand-main">PRISMA 2026</span>
+            <span className="brand-uni">SRM UNIVERSITY DELHI-NCR</span>
           </div>
-          <span className="brand-subtitle">SRM University Delhi-NCR</span>
-          <span className="brand-tagline">Techno-Cultural Fest</span>
-          <span className="brand-jp" aria-hidden="true">プリズマ</span>
+          <div className="brand-meta">
+            <span className="case-id">CASE ID: #PR-2026-X</span>
+            <span className="clearance-level">CLEARANCE: <span className="restricted-glow">RESTRICTED</span></span>
+          </div>
         </div>
+
+        <div className="case-index-divider" aria-hidden="true" />
+
+        <div className="case-index-label">CASE INDEX</div>
 
         {/* Mobile menu toggle button */}
         <button
@@ -366,15 +374,11 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
           <span className="hamburger-line"></span>
         </button>
 
-        {/* Status indicators */}
+        {/* Access Status Indicator */}
         <div className="navbar-status">
           <div className="status-item">
-            <span className="status-dot status-dot--gold"></span>
-            <span className="status-text status-text--gold">SESSION VERIFIED</span>
-          </div>
-          <div className="status-item">
-            <span className="status-label">CLEARANCE:</span>
-            <span className="status-text status-text--red">RESTRICTED</span>
+            <span className="status-dot-pulse"></span>
+            <span className="status-text--gold">ACCESS VERIFIED</span>
           </div>
         </div>
 
