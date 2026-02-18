@@ -1,14 +1,12 @@
 import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { eventsData } from '../data/eventsData.js'
+import CategorySection from '../components/events/CategorySection.jsx'
+import './Events.css'
 
 const Events = () => {
   const [showEntry, setShowEntry] = useState(true)
-  const [expandedCategories, setExpandedCategories] = useState(new Set())
-  const [keywordInput, setKeywordInput] = useState('')
   const [showIndexOverlay, setShowIndexOverlay] = useState(false)
-  const [showStructureConfirmed, setShowStructureConfirmed] = useState(false)
-  const [hasSeenSealed, setHasSeenSealed] = useState(false)
-  const [flickerCategory, setFlickerCategory] = useState(null)
   const inputBufferRef = useRef('')
   const inputTimerRef = useRef(null)
 
@@ -19,37 +17,6 @@ const Events = () => {
     }, 1500)
     return () => clearTimeout(timer)
   }, [])
-
-  // Check if user has seen sealed record
-  useEffect(() => {
-    const sealed = localStorage.getItem('sealed_record_unlocked')
-    if (sealed === 'true') {
-      setHasSeenSealed(true)
-
-      // Random flicker effect
-      const flickerTimer = setTimeout(() => {
-        const categories = ['FASHION', 'GAMING', 'PHOTOGRAPHY', 'DANCE', 'MUSIC', 'DRAMA', 'LITERARY', 'ANIME', 'ARTS']
-        const randomCategory = categories[Math.floor(Math.random() * categories.length)]
-        setFlickerCategory(randomCategory)
-
-        setTimeout(() => setFlickerCategory(null), 3000)
-      }, 3000 + Math.random() * 5000)
-
-      return () => clearTimeout(flickerTimer)
-    }
-  }, [])
-
-  // Check if all categories are expanded
-  useEffect(() => {
-    if (expandedCategories.size === 9) {
-      const timer = setTimeout(() => {
-        setShowStructureConfirmed(true)
-      }, 500)
-      return () => clearTimeout(timer)
-    } else {
-      setShowStructureConfirmed(false)
-    }
-  }, [expandedCategories])
 
   // Keyboard listener for "index" keyword
   useEffect(() => {
@@ -83,99 +50,8 @@ const Events = () => {
     }
   }, [])
 
-  const toggleCategory = (categoryName) => {
-    setExpandedCategories(prev => {
-      const newSet = new Set(prev)
-      if (newSet.has(categoryName)) {
-        newSet.delete(categoryName)
-      } else {
-        newSet.add(categoryName)
-      }
-      return newSet
-    })
-  }
-
-  const categories = [
-    {
-      name: 'FASHION',
-      tagline: 'Visual identity deployment.',
-      events: {
-        solo: ['Mr & Miss Prisma (Only for SRM students)'],
-        group: ['Fashion show (open to all universities and colleges)']
-      }
-    },
-    {
-      name: 'GAMING',
-      tagline: 'Simulated combat trials.',
-      events: {
-        mobile: ['BGMI', 'Bullet Echo', 'Cookie Run', 'Road to Valor', 'Real Cricket'],
-        pc: ['Valorant', 'Marvel Rivals', 'The Finals'],
-        console: ['Tekken 8', 'FIFA 2024']
-      }
-    },
-    {
-      name: 'PHOTOGRAPHY',
-      tagline: 'Observation and documentation.',
-      events: {
-        solo: ['Epix : The Street Portrait Photography', 'Chitra Kala : The ON-Spot Photography'],
-        group: ['Chalchitra', 'Short Film Competition']
-      }
-    },
-    {
-      name: 'DANCE',
-      tagline: 'Kinetic expression analysis.',
-      events: {
-        solo: ['Fierce Feet', 'Nrityanjali: Classical', 'Street Battle : All Forms'],
-        duo: ['Stellar Stomp'],
-        group: ['Whimsical Walt : Western Group Dance', 'Sanskriti : Folk Group Dance']
-      }
-    },
-    {
-      name: 'MUSIC',
-      tagline: 'Acoustic identity broadcast.',
-      events: {
-        solo: ['Instrumental', 'Vocal', 'Rap Battle', 'Music Production Challenge'],
-        group: ['Battle of Bands']
-      }
-    },
-    {
-      name: 'DRAMA',
-      tagline: 'Narrative reconstruction.',
-      events: {
-        solo: ['Range Ae Aekal : Monoacting'],
-        group: ['Samaaj ka Aaina : Nukkad Naatak']
-      }
-    },
-    {
-      name: 'LITERARY',
-      tagline: 'Cognitive articulation trials.',
-      events: {
-        solo: ['Poet\'s Ode', 'Spell Bee', 'Haiku Hoopla', 'Pilot Twist Contest', 'Kavi Kehte', 'Slam Poetry'],
-        group: ['Gaathaaven: The Epics Quiz']
-      }
-    },
-    {
-      name: 'ANIME',
-      tagline: 'Alternate identity simulation.',
-      events: {
-        solo: ['Guess the Opening'],
-        duo: ['Dub it Your Way'],
-        group: ['Anime Quiz']
-      }
-    },
-    {
-      name: 'ARTS',
-      tagline: 'Visual fabrication unit.',
-      events: {
-        solo: ['Tote Bag Painting', 'T-Shirt Painting', 'Still Life', 'Card Making'],
-        duo: ['Shoe Painting', 'Face Painting', 'Tattoo Painting'],
-        group: ['Wall Painting']
-      }
-    }
-  ]
-
   return (
-    <div className="events-page">
+    <div className="events-page min-h-screen bg-[#0a0a0a] text-gray-100 font-sans selection:bg-[#7a0000] selection:text-white">
       {/* Entry Sequence */}
       <AnimatePresence>
         {showEntry && (
@@ -184,211 +60,104 @@ const Events = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="entry-sequence"
+            className="fixed inset-0 bg-black z-[9999] flex flex-col items-center justify-center pointer-events-none"
           >
             <motion.div
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="entry-slash"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[150vw] h-[2px] bg-gradient-to-r from-transparent via-[#7a0000] to-transparent -rotate-45"
             />
 
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.5 }}
-              className="entry-text"
+              className="text-center z-10"
             >
-              <div className="entry-line">PROGRAM INDEX ACCESSED</div>
-              <div className="entry-case">PRISMA 2K26</div>
-              <div className="entry-status">STATUS: ACTIVE</div>
+              <div className="text-[10px] uppercase tracking-[0.5em] text-gray-500 mb-4 font-mono">PROGRAM INDEX ACCESSED</div>
+              <div className="text-3xl font-bold tracking-[0.2em] text-[#7a0000] mb-2 font-mono">PRISMA 2K26</div>
+              <div className="text-[10px] uppercase tracking-[0.3em] text-gray-600 font-mono">STATUS: ACTIVE</div>
             </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* Film grain overlay */}
-      <div className="film-grain" />
+      <div className="fixed inset-0 pointer-events-none z-[100] opacity-[0.03] animate-film-grain film-grain-texture" />
 
       {/* Vignette */}
-      <div className="vignette" />
+      <div className="fixed inset-0 pointer-events-none z-[99] bg-[radial-gradient(ellipse_at_center,_transparent_30%,_rgba(0,0,0,0.8)_100%)]" />
 
       {/* Main content */}
-      <div className="events-container">
+      <div className="relative max-w-6xl mx-auto px-6 py-24 z-10">
         {/* Header */}
-        <div className="events-header">
-          <h1 className="events-title">PROGRAM INDEX</h1>
-          <div className="events-subtitle">PRISMA 2K26 // ACTIVE OPERATIONS</div>
-          <div className="events-subtext">All categories are monitored.</div>
-        </div>
+        <header className="mb-24 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="inline-block px-3 py-1 border border-[#7a0000]/30 rounded-full bg-[#7a0000]/5 mb-6"
+          >
+            <span className="text-[10px] uppercase tracking-[0.4em] text-[#7a0000] font-medium">Classified Intelligence</span>
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-6xl md:text-8xl font-black tracking-tighter text-white mb-6 uppercase"
+          >
+            Program <span className="text-[#7a0000]">Index</span>
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.2 }}
+            className="text-gray-500 max-w-xl mx-auto text-sm tracking-widest uppercase"
+          >
+            Prisma 2K26 // Active Operations // Monitoring In Progress
+          </motion.p>
+        </header>
 
-        {/* Categories */}
-        <div className="categories-grid">
-          {categories.map((category, index) => (
-            <CategoryFolder
-              key={category.name}
-              category={category}
-              isExpanded={expandedCategories.has(category.name)}
-              onToggle={() => toggleCategory(category.name)}
-              index={index}
-              isFlickering={flickerCategory === category.name}
-              allExpanded={expandedCategories.size === 9}
+        {/* Categories Grid */}
+        <div className="grid grid-cols-1 gap-4">
+          {eventsData.map((category) => (
+            <CategorySection
+              key={category.id}
+              title={category.title}
+              description={category.description}
+              tagline={category.tagline}
+              sections={category.sections}
             />
           ))}
         </div>
 
-        {/* Structure confirmed message */}
-        <AnimatePresence>
-          {showStructureConfirmed && (
-            <motion.div
-              className="structure-confirmed"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 1.5 }}
-            >
-              Program structure confirmed.
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Footer text */}
-        <div className="events-footer">
-          Every program has an architect.
-        </div>
+        {/* Footer */}
+        <footer className="mt-32 pb-12 border-t border-white/5 pt-12 flex flex-col md:flex-row justify-between items-center text-[10px] uppercase tracking-[0.3em] text-gray-600">
+          <div>Every program has an architect.</div>
+          <div className="mt-4 md:mt-0">© 2026 PRISMA TERMINAL // ALL RIGHTS RESERVED</div>
+        </footer>
       </div>
 
       {/* Index keyword overlay */}
       <AnimatePresence>
         {showIndexOverlay && (
           <motion.div
-            className="index-overlay"
+            className="fixed inset-0 bg-black/95 flex items-center justify-center z-[1000]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.3 }}
           >
-            <div className="index-overlay-text">STRUCTURE ACKNOWLEDGED</div>
+            <motion.div
+              initial={{ scale: 0.9 }}
+              animate={{ scale: 1 }}
+              className="text-[#7a0000] text-3xl md:text-5xl font-bold tracking-[0.3em] text-center"
+            >
+              STRUCTURE ACKNOWLEDGED
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* Heartbeat pulse for open folders */}
-      {expandedCategories.size > 0 && <div className="heartbeat-pulse" />}
     </div>
   )
-}
-
-const CategoryFolder = ({ category, isExpanded, onToggle, index, isFlickering, allExpanded }) => {
-  const [showArchitect, setShowArchitect] = useState(false)
-  const [metadata, setMetadata] = useState(`${Object.keys(category.events).length} operational units`)
-
-  const handleHover = () => {
-    // 5% chance to show architect approval
-    if (Math.random() < 0.05) {
-      setShowArchitect(true)
-      setMetadata('Architect approval: AK-01')
-
-      setTimeout(() => {
-        setShowArchitect(false)
-        setMetadata(`${Object.keys(category.events).length} operational units`)
-      }, 2000)
-    }
-  }
-
-  return (
-    <div
-      className={`category-folder ${isExpanded ? 'expanded' : ''}`}
-      onMouseEnter={handleHover}
-    >
-      {/* Folder header */}
-      <button
-        className="folder-header"
-        onClick={onToggle}
-        aria-expanded={isExpanded}
-        aria-label={`${category.name} category`}
-      >
-        <div className="folder-header-content">
-          <div className="folder-title-row">
-            <span className="red-indicator" />
-            <h2 className={`folder-title ${isFlickering ? 'flickering' : ''}`}>
-              {isFlickering ? (
-                <FlickeringText original={category.name} alternate="EXPERIMENTS" />
-              ) : (
-                category.name
-              )}
-            </h2>
-          </div>
-          <div className="folder-metadata">{metadata}</div>
-        </div>
-        <div
-          className="folder-arrow"
-          style={{ transform: isExpanded ? 'rotate(90deg)' : 'rotate(0deg)', transition: 'transform 0.2s ease' }}
-        >
-          ▶
-        </div>
-      </button>
-
-      {/* Folder content */}
-      {isExpanded && (
-        <div className="folder-content">
-          <div className="folder-tagline">{category.tagline}</div>
-
-          <div className="events-list">
-            {Object.entries(category.events).map(([type, events]) => (
-              <div key={type} className="event-type-group">
-                <div className="event-type-label">{type}</div>
-                <div className="event-items">
-                  {events.map((event, idx) => (
-                    <div
-                      key={idx}
-                      className="event-item"
-                    >
-                      <span className="event-bullet">›</span>
-                      <span className="event-name">{event}</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-    </div>
-  )
-}
-
-const FlickeringText = ({ original, alternate }) => {
-  const [text, setText] = useState(original)
-
-  useEffect(() => {
-    const sequence = [
-      { text: original, duration: 200 },
-      { text: alternate, duration: 300 },
-      { text: original, duration: 200 },
-      { text: alternate, duration: 400 },
-      { text: original, duration: 0 }
-    ]
-
-    let currentIndex = 0
-
-    const flicker = () => {
-      if (currentIndex < sequence.length) {
-        setText(sequence[currentIndex].text)
-
-        if (sequence[currentIndex].duration > 0) {
-          setTimeout(() => {
-            currentIndex++
-            flicker()
-          }, sequence[currentIndex].duration)
-        }
-      }
-    }
-
-    flicker()
-  }, [original, alternate])
-
-  return <>{text}</>
 }
 
 export default Events

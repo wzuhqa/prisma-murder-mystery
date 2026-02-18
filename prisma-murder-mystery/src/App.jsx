@@ -101,7 +101,7 @@ import ErrorBoundary from './components/ErrorBoundary'
 function App() {
   return (
     <ErrorBoundary>
-      <Router basename="/prisma-murder-mystery">
+      <Router basename="/prisma">
         <NavigationProvider>
           <AppContent />
         </NavigationProvider>
