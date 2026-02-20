@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://wzuhqa.github.io/prisma-event-page/",
+  "homepage": "https://wzuhqa.github.io/prisma-techfest/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
