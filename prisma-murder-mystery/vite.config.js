@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/prisma-event-page/',
+  base: '/prisma-techfest/',
 
   build: {
     // Enable source maps for debugging (can disable in production)
