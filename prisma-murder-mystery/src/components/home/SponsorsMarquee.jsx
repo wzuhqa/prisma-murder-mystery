@@ -87,7 +87,7 @@ const MarqueeRow = ({ tier, tierKey, reverse = false }) => {
               >
                 <div
                   className={`relative group cursor-none rounded-sm border-l-4 ${tier.borderColor} border border-white/5 ${tier.cardBg} shadow-[12px_12px_30px_rgba(0,0,0,0.7)] hover:shadow-[0_0_30px_${tier.glowColor}] transition-all duration-500
-                    ${isGold ? 'px-12 py-10 md:px-16 md:py-14 min-w-[300px] md:min-w-[360px]' : isSilver ? 'px-8 py-7 md:px-12 md:py-10 min-w-[220px] md:min-w-[280px]' : 'px-6 py-5 md:px-8 md:py-7 min-w-[160px] md:min-w-[200px]'}`}
+                    ${isGold ? 'px-10 py-8 md:px-16 md:py-14 min-w-[260px] md:min-w-[360px]' : isSilver ? 'px-7 py-6 md:px-12 md:py-10 min-w-[200px] md:min-w-[280px]' : 'px-5 py-4 md:px-8 md:py-7 min-w-[140px] md:min-w-[200px]'}`}
                 >
                   {/* Pin */}
                   <div className={`absolute -top-2.5 left-1/2 -translate-x-1/2 rounded-full shadow-md z-20 ${isGold ? 'w-4 h-4 bg-gradient-to-br from-amber-400 to-amber-600' : isSilver ? 'w-3 h-3 bg-gradient-to-br from-gray-300 to-gray-500' : 'w-2.5 h-2.5 bg-gradient-to-br from-amber-700 to-amber-900'}`}>

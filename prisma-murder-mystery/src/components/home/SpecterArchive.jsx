@@ -9,45 +9,45 @@ gsap.registerPlugin(ScrollTrigger);
 const artists = [
   {
     id: 1,
-    name: 'NECROMANTIC SYMPHONY',
-    year: '2019',
-    description: 'Their cursed melodies summoned entities from beyond the veil. The crowd vanished into static.',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=400&h=300&fit=crop&sat=-100&bri=-30&con=50'
+    name: 'NIKHITA GANDHI & MD DESI',
+    year: '2024',
+    description: 'A fusion of soulful melodies and energetic folk beats. The "Desi Desi" magic left an indelible mark on the digital archive.',
+    image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
   },
   {
     id: 2,
-    name: 'VOID WALKER',
-    year: '2020',
-    description: 'Stepped through the membrane between dimensions. Footage corrupted beyond recovery.',
-    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=400&h=300&fit=crop&sat=-100&bri=-30&con=50'
+    name: 'JORDAN SANDHU & AJAY HOODA',
+    year: '2023',
+    description: 'Punjabi beats met raw Haryanvi energy. A high-voltage transmission that kept the system vibrating all night.',
+    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
   },
   {
     id: 3,
-    name: 'ETHEREAL DECAY',
-    year: '2021',
-    description: 'Their sound dissolved reality itself. Only whispers remain in the data stream.',
-    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=400&h=300&fit=crop&sat=-100&bri=-30&con=50'
+    name: 'PARMISH VERMA',
+    year: '2022',
+    description: 'Iconic stage presence and powerful vocals. The "Aam Jahe Munde" frequency overwhelmed the auditorium sensors.',
+    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
   },
   {
     id: 4,
-    name: 'PHANTOM FREQUENCY',
-    year: '2022',
-    description: 'Broadcast from the other side. The signal was intercepted but the source was never found.',
-    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=400&h=300&fit=crop&sat=-100&bri=-30&con=50'
+    name: 'LANDERS',
+    year: '2020',
+    description: 'A fresh fusion of pop, hip-hop, and Punjabi rhythms. Their performance remains a high-energy anomaly in the records.',
+    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
   },
   {
     id: 5,
-    name: 'SPECTRAL ECHO',
-    year: '2023',
-    description: 'Their final performance was erased. Only artifacts remain in the corrupted archive.',
-    image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=400&h=300&fit=crop&sat=-100&bri=-30&con=50'
+    name: 'JASSI GILL & BABBAL RAI',
+    year: '2019',
+    description: 'Electrifying charm and vibrant energy. The "Nikle Current" signal was caught in a loop of pure musical ecstasy.',
+    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
   },
   {
     id: 6,
-    name: 'PRISMA PHANTOM',
-    year: '2026',
-    description: 'The mystery returns. An unprecedented auditory experience awaits at Prisma 2026.',
-    image: 'https://images.unsplash.com/photo-1598387993281-cecf8b71a8f8?w=400&h=300&fit=crop&sat=-100&bri=-30&con=50'
+    name: 'AKHIL',
+    year: '2018',
+    description: 'Soulful melodies that haunted the halls. "Khaab" and "Duniya" created a mesmerizing emotional resonance still felt today.',
+    image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
   }
 ];
 

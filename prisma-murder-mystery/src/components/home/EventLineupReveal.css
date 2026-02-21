@@ -1440,6 +1440,27 @@
   .lineup-dossier-grid {
     grid-template-columns: 1fr;
     gap: 30px;
-    padding: 0 20px;
+    padding: 0 15px;
+    perspective: none;
+    /* Disable 3D on mobile for better perf */
+  }
+
+  .artist-card {
+    padding: 24px;
+    filter: none;
+    /* Let them be visible on mobile easily */
+  }
+
+  .artist-card:nth-child(even) {
+    margin-top: 0;
+  }
+
+  .artist-name {
+    font-size: 20px;
+  }
+
+  .portrait-container {
+    aspect-ratio: 1/1;
+    /* Square on mobile to save space */
   }
 }

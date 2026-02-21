@@ -1115,6 +1115,9 @@
 
   .year-indicators {
     gap: 15px;
+    padding: 0 10px;
+    overflow-x: auto;
+    justify-content: flex-start;
   }
 
   .h-timeline-container {
@@ -1124,6 +1127,21 @@
 
   .h-timeline-card {
     width: min(85vw, 250px);
+  }
+
+  /* Fix for scattered evidence board rotations causing overflow */
+  .evidence-scattered {
+    flex-direction: column;
+    gap: 30px;
+    padding: 40px 20px !important;
+    overflow-x: hidden;
+  }
+
+  .evidence-item-wrapper {
+    transform: rotate(0deg) !important;
+    /* Force straight on mobile */
+    margin: 0 auto;
+    width: 100%;
   }
 }
 

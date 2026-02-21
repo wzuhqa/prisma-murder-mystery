@@ -42,10 +42,7 @@ const EventLineupReveal = () => {
 
   const ARTIST_DATA = [
     { id: 'subject-01', cid: 'Subject 01', name: 'Identity Redacted', realName: 'COMING SOON', silhouette: 'standing' },
-    { id: 'subject-02', cid: 'Subject 02', name: 'Identity Redacted', realName: 'STAY TUNED', silhouette: 'seated' },
-    { id: 'subject-03', cid: 'Subject 03', name: 'File Classified', realName: 'CLASSIFIED', silhouette: 'hooded' },
-    { id: 'subject-04', cid: 'Subject 04', name: 'Pending Clearance', realName: 'PENDING CLEARANCE', silhouette: 'leaning' },
-    { id: 'subject-05', cid: 'Subject 05', name: 'Data Corrupted', realName: 'FILE CORRUPTED', silhouette: 'shadow' }
+    { id: 'subject-02', cid: 'Subject 02', name: 'Identity Redacted', realName: 'STAY TUNED', silhouette: 'seated' }
   ]
 
   return (
