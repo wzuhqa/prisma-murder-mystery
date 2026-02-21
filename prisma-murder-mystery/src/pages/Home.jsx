@@ -4,6 +4,7 @@ import Footer from '../components/common/Footer'
 import RedThreadConnector from '../components/home/RedThreadConnector'
 import ScrollProgress from '../components/common/ScrollProgress'
 import BackToTop from '../components/common/BackToTop'
+import SectionDivider from '../components/home/SectionDivider'
 
 // Lazy load heavy sections for better performance
 const CaseSummaryPanel = lazy(() => import('../components/home/CaseSummaryPanel/CaseSummaryPanel'))
@@ -38,10 +39,14 @@ const Home = () => {
       {/* ===== HERO SECTION ===== */}
       <HeroSection />
 
+      <SectionDivider label="CASE BRIEFING BELOW" />
+
       {/* ===== SECTION 2: CASE SUMMARY PANEL (V2.6) ===== */}
       <Suspense fallback={<SectionLoader />}>
         <CaseSummaryPanel />
       </Suspense>
+
+      <SectionDivider label="TIME SENSITIVE" />
 
       {/* ===== ENHANCED COUNTDOWN SECTION ===== */}
       <section className="relative z-20 bg-base">
@@ -50,6 +55,8 @@ const Home = () => {
         </Suspense>
       </section>
 
+      <SectionDivider label="SUSPECT LINEUP" />
+
       {/* ===== ARTIST LINEUP SECTION ===== */}
       <section className="relative z-20 bg-base">
         <Suspense fallback={<SectionLoader />}>
@@ -57,12 +64,16 @@ const Home = () => {
         </Suspense>
       </section>
 
+      <SectionDivider label="COLD CASE FILES" />
+
       {/* ===== SPECTER ARCHIVE SECTION ===== */}
       <section className="relative z-20 bg-base">
         <Suspense fallback={<SectionLoader />}>
           <SpecterArchive />
         </Suspense>
       </section>
+
+      <SectionDivider label="CLASSIFIED BACKERS" />
 
       {/* ===== SPONSORS MARQUEE SECTION ===== */}
       <section className="relative z-20 bg-base">

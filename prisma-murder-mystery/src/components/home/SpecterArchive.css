@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Montserrat:wght@100;200;300;400&family=Raleway:wght@100;200;300&display=swap');
+/* Cinzel, Montserrat, Raleway fonts loaded via <link> in index.html */
 
 /* Base Styles */
 .specter-archive {
@@ -33,6 +33,7 @@
   opacity: 0.15;
   pointer-events: none;
   will-change: transform;
+  backface-visibility: hidden;
   transition: transform 0.1s ease-out;
 }
 
@@ -637,6 +638,7 @@
     20px 40px 80px rgba(0, 0, 0, 0.9);
   transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
   will-change: transform;
+  backface-visibility: hidden;
 }
 
 .artist-card::before {

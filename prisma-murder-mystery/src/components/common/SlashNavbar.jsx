@@ -1,8 +1,3 @@
-import { useState, useCallback, useEffect, useRef } from 'react'
-import { useNavigate, useLocation } from 'react-router-dom'
-import gsap from 'gsap'
-import './SlashNavbar.css'
-
 // ============================================
 // NAVIGATION ITEMS CONFIGURATION
 // ============================================
@@ -13,6 +8,19 @@ const NAV_ITEMS = [
   { id: 'about', label: 'AUTOPSY REPORT', path: '/about', icon: '📋', desc: 'Read the post-mortem findings' },
   { id: 'contact', label: 'EVIDENCE ARCHIVE', path: '/contact', icon: '🗃️', desc: 'Submit a tip or report' }
 ]
+
+// Add prefetching for critical routes
+const prefetchRoute = (route) => {
+  if (typeof document === 'undefined') return;
+  const id = `prefetch-${route.replace(/\//g, '-')}`;
+  if (document.getElementById(id)) return;
+
+  const link = document.createElement('link');
+  link.id = id;
+  link.rel = 'prefetch';
+  link.href = route;
+  document.head.appendChild(link);
+};
 
 // ============================================
 // FORENSIC LOGO (animated magnifying glass)
@@ -57,20 +65,24 @@ const PageLoadProgress = ({ isLoading }) => {
 }
 
 // ============================================
-// LIVE CLOCK
+// LIVE CLOCK — ref-based, zero React re-renders
 // ============================================
-const LiveClock = () => {
-  const [time, setTime] = useState(new Date())
+const LiveClock = memo(() => {
+  const ref = useRef(null)
   useEffect(() => {
-    const timer = setInterval(() => setTime(new Date()), 1000)
+    const update = () => {
+      if (ref.current) {
+        ref.current.textContent = new Date().toLocaleTimeString('en-US', {
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
+        })
+      }
+    }
+    update()
+    const timer = setInterval(update, 1000)
     return () => clearInterval(timer)
   }, [])
-  return (
-    <span className="status-time">
-      {time.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}
-    </span>
-  )
-}
+  return <span className="status-time" ref={ref} />
+})
 
 // ============================================
 // SUSPECT COUNT TICKER
@@ -96,11 +108,11 @@ const SuspectTicker = () => {
 // ============================================
 // EVIDENCE TAG (yellow crime scene marker)
 // ============================================
-const EvidenceTag = ({ index }) => (
+const EvidenceTag = memo(({ index }) => (
   <div className="nav-evidence-tag">
     <span className="tag-number">{index + 1}</span>
   </div>
-)
+))
 
 // ============================================
 // SCRAMBLE TEXT COMPONENT
@@ -197,7 +209,10 @@ const NavItem = ({ item, index, isActive, isLocked, onClick, onHover, isHovered,
           isRedacting ? 'navbar-link--redacted' : ''
         ].join(' ')}
         onClick={handleClick}
-        onMouseEnter={() => onHover(item.id)}
+        onMouseEnter={() => {
+          onHover(item.id);
+          prefetchRoute(item.path);
+        }}
         onMouseLeave={() => onHover(null)}
         onKeyDown={handleKeyDown}
         disabled={isLocked}
@@ -269,22 +284,30 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
     return () => clearTimeout(timer)
   }, [location.pathname])
 
-  // Scroll compact mode + bottom detection
+  // Scroll compact mode + bottom detection (RAF-throttled)
   useEffect(() => {
+    let ticking = false
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50)
-      const nearBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 50
-      if (nearBottom && !atBottom) {
-        setAtBottom(true)
-        setShowCaseClosed(true)
-        setTimeout(() => setShowCaseClosed(false), 2500)
-      } else if (!nearBottom) {
-        setAtBottom(false)
+      if (!ticking) {
+        ticking = true
+        requestAnimationFrame(() => {
+          const scrolled = window.scrollY > 50
+          if (scrolled !== isScrolled) setIsScrolled(scrolled)
+          const nearBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 50
+          if (nearBottom && !atBottom) {
+            setAtBottom(true)
+            setShowCaseClosed(true)
+            setTimeout(() => setShowCaseClosed(false), 2500)
+          } else if (!nearBottom) {
+            setAtBottom(false)
+          }
+          ticking = false
+        })
       }
     }
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [atBottom])
+  }, [atBottom, isScrolled])
 
   // GSAP entrance
   useEffect(() => {

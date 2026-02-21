@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import './AnalogDegradation.css';
 
 const AnalogDegradation = () => {
-    const [time, setTime] = useState('');
+    const timestampRef = useRef(null);
 
-    // Update timestamp to simulate a surveillance camera or VCR
+    // Update timestamp via direct DOM mutation — avoids React re-render every second
     useEffect(() => {
         const updateTime = () => {
+            if (!timestampRef.current) return;
             const now = new Date();
             const hours = String(now.getHours() % 12 || 12).padStart(2, '0');
             const minutes = String(now.getMinutes()).padStart(2, '0');
             const seconds = String(now.getSeconds()).padStart(2, '0');
             const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
-            setTime(`${hours}:${minutes}:${seconds} ${ampm}`);
+            timestampRef.current.textContent = `${hours}:${minutes}:${seconds} ${ampm}`;
         };
         updateTime();
         const interval = setInterval(updateTime, 1000);
@@ -36,9 +37,7 @@ const AnalogDegradation = () => {
                 <div className="vcr-rec">
                     <span className="rec-dot"></span> REC
                 </div>
-                <div className="vcr-timestamp">
-                    {time}
-                </div>
+                <div className="vcr-timestamp" ref={timestampRef} />
                 <div className="vcr-play">PLAY &#9654;</div>
             </div>
 

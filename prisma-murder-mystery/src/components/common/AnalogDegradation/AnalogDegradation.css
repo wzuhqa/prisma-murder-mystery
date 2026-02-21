@@ -8,8 +8,10 @@
     height: 100vh;
     pointer-events: none;
     z-index: 9995;
-    /* Behind highest z-index like cursor, but above page content */
     overflow: hidden;
+    contain: strict;
+    will-change: transform;
+    transform: translateZ(0);
 }
 
 /* Base VHS Noise Layer */
@@ -22,36 +24,34 @@
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
     opacity: 0.15;
     pointer-events: none;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
     animation: vhs-flicker 0.15s infinite alternate;
 }
 
 @keyframes vhs-flicker {
     0% {
-        transform: translate(1px, -1px);
+        transform: translate3d(1px, -1px, 0);
         opacity: 0.1;
-        filter: contrast(1);
     }
 
     30% {
-        transform: translate(-1px, 2px);
+        transform: translate3d(-1px, 2px, 0);
         opacity: 0.15;
-        filter: contrast(1.1);
     }
 
     70% {
-        transform: translate(2px, 1px);
+        transform: translate3d(2px, 1px, 0);
         opacity: 0.1;
-        filter: contrast(1.2);
     }
 
     100% {
-        transform: translate(-2px, -2px);
+        transform: translate3d(-2px, -2px, 0);
         opacity: 0.2;
-        filter: contrast(1);
     }
 }
 
-/* Tape Tracking Errors (Horizontal lines that roll up slowly) */
+/* Tape Tracking Errors — GPU-composited via transform instead of top */
 .tape-tracking {
     position: absolute;
     top: 0;
@@ -63,6 +63,8 @@
         0 4px 10px rgba(255, 255, 255, 0.05),
         0 -4px 10px rgba(255, 255, 255, 0.05);
     opacity: 0.3;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
     animation: tape-roll 8s linear infinite;
     mix-blend-mode: overlay;
 }
@@ -89,7 +91,7 @@
 
 @keyframes tape-roll {
     0% {
-        top: 120%;
+        transform: translate3d(0, 120vh, 0);
         opacity: 0;
     }
 
@@ -106,67 +108,59 @@
     }
 
     100% {
-        top: -20%;
+        transform: translate3d(0, -20vh, 0);
         opacity: 0;
     }
 }
 
-/* Vertical Film Scratches */
+/* Vertical Film Scratches — GPU-composited */
 .film-scratch {
     position: absolute;
+    left: 20%;
     width: 1px;
     height: 100%;
     background: rgba(255, 255, 255, 0.15);
     box-shadow: 0 0 2px rgba(255, 255, 255, 0.05);
     opacity: 0;
+    will-change: transform, opacity;
+    backface-visibility: hidden;
     animation: scratch-flash 4s linear infinite;
 }
 
 .film-scratch.scratch-2 {
+    left: 80%;
     width: 2px;
     background: rgba(139, 0, 0, 0.1);
-    /* Slight red tint for horror */
     animation: scratch-flash-2 7s linear infinite 2s;
 }
 
 @keyframes scratch-flash {
-
     0%,
     9%,
     11%,
     100% {
         opacity: 0;
-        left: 20%;
-        height: 0;
-        top: 100%;
+        transform: translate3d(5%, 100%, 0) scaleY(0);
     }
 
     10% {
         opacity: 0.3;
-        left: 25%;
-        height: 100%;
-        top: 0;
+        transform: translate3d(0, 0, 0) scaleY(1);
     }
 }
 
 @keyframes scratch-flash-2 {
-
     0%,
     2%,
     4%,
     100% {
         opacity: 0;
-        left: 80%;
-        height: 0;
-        top: 0;
+        transform: translate3d(-5%, 0, 0) scaleY(0);
     }
 
     3% {
         opacity: 0.2;
-        left: 75%;
-        height: 60%;
-        top: 10%;
-        transform: skewX(-2deg);
+        transform: translate3d(0, 10%, 0) scaleY(0.6) skewX(-2deg);
     }
 }
 
@@ -241,21 +235,25 @@
     position: relative;
     filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="scratched"><feTurbulence type="fractalNoise" baseFrequency="0.05" numOctaves="2" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="3" xChannelSelector="R" yChannelSelector="G"/></filter></svg>#scratched');
     animation: subtle-shiver 0.08s infinite alternate;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .scratched-text-heavy {
     position: relative;
     filter: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg"><filter id="scratched-heavy"><feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="3" result="noise"/><feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G"/></filter></svg>#scratched-heavy');
     animation: nervous-twitch 3s infinite;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 @keyframes subtle-shiver {
     0% {
-        transform: translate(0, 0);
+        transform: translate3d(0, 0, 0);
     }
 
     100% {
-        transform: translate(0.5px, -0.5px);
+        transform: translate3d(0.5px, -0.5px, 0);
     }
 }
 
@@ -265,15 +263,15 @@
     96%,
     98%,
     100% {
-        transform: translate(0, 0) scale(1) skewX(0);
+        transform: translate3d(0, 0, 0) scale(1) skewX(0);
     }
 
     97% {
-        transform: translate(-1px, 1px) scale(0.99) skewX(-2deg);
+        transform: translate3d(-1px, 1px, 0) scale(0.99) skewX(-2deg);
     }
 
     99% {
-        transform: translate(2px, -1px) scale(1.02) skewX(1deg);
+        transform: translate3d(2px, -1px, 0) scale(1.02) skewX(1deg);
     }
 }
 

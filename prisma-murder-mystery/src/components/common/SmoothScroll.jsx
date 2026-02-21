@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { ReactLenis, useLenis } from 'lenis/react';
@@ -9,27 +9,28 @@ gsap.registerPlugin(ScrollTrigger);
 const SmoothScroll = ({ children }) => {
     const lenis = useLenis(ScrollTrigger.update);
     const { pathname } = useLocation();
+    const lenisRef = useRef(lenis);
+
+    // Keep ref in sync without re-creating callback
+    useEffect(() => {
+        lenisRef.current = lenis;
+    }, [lenis]);
+
+    // Stable ticker callback — created once, never changes
+    const tickerCallback = useCallback((time) => {
+        if (lenisRef.current) {
+            lenisRef.current.raf(time * 1000);
+        }
+    }, []);
 
     useEffect(() => {
-        // Let GSAP drive the requestAnimationFrame loop for perfect sync
-        gsap.ticker.add((time) => {
-            if (lenis) {
-                lenis.raf(time * 1000);
-            }
-        });
-
-        // Disable GSAP lag smoothing to avoid jumps during heavy scrolling
+        gsap.ticker.add(tickerCallback);
         gsap.ticker.lagSmoothing(0);
 
         return () => {
-            // Cleanup on unmount
-            gsap.ticker.remove((time) => {
-                if (lenis) {
-                    lenis.raf(time * 1000);
-                }
-            });
+            gsap.ticker.remove(tickerCallback);
         };
-    }, [lenis]);
+    }, [tickerCallback]);
 
     // Reset scroll position on route change
     useEffect(() => {

@@ -4,18 +4,23 @@
     top: 0;
     left: 0;
     pointer-events: none;
-    opacity: 0;
-    transition: width 0.3s, height 0.3s, opacity 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-
-.forensic-cursor.visible,
-.forensic-spotlight.visible {
-    opacity: 1;
+    z-index: 999999;
+    /* Ultra high */
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .forensic-cursor {
-    z-index: 10001;
-    /* Above everything */
+    opacity: 1;
+}
+
+.forensic-spotlight {
+    opacity: 0.8;
+}
+
+.forensic-cursor {
+    z-index: 100001;
+    /* Above everything else */
 }
 
 /* Base style for actual dot */

@@ -40,16 +40,17 @@ const RedThreadConnector = () => {
             className="fixed top-0 left-0 w-full h-screen pointer-events-none z-[1]"
             viewBox="0 0 1000 3000"
             preserveAspectRatio="none"
+            style={{ willChange: 'transform', transform: 'translateZ(0)', backfaceVisibility: 'hidden' }}
         >
             {/* Soft glow for the red thread and fraying organic effect */}
             <defs>
                 <filter id="blood-thread">
-                    {/* Fraying / Organic noise */}
-                    <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="3" result="noise" />
+                    {/* Fraying / Organic noise — reduced complexity for GPU perf */}
+                    <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="1" result="noise" />
                     {/* Displacing the line based on noise */}
-                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" result="frayed" />
+                    <feDisplacementMap in="SourceGraphic" in2="noise" scale="4" xChannelSelector="R" yChannelSelector="G" result="frayed" />
                     {/* Adding glow to the frayed line */}
-                    <feGaussianBlur in="frayed" stdDeviation="4" result="coloredBlur" />
+                    <feGaussianBlur in="frayed" stdDeviation="3" result="coloredBlur" />
                     <feMerge>
                         <feMergeNode in="coloredBlur" />
                         <feMergeNode in="frayed" />
@@ -63,7 +64,7 @@ const RedThreadConnector = () => {
                 fill="none"
                 stroke="#660000"
                 strokeWidth="4"
-                style={{ opacity: 0.8 }}
+                style={{ opacity: 0.8, willChange: 'stroke-dashoffset' }}
                 filter="url(#blood-thread)"
             />
         </svg>

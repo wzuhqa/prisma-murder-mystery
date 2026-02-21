@@ -54,30 +54,14 @@ const artists = [
 // Card component with 3D tilt and interactions
 function ArtistCard({ artist, index, isActive, onMouseMove, onMouseLeave }) {
   const cardRef = useRef(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [spotlightPos, setSpotlightPos] = useState({ x: '50%', y: '50%' });
   const [isHovered, setIsHovered] = useState(false);
 
   const handleMouseMove = useCallback((e) => {
-    const card = cardRef.current;
-    if (!card) return;
-
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-
-    const rotateX = (y - centerY) / centerY * -10;
-    const rotateY = (x - centerX) / centerX * 10;
-
-    setTilt({ x: rotateX, y: rotateY });
-    setSpotlightPos({ x: `${x}px`, y: `${y}px` });
     onMouseMove?.(index);
   }, [index, onMouseMove]);
 
   const handleMouseLeave = useCallback(() => {
-    setTilt({ x: 0, y: 0 });
     setIsHovered(false);
     onMouseLeave?.(index);
   }, [index, onMouseLeave]);
@@ -112,7 +96,7 @@ function ArtistCard({ artist, index, isActive, onMouseMove, onMouseLeave }) {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       style={{
-        transform: `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg) scale(${isHovered ? 1.02 : 1})`,
+        transform: `scale(${isHovered ? 1.02 : 1})`,
         '--spotlight-x': spotlightPos.x,
         '--spotlight-y': spotlightPos.y,
         zIndex: 10 - index
@@ -337,22 +321,7 @@ function SpecterArchive() {
     };
   }, [updateStrings]);
 
-  // Flashlight Effect State
-  const [mousePos, setMousePos] = useState({ x: '50%', y: '50%' });
-  const [hasMouse, setHasMouse] = useState(false);
 
-  const handleGlobalMouseMove = useCallback((e) => {
-    if (!sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setMousePos({ x: `${x}px`, y: `${y}px` });
-    setHasMouse(true);
-  }, []);
-
-  const handleGlobalMouseLeave = useCallback(() => {
-    setHasMouse(false);
-  }, []);
 
   // Ghosts animation
   useEffect(() => {
@@ -413,16 +382,9 @@ function SpecterArchive() {
 
   return (
     <section
-      className={`specter-archive microfilm-mode flashlight-enabled ${hasMouse ? 'has-mouse' : ''}`}
+      className={`specter-archive`}
       ref={sectionRef}
-      onMouseMove={handleGlobalMouseMove}
-      onMouseLeave={handleGlobalMouseLeave}
-      style={{
-        '--mouse-x': mousePos.x,
-        '--mouse-y': mousePos.y
-      }}
     >
-      <div className="flashlight-overlay" />
       <div className="microfilm-jitter" />
       <div className="forensic-stamp stamp-restricted">RESTRICTED ACCESS</div>
       <div className="forensic-stamp stamp-corrupted">DATA CORRUPTED</div>
@@ -445,7 +407,7 @@ function SpecterArchive() {
 
       <div className="vignette" />
 
-      <div className="specter-content">
+      <div className="specter-content" style={{ position: 'relative', zIndex: 1 }}>
         <motion.div
           className="specter-heading-container"
           initial={{ opacity: 0, y: -30 }}

@@ -12,6 +12,7 @@
   align-items: center;
   justify-content: center;
   padding: 100px 20px;
+  contain: layout style paint;
 }
 
 /* Vignette overlay */
@@ -232,6 +233,7 @@
   border-radius: 50%;
   bottom: -10px;
   animation: ashRise 5s ease-out infinite;
+  will-change: transform;
 }
 
 .ash-particle.slow {

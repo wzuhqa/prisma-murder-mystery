@@ -41,8 +41,11 @@ const EventLineupReveal = () => {
   }
 
   const ARTIST_DATA = [
-    { id: 'subject-01', cid: 'Subject 01', name: 'Identity Redacted', realName: 'COMING SOON' },
-    { id: 'subject-02', cid: 'Subject 02', name: 'Identity Redacted', realName: 'STAY TUNED' }
+    { id: 'subject-01', cid: 'Subject 01', name: 'Identity Redacted', realName: 'COMING SOON', silhouette: 'standing' },
+    { id: 'subject-02', cid: 'Subject 02', name: 'Identity Redacted', realName: 'STAY TUNED', silhouette: 'seated' },
+    { id: 'subject-03', cid: 'Subject 03', name: 'File Classified', realName: 'CLASSIFIED', silhouette: 'hooded' },
+    { id: 'subject-04', cid: 'Subject 04', name: 'Pending Clearance', realName: 'PENDING CLEARANCE', silhouette: 'leaning' },
+    { id: 'subject-05', cid: 'Subject 05', name: 'Data Corrupted', realName: 'FILE CORRUPTED', silhouette: 'shadow' }
   ]
 
   return (
@@ -214,6 +217,27 @@ const EventLineupReveal = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* "More suspects incoming" teaser */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          className="lineup-teaser-pulse"
+          style={{
+            textAlign: 'center',
+            marginTop: '40px',
+            fontFamily: 'monospace',
+            fontSize: '13px',
+            letterSpacing: '0.3em',
+            color: 'rgba(139, 0, 0, 0.6)',
+            textTransform: 'uppercase',
+          }}
+        >
+          <span style={{ animation: 'digitFlicker 3s ease-in-out infinite' }}>▓▓▓</span>
+          {' '}MORE SUSPECTS INCOMING{' '}
+          <span style={{ animation: 'digitFlicker 3s ease-in-out infinite 1s' }}>▓▓▓</span>
+        </motion.div>
 
         {/* Terminal status text */}
         <div className="lineup-terminal-ui">

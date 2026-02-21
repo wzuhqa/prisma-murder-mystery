@@ -47,7 +47,7 @@ export default defineConfig({
 
     // Drop console.logs and debugger in production
     esbuildOptions: {
-      drop: ['debugger'],
+      drop: ['debugger', 'console'],
     },
 
     // CSS code splitting
@@ -57,7 +57,7 @@ export default defineConfig({
     assetsInlineLimit: 4096,
 
     // Target modern browsers for smaller bundles
-    target: 'es2015',
+    target: 'esnext',
   },
 
   // Optimize dependencies

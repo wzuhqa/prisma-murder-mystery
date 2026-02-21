@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import './BackToTop.css'
 
 /**
@@ -8,11 +8,23 @@ import './BackToTop.css'
 const BackToTop = () => {
     const [isVisible, setIsVisible] = useState(false)
     const [isHovered, setIsHovered] = useState(false)
+    const tickingRef = useRef(false)
+    const wasVisibleRef = useRef(false)
 
     useEffect(() => {
         const handleScroll = () => {
-            // Show after scrolling 500px (roughly past hero)
-            setIsVisible(window.scrollY > 500)
+            if (!tickingRef.current) {
+                tickingRef.current = true
+                requestAnimationFrame(() => {
+                    const shouldBeVisible = window.scrollY > 500
+                    // Only update state if the boolean actually changed
+                    if (shouldBeVisible !== wasVisibleRef.current) {
+                        wasVisibleRef.current = shouldBeVisible
+                        setIsVisible(shouldBeVisible)
+                    }
+                    tickingRef.current = false
+                })
+            }
         }
 
         window.addEventListener('scroll', handleScroll, { passive: true })

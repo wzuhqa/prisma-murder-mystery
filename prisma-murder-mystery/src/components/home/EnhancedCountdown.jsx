@@ -1,21 +1,19 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import './EnhancedCountdown.css'
 
-// Pre-defined deterministic data for particles (avoids Math.random during render)
-const ASH_DATA = [...Array(18)].map((_, i) => ({
+// Pre-defined deterministic data for particles (reduced for performance)
+const ASH_DATA = [...Array(12)].map((_, i) => ({
   id: i,
-  left: (i * 5.56 + 2) % 100,
-  delay: (i * 0.35) % 5,
-  duration: 4 + (i * 0.2) % 3,
-  size: i % 3 === 0 ? 'fast' : i % 2 === 0 ? 'slow' : ''
+  left: (i * 8.33 + 2) % 100,
+  delay: (i * 0.45) % 5,
+  duration: 4 + (i * 0.3) % 4,
+  size: i % 4 === 0 ? 'fast' : i % 3 === 0 ? 'slow' : ''
 }))
 
-// Murder clue icons (Noir-standard)
+// Murder clue icons (Noir-standard) - simplified for performance
 const CLUE_ICONS = [
   { type: 'fingerprint', icon: '👁', style: { '--rotation': '-20deg' } },
-  { type: 'magnifier', icon: '🔍', style: { '--rotation': '15deg' } },
-  { type: 'blood', icon: '🩸', style: { '--rotation': '-30deg' } },
-  { type: 'skull', icon: '💀', style: { '--rotation': '-10deg' } }
+  { type: 'magnifier', icon: '🔍', style: { '--rotation': '15deg' } }
 ]
 
 const EnhancedCountdown = ({
@@ -159,9 +157,8 @@ const EnhancedCountdown = ({
         {timeLeft.days} days, {timeLeft.hours} hours, {timeLeft.minutes} minutes, {timeLeft.seconds} seconds remaining
       </div>
 
-      <div className="countdown-fog-container" aria-hidden="true">
+      <div className="countdown-fog-container" aria-hidden="true" style={{ willChange: 'auto' }}>
         <div className="countdown-fog fog-layer-1" />
-        <div className="countdown-fog fog-layer-3" />
       </div>
 
       <div className="ashes-container" aria-hidden="true">

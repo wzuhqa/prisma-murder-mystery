@@ -9,8 +9,6 @@ const HeroSection = () => {
   const sectionRef = useRef(null);
   const cardRef = useRef(null);
   const [investigateHover, setInvestigateHover] = useState(false);
-  const [trailPoints, setTrailPoints] = useState([]);
-
   const lampRef = useRef(null);
   const [easterEggActive, setEasterEggActive] = useState(false);
 
@@ -40,41 +38,44 @@ const HeroSection = () => {
       duration: 1.5,
       ease: "power3.out"
     }, "-=0.8");
-  }, []);
 
-  // Blood Cursor Trail & 3D Tilt Logic
-  const handleMouseMove = (e) => {
-    const newPoint = { x: e.clientX, y: e.clientY, id: Date.now() };
-    setTrailPoints(prev => [...prev.slice(-15), newPoint]);
-
-    // 3D Parallax Tilt for Case File Card
-    if (cardRef.current && sectionRef.current) {
-      const rect = sectionRef.current.getBoundingClientRect();
-      const x = e.clientX - rect.left;
-      const y = e.clientY - rect.top;
-
-      const centerX = rect.width / 2;
-      const centerY = rect.height / 2;
-
-      const rotateX = ((y - centerY) / centerY) * -8; // max 8 deg tilt
-      const rotateY = ((x - centerX) / centerX) * 8;
-
-      gsap.to(cardRef.current, {
-        rotateX,
-        rotateY,
-        transformPerspective: 1200,
-        ease: "power2.out",
-        duration: 0.5
-      });
+    // Step 3: Staggered text reveal for inner card elements
+    const metaRows = cardRef.current?.querySelectorAll('[class*="metaRow"]');
+    if (metaRows && metaRows.length) {
+      tl.fromTo(
+        metaRows,
+        { opacity: 0, y: 20, rotateX: -90 },
+        {
+          opacity: 1,
+          y: 0,
+          rotateX: 0,
+          duration: 0.8,
+          stagger: 0.03,
+          ease: "power3.out"
+        },
+        "-=0.5"
+      );
     }
-  };
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTrailPoints(prev => prev.slice(1));
-    }, 100);
-    return () => clearInterval(timer);
+    // Step 4: Buttons fade in with stagger
+    const buttons = cardRef.current?.querySelectorAll('a');
+    if (buttons && buttons.length) {
+      tl.fromTo(
+        buttons,
+        { opacity: 0, y: 15, scale: 0.95 },
+        {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.6,
+          stagger: 0.15,
+          ease: "back.out(1.5)"
+        },
+        "-=0.3"
+      );
+    }
   }, []);
+
 
   // Hidden Terminal Easter Egg (Invisible Ink / Code)
   useEffect(() => {
@@ -99,7 +100,6 @@ const HeroSection = () => {
     <section
       ref={sectionRef}
       className={styles.heroRoot}
-      onMouseMove={handleMouseMove}
     >
       {/* Cinematic Lamp Glow (V2.5) */}
       <div ref={lampRef} className={styles.lampGlow} />
@@ -111,19 +111,6 @@ const HeroSection = () => {
         <p>THEY ARE WATCHING</p>
       </div>
 
-      {/* Blood Cursor Trail */}
-      {trailPoints.map((p, i) => (
-        <div
-          key={p.id}
-          className={styles.bloodTrail}
-          style={{
-            left: p.x,
-            top: p.y,
-            opacity: i / trailPoints.length * 0.3,
-            transform: `scale(${i / trailPoints.length})`
-          }}
-        />
-      ))}
 
       {/* Background: Red string lines (Atmospheric) */}
       <svg className={styles.redStrings} viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
@@ -211,14 +198,6 @@ const HeroSection = () => {
               <Link
                 to="/events"
                 className={styles.tabButton}
-                onMouseEnter={() => {
-                  setInvestigateHover(true);
-                  if (typeof document !== 'undefined') document.body.classList.add('psychological-spotlight');
-                }}
-                onMouseLeave={() => {
-                  setInvestigateHover(false);
-                  if (typeof document !== 'undefined') document.body.classList.remove('psychological-spotlight');
-                }}
               >
                 <div className={styles.scannerLine} />
                 <span className={styles.tabIcon}>⌕</span>
@@ -228,12 +207,6 @@ const HeroSection = () => {
               <Link
                 to="/register"
                 className={styles.approvalClip}
-                onMouseEnter={() => {
-                  if (typeof document !== 'undefined') document.body.classList.add('psychological-spotlight');
-                }}
-                onMouseLeave={() => {
-                  if (typeof document !== 'undefined') document.body.classList.remove('psychological-spotlight');
-                }}
               >
                 <div className={styles.clipPin} />
                 <div className={styles.paperRipple} />
