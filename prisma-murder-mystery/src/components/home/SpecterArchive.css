@@ -1122,6 +1122,111 @@
 
   .h-timeline-card {
     width: min(85vw, 250px);
-    height: 380px;
   }
+}
+
+/* Flashlight Overlay */
+.flashlight-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  z-index: 100;
+  pointer-events: none;
+  transition: opacity 0.5s ease;
+}
+
+.flashlight-enabled.has-mouse .flashlight-overlay {
+  -webkit-mask-image: radial-gradient(circle 200px at var(--mouse-x) var(--mouse-y), transparent 0%, rgba(0, 0, 0, 0.85) 60%, rgba(0, 0, 0, 0.99) 100%);
+  mask-image: radial-gradient(circle 200px at var(--mouse-x) var(--mouse-y), transparent 0%, rgba(0, 0, 0, 0.85) 60%, rgba(0, 0, 0, 0.99) 100%);
+}
+
+.flashlight-enabled .flashlight-overlay {
+  background-color: #050505;
+  /* Extremely dark */
+}
+
+/* Evidence Board Background */
+.evidence-board-bg {
+  background-color: #111;
+  background-image:
+    radial-gradient(#222 1px, transparent 1px),
+    radial-gradient(#222 1px, transparent 1px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
+  opacity: 0.8;
+}
+
+/* Scattered Evidence Layout */
+.evidence-scattered {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  padding: 80px 40px !important;
+  position: relative;
+}
+
+.evidence-item-wrapper {
+  position: relative;
+  width: min(100%, 350px);
+  padding: 15px;
+  background: #eaeaea;
+  /* Polaroid feel */
+  border-radius: 2px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease, z-index 0.3s ease;
+  z-index: 10;
+}
+
+.evidence-item-wrapper:hover {
+  z-index: 20;
+  transform: scale(1.05) rotate(0deg) !important;
+}
+
+/* Override inner card styles for polaroid look */
+.evidence-item-wrapper .artist-card {
+  box-shadow: none;
+  border: none;
+  margin: 0;
+}
+
+.evidence-pin {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ff4444, #8b0000);
+  box-shadow: 2px 5px 10px rgba(0, 0, 0, 0.8);
+  z-index: 30;
+}
+
+.evidence-pin::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.global-red-strings {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: visible;
 }

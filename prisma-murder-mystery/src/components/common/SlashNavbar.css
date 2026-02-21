@@ -488,10 +488,11 @@
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: center;
   gap: var(--space-1, 0.25rem);
   padding-left: var(--space-6, 1.5rem);
   border-left: 1px solid rgba(255, 255, 255, 0.06);
-  justify-self: end;
+  height: 100%;
 }
 
 .status-item {

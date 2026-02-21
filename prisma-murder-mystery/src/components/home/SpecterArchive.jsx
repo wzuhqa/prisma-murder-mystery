@@ -276,6 +276,83 @@ function SpecterArchive() {
   const [footerVisible, setFooterVisible] = useState(false);
   const sectionRef = useRef(null);
   const footerRef = useRef(null);
+  const cardsContainerRef = useRef(null);
+  const cardRefs = useRef({});
+  const [stringLinks, setStringLinks] = useState([]);
+
+  // Pre-defined connections between artists (by index)
+  const connections = [
+    [0, 1], [0, 2], [1, 3], [2, 4], [3, 5], [4, 5], [1, 4]
+  ];
+
+  const updateStrings = useCallback(() => {
+    if (!cardsContainerRef.current) return;
+    const containerRect = cardsContainerRef.current.getBoundingClientRect();
+
+    const newLinks = connections.map(([startIdx, endIdx]) => {
+      const startEl = cardRefs.current[startIdx];
+      const endEl = cardRefs.current[endIdx];
+
+      if (!startEl || !endEl) return null;
+
+      const startRect = startEl.getBoundingClientRect();
+      const endRect = endEl.getBoundingClientRect();
+
+      // Pin positions (top center of the card wrapper)
+      const startX = startRect.left + startRect.width / 2 - containerRect.left;
+      const startY = startRect.top + 10 - containerRect.top;
+
+      const endX = endRect.left + endRect.width / 2 - containerRect.left;
+      const endY = endRect.top + 10 - containerRect.top;
+
+      // Calculate droop for the thread
+      const midX = (startX + endX) / 2;
+      const distance = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
+      const midY = (startY + endY) / 2 + distance * 0.15; // 15% droop
+
+      return {
+        id: `${startIdx}-${endIdx}`,
+        path: `M ${startX} ${startY} Q ${midX} ${midY} ${endX} ${endY}`
+      };
+    }).filter(Boolean);
+
+    setStringLinks(newLinks);
+  }, []);
+
+  useEffect(() => {
+    // Initial calculation after layout
+    const timer = setTimeout(updateStrings, 300);
+    window.addEventListener('resize', updateStrings);
+
+    let observer;
+    if (cardsContainerRef.current) {
+      observer = new ResizeObserver(updateStrings);
+      observer.observe(cardsContainerRef.current);
+    }
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('resize', updateStrings);
+      if (observer) observer.disconnect();
+    };
+  }, [updateStrings]);
+
+  // Flashlight Effect State
+  const [mousePos, setMousePos] = useState({ x: '50%', y: '50%' });
+  const [hasMouse, setHasMouse] = useState(false);
+
+  const handleGlobalMouseMove = useCallback((e) => {
+    if (!sectionRef.current) return;
+    const rect = sectionRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    setMousePos({ x: `${x}px`, y: `${y}px` });
+    setHasMouse(true);
+  }, []);
+
+  const handleGlobalMouseLeave = useCallback(() => {
+    setHasMouse(false);
+  }, []);
 
   // Ghosts animation
   useEffect(() => {
@@ -335,11 +412,21 @@ function SpecterArchive() {
   };
 
   return (
-    <section className="specter-archive microfilm-mode" ref={sectionRef}>
+    <section
+      className={`specter-archive microfilm-mode flashlight-enabled ${hasMouse ? 'has-mouse' : ''}`}
+      ref={sectionRef}
+      onMouseMove={handleGlobalMouseMove}
+      onMouseLeave={handleGlobalMouseLeave}
+      style={{
+        '--mouse-x': mousePos.x,
+        '--mouse-y': mousePos.y
+      }}
+    >
+      <div className="flashlight-overlay" />
       <div className="microfilm-jitter" />
       <div className="forensic-stamp stamp-restricted">RESTRICTED ACCESS</div>
       <div className="forensic-stamp stamp-corrupted">DATA CORRUPTED</div>
-      <div className="specter-bg-gradient" />
+      <div className="specter-bg-gradient evidence-board-bg" />
 
       <ParallaxBackground sectionRef={sectionRef} />
 
@@ -396,22 +483,62 @@ function SpecterArchive() {
 
         <motion.div
           key="vertical"
-          className="artist-cards-container"
+          className="artist-cards-container evidence-scattered"
+          ref={cardsContainerRef}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0, filter: 'blur(5px)' }}
           transition={{ duration: 0.5 }}
         >
-          {artists.map((artist, index) => (
-            <ArtistCard
-              key={artist.id}
-              artist={artist}
-              index={index}
-              isActive={activeCard === index}
-              onMouseMove={(idx) => setActiveCard(idx)}
-              onMouseLeave={() => { }}
-            />
-          ))}
+          {/* Dynamic SVG Red Strings */}
+          <svg className="global-red-strings">
+            <defs>
+              <filter id="string-glow" x="-20%" y="-20%" width="140%" height="140%">
+                <feGaussianBlur stdDeviation="2" result="blur" />
+                <feComposite in="SourceGraphic" in2="blur" operator="over" />
+              </filter>
+            </defs>
+            <AnimatePresence>
+              {stringLinks.map((link) => (
+                <motion.path
+                  key={link.id}
+                  d={link.path}
+                  fill="none"
+                  stroke="#8b0000"
+                  strokeWidth="3"
+                  filter="url(#string-glow)"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 0.8 }}
+                  transition={{ duration: 1.5, ease: "easeInOut" }}
+                  style={{
+                    strokeDasharray: "10 3",
+                  }}
+                />
+              ))}
+            </AnimatePresence>
+          </svg>
+
+          {artists.map((artist, index) => {
+            // Pseudo-random rotation for evidence board look
+            const rotation = (index % 2 === 0 ? 1 : -1) * ((index * 3) % 8 + 2);
+            return (
+              <div
+                key={artist.id}
+                className="evidence-item-wrapper"
+                ref={(el) => (cardRefs.current[index] = el)}
+                style={{ transform: `rotate(${rotation}deg)` }}
+              >
+                <div className="evidence-pin" />
+                <ArtistCard
+                  artist={artist}
+                  index={index}
+                  isActive={activeCard === index}
+                  onMouseMove={(idx) => setActiveCard(idx)}
+                  onMouseLeave={() => { }}
+                />
+              </div>
+            );
+          })}
         </motion.div>
 
         {/* Footer */}

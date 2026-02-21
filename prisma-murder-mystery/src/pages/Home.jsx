@@ -10,6 +10,7 @@ const CaseSummaryPanel = lazy(() => import('../components/home/CaseSummaryPanel/
 const EnhancedCountdown = lazy(() => import('../components/home/EnhancedCountdown'))
 const EventLineupReveal = lazy(() => import('../components/home/EventLineupReveal'))
 const SpecterArchive = lazy(() => import('../components/home/SpecterArchive'))
+const SponsorsMarquee = lazy(() => import('../components/home/SponsorsMarquee'))
 
 // Loading placeholder for lazy components
 const SectionLoader = () => (
@@ -60,6 +61,13 @@ const Home = () => {
       <section className="relative z-20 bg-base">
         <Suspense fallback={<SectionLoader />}>
           <SpecterArchive />
+        </Suspense>
+      </section>
+
+      {/* ===== SPONSORS MARQUEE SECTION ===== */}
+      <section className="relative z-20 bg-base">
+        <Suspense fallback={<SectionLoader />}>
+          <SponsorsMarquee />
         </Suspense>
       </section>
 
