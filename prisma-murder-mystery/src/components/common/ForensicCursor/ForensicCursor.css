@@ -55,6 +55,20 @@
     border: 1px solid rgba(122, 14, 18, 0.3);
 }
 
+/* Target Cursor (V2.6) - Small Red Dot */
+.forensic-cursor--target .cursor-dot {
+    width: 6px;
+    height: 6px;
+    background: #ff0033;
+    box-shadow: 0 0 12px rgba(255, 0, 51, 0.8), 0 0 4px rgba(255, 0, 51, 1);
+}
+
+.forensic-cursor--target .cursor-aura {
+    width: 0;
+    height: 0;
+    border: none;
+}
+
 /* Spotlight Effect */
 .forensic-spotlight {
     z-index: 9998;

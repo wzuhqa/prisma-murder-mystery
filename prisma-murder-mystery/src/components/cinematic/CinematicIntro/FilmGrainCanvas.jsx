@@ -4,8 +4,10 @@ import { useEffect, useRef } from 'react'
  * Film Grain Canvas Component
  * 
  * Procedural film grain using Canvas API
- * Optimized to 30fps (imperceptible vs 60fps)
- * GPU-accelerated rendering
+ * Optimizations:
+ * - 24fps (film standard, imperceptible vs 30fps)
+ * - 1/4 resolution with CSS scaling (imperceptible for noise)
+ * - Reduced motion support
  */
 
 const FilmGrainCanvas = ({ intensity = 0.05, opacity = 0.15 }) => {
@@ -14,24 +16,29 @@ const FilmGrainCanvas = ({ intensity = 0.05, opacity = 0.15 }) => {
     const lastFrameTimeRef = useRef(0)
 
     useEffect(() => {
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        if (prefersReducedMotion) return
+
         const canvas = canvasRef.current
         if (!canvas) return
 
         const ctx = canvas.getContext('2d', { alpha: true })
-        const fps = 30
+        const fps = 24 // Film standard
         const frameInterval = 1000 / fps
+        const scale = 0.25 // Render at 1/4 resolution
 
-        // Set canvas size
+        // Set canvas size (smaller for performance)
         const resize = () => {
-            canvas.width = window.innerWidth
-            canvas.height = window.innerHeight
+            canvas.width = Math.floor(window.innerWidth * scale)
+            canvas.height = Math.floor(window.innerHeight * scale)
         }
         resize()
         window.addEventListener('resize', resize)
 
         // Generate grain
         const renderGrain = (timestamp) => {
-            // Throttle to 30fps
+            // Throttle to target fps
             if (timestamp - lastFrameTimeRef.current < frameInterval) {
                 rafRef.current = requestAnimationFrame(renderGrain)
                 return
@@ -77,7 +84,7 @@ const FilmGrainCanvas = ({ intensity = 0.05, opacity = 0.15 }) => {
                 pointerEvents: 'none',
                 zIndex: 9998,
                 mixBlendMode: 'overlay',
-                willChange: 'contents'
+                imageRendering: 'pixelated' // Crisp upscaling for noise
             }}
         />
     )

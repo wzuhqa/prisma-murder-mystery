@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import './ForensicCursor.css';
 
@@ -35,19 +36,32 @@ const ForensicCursor = () => {
                 target.closest(INTERACTIVE_SELECTORS) !== null
             );
 
-            if (isInteractive !== isPointerRef.current) {
+            // Check for specialized target cursor (V2.6)
+            const isTarget = target && target.closest('[data-cursor="target"]');
+
+            if (isInteractive !== isPointerRef.current || isTarget) {
                 isPointerRef.current = isInteractive;
-                cursor.classList.toggle('forensic-cursor--pointer', isInteractive);
+                cursor.classList.toggle('forensic-cursor--pointer', isInteractive && !isTarget);
+                cursor.classList.toggle('forensic-cursor--target', isTarget);
                 spotlight.classList.toggle('spotlight-focus', isInteractive);
             }
         };
 
         window.addEventListener('mousemove', handleMouseMove, { passive: true });
-
         return () => {
             window.removeEventListener('mousemove', handleMouseMove);
         };
     }, []);
+
+    // Reset pointer state on navigation
+    const location = useLocation();
+    useEffect(() => {
+        if (cursorRef.current && spotlightRef.current) {
+            isPointerRef.current = false;
+            cursorRef.current.classList.remove('forensic-cursor--pointer');
+            spotlightRef.current.classList.remove('spotlight-focus');
+        }
+    }, [location.pathname]);
 
     if (typeof window !== 'undefined' && window.innerWidth <= 1024) return null;
 

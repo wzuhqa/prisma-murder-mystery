@@ -80,14 +80,14 @@
 /* Cursor Shadow */
 .cursor-shadow {
     position: fixed;
-    width: 120px;
-    height: 120px;
-    background: radial-gradient(circle, rgba(0, 0, 0, 0.4) 0%, transparent 70%);
+    width: 200px;
+    /* Increased size to compensate for no filter: blur */
+    height: 200px;
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.25) 0%, rgba(0, 0, 0, 0.1) 40%, transparent 70%);
     transform: translate(-50%, -50%);
     pointer-events: none;
     z-index: 4;
-    filter: blur(20px);
-    transition: left 0.15s ease-out, top 0.15s ease-out;
+    /* Removed filter: blur(20px) which completely tanks FPS when moving */
 }
 
 /* Container & Atmosphere */
@@ -99,25 +99,28 @@
     padding: var(--section-padding-top, 7rem) var(--section-padding-x, 1.5rem) var(--space-12, 3rem);
 }
 
-/* Vignette */
+/* Vignette - Cinematic Dark: softer edges */
 .archive-vignette {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.55) 100%);
+    background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.4) 100%);
     pointer-events: none;
     z-index: 2;
 }
 
-/* Film grain */
+/* Film grain - Cinematic Dark: subtle 7% */
 .archive-grain {
     position: absolute;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-    opacity: 0.25;
-    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
+    opacity: 0.04;
+    /* Reduced from 0.07 due to removing overlay */
+    /* Removed mix-blend-mode: overlay for massive performance gain */
     pointer-events: none;
     z-index: 3;
-    animation: grain-shift 12s steps(10) infinite;
+    animation: grain-shift 14s steps(6) infinite;
+    /* Reduced steps */
+    will-change: transform;
 }
 
 @keyframes grain-shift {
@@ -128,15 +131,15 @@
     }
 
     25% {
-        transform: translate(-3%, -3%);
+        transform: translate(-2%, -2%);
     }
 
     50% {
-        transform: translate(-6%, 3%);
+        transform: translate(2%, 2%);
     }
 
     75% {
-        transform: translate(3%, -6%);
+        transform: translate(-2%, 2%);
     }
 }
 
@@ -180,14 +183,15 @@
     position: absolute;
     bottom: 8%;
     right: 12%;
-    width: 180px;
-    height: 280px;
-    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.25) 0%, transparent 70%);
-    filter: blur(60px);
+    width: 300px;
+    height: 400px;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.15) 0%, transparent 60%);
+    /* Removed filter: blur(60px) to drastically improve paint time */
     pointer-events: none;
     z-index: 1;
-    opacity: 0.2;
+    opacity: 0.3;
     animation: shadow-drift 30s ease-in-out infinite;
+    will-change: transform;
 }
 
 @keyframes shadow-drift {
@@ -197,16 +201,12 @@
         transform: translate(0, 0);
     }
 
-    25% {
-        transform: translate(-10px, -15px);
+    33% {
+        transform: translate(-10px, -10px);
     }
 
-    50% {
-        transform: translate(15px, -10px);
-    }
-
-    75% {
-        transform: translate(-5px, 10px);
+    66% {
+        transform: translate(10px, -5px);
     }
 }
 

@@ -15,12 +15,12 @@
   contain: layout style paint;
 }
 
-/* Vignette overlay */
+/* Vignette overlay - Cinematic Dark: softer edges */
 .enhanced-countdown-wrapper::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at center, transparent 20%, rgba(0, 0, 0, 0.9) 100%);
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.5) 100%);
   pointer-events: none;
   z-index: 5;
 }
@@ -444,10 +444,11 @@
 }
 
 .countdown-title {
-  font-family: var(--font-display);
+  font-family: var(--font-creepy);
   font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 900;
-  letter-spacing: 0.3em;
+  font-weight: 400;
+  /* Creepster */
+  letter-spacing: 0.1em;
   color: var(--text-header);
   text-transform: uppercase;
   margin-bottom: 20px;
@@ -474,7 +475,7 @@
 }
 
 .countdown-subtitle {
-  font-family: 'Special Elite', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: clamp(10px, 2vw, 14px);
   color: #5a5a5a;
   letter-spacing: 5px;
@@ -595,8 +596,8 @@
 
 /* The digit value */
 .digit-value {
-  font-family: var(--font-display);
-  font-weight: 900;
+  font-family: var(--font-mono);
+  font-weight: 700;
   font-size: clamp(42px, 10vw, 80px);
   color: var(--text-header);
   text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
@@ -730,7 +731,8 @@
 
 /* Digit label */
 .digit-label {
-  font-family: 'Special Elite', 'Courier New', monospace;
+  font-family: var(--font-body);
+  font-weight: 300;
   font-size: clamp(7px, 1.5vw, 10px);
   color: #8a8a8a;
   letter-spacing: 3px;
@@ -745,9 +747,9 @@
 
 /* ===== EVENT DATE ===== */
 .countdown-event-date {
-  font-family: 'Special Elite', 'Courier New', monospace;
+  font-family: var(--font-mono);
   font-size: clamp(11px, 2vw, 15px);
-  letter-spacing: 8px;
+  letter-spacing: 6px;
   color: #4a4a4a;
   text-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
 }

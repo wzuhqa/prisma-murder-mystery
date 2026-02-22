@@ -27,18 +27,6 @@ const prefetchRoute = (route) => {
   document.head.appendChild(link);
 };
 
-// ============================================
-// FORENSIC LOGO (animated magnifying glass)
-// ============================================
-const ForensicLogo = ({ isScrolled }) => (
-  <div className={`forensic-logo ${isScrolled ? 'forensic-logo--compact' : ''}`}>
-    <svg viewBox="0 0 40 40" className="logo-svg">
-      <circle cx="16" cy="16" r="10" fill="none" stroke="currentColor" strokeWidth="2" className="logo-circle" />
-      <line x1="24" y1="24" x2="36" y2="36" stroke="currentColor" strokeWidth="3" strokeLinecap="round" className="logo-handle" />
-      <circle cx="16" cy="16" r="4" fill="currentColor" className="logo-inner" />
-    </svg>
-  </div>
-)
 
 // ============================================
 // PAGE LOAD PROGRESS BAR (blood-red glowing)
@@ -69,46 +57,11 @@ const PageLoadProgress = ({ isLoading }) => {
   )
 }
 
-// ============================================
-// LIVE CLOCK — ref-based, zero React re-renders
-// ============================================
-const LiveClock = memo(() => {
-  const ref = useRef(null)
-  useEffect(() => {
-    const update = () => {
-      if (ref.current) {
-        ref.current.textContent = new Date().toLocaleTimeString('en-US', {
-          hour: '2-digit', minute: '2-digit', second: '2-digit'
-        })
-      }
-    }
-    update()
-    const timer = setInterval(update, 1000)
-    return () => clearInterval(timer)
-  }, [])
-  return <span className="status-time" ref={ref} />
-})
+
 
 // ============================================
-// SUSPECT COUNT TICKER
+// DAYS REMAINING URGENCY BADGE
 // ============================================
-const SuspectTicker = () => {
-  const [count, setCount] = useState(147)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (Math.random() > 0.7) {
-        setCount(prev => prev + 1)
-      }
-    }, 8000)
-    return () => clearInterval(interval)
-  }, [])
-  return (
-    <div className="suspect-ticker">
-      <span className="ticker-label">SUSPECTS</span>
-      <span className="ticker-value">{count}</span>
-    </div>
-  )
-}
 
 // ============================================
 // EVIDENCE TAG (yellow crime scene marker)
@@ -274,6 +227,7 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
   // Redaction on route change & increment visit count
   useEffect(() => {
     setIsRedacting(true)
+    setHoveredItem(null) // Reset sticky hover state on navigation
     const timer = setTimeout(() => setIsRedacting(false), 600)
 
     // bump visit for current route
@@ -379,15 +333,13 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
         {/* Zone 1: Brand & Interface Labels */}
         <div className="navbar-zone navbar-zone--brand">
           <div className="navbar-brand-group">
-            <ForensicLogo isScrolled={isScrolled} />
             <div className="navbar-brand">
               <div className="brand-header">
                 <span className="brand-main">PRISMA 2026</span>
                 <span className="brand-uni">SRM UNIVERSITY DELHI-NCR</span>
               </div>
               <div className="brand-meta">
-                <span className="case-id">CASE ID: #PR-2026-X</span>
-                <span className="clearance-level">CLEARANCE: <span className="restricted-glow">RESTRICTED</span></span>
+                <span className="case-id">CLEARANCE: <span className="restricted-glow">RESTRICTED</span></span>
               </div>
             </div>
           </div>
@@ -434,13 +386,9 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
 
         {/* Zone 3: Status & Ticker */}
         <div className="navbar-zone navbar-zone--status">
-          <div className="navbar-status">
-            <div className="status-item">
-              <span className="status-dot-pulse" />
-              <span className="status-text--gold">MONITORING ACTIVE</span>
-              <LiveClock />
-            </div>
-            <SuspectTicker />
+          <div className="status-item">
+            <span className="status-dot-pulse" />
+            <span className="status-text--gold">MONITORING ACTIVE</span>
           </div>
         </div>
 

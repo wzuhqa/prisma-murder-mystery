@@ -37,11 +37,11 @@ const Footer = () => {
             <h3 className="font-heading text-5xl md:text-7xl font-bold tracking-tighter text-blood mb-3" style={{ textShadow: '0 0 40px rgba(139, 0, 0, 0.3)' }}>
               PRISMA
             </h3>
-            <p className="font-mono text-[10px] md:text-xs tracking-[0.5em] text-gray-500 uppercase">
+            <p className="font-mono text-[10px] md:text-xs tracking-[0.5em] text-meta uppercase">
               SRM University Delhi-NCR
             </p>
           </div>
-          <p className="max-w-lg mx-auto mt-6 text-gray-500 italic font-serif text-sm leading-relaxed">
+          <p className="max-w-lg mx-auto mt-6 text-meta italic font-heading text-sm leading-relaxed">
             "Technical Excellence. Cultural Mystery. Some secrets are meant to be found."
           </p>
 
@@ -49,15 +49,15 @@ const Footer = () => {
           <div className="flex items-center justify-center gap-6 mt-8">
             <a href="https://instagram.com/prisma.srmuh" target="_blank" rel="noopener noreferrer"
               className="group w-11 h-11 border border-white/10 rounded-full flex items-center justify-center hover:border-blood/50 hover:bg-blood/10 transition-all duration-300">
-              <Instagram size={18} className="text-gray-500 group-hover:text-blood transition-colors" />
+              <Instagram size={18} className="text-meta group-hover:text-blood transition-colors" />
             </a>
             <a href="mailto:prisma@srmuh.in"
               className="group w-11 h-11 border border-white/10 rounded-full flex items-center justify-center hover:border-blood/50 hover:bg-blood/10 transition-all duration-300">
-              <Mail size={18} className="text-gray-500 group-hover:text-blood transition-colors" />
+              <Mail size={18} className="text-meta group-hover:text-blood transition-colors" />
             </a>
             <a href="tel:+91XXXXXXXXXX"
               className="group w-11 h-11 border border-white/10 rounded-full flex items-center justify-center hover:border-blood/50 hover:bg-blood/10 transition-all duration-300">
-              <Phone size={18} className="text-gray-500 group-hover:text-blood transition-colors" />
+              <Phone size={18} className="text-meta group-hover:text-blood transition-colors" />
             </a>
           </div>
         </div>
@@ -121,7 +121,7 @@ const Footer = () => {
             <ul className="space-y-5">
               <li className="flex items-start gap-3 group">
                 <MapPin size={14} className="text-blood/60 shrink-0 mt-1" />
-                <span className="text-gray-500 text-sm leading-relaxed group-hover:text-gray-300 transition-colors">
+                <span className="text-meta text-sm leading-relaxed group-hover:text-chalk transition-colors">
                   SRM University, Delhi-NCR,<br />Sonepat, Haryana, 131029
                 </span>
               </li>
@@ -133,7 +133,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={14} className="text-blood/60 shrink-0" />
-                <span className="text-gray-500 text-sm font-mono tracking-wider">+91 XXXXXXXXXX</span>
+                <span className="text-meta text-sm font-mono tracking-wider">+91 XXXXXXXXXX</span>
               </li>
             </ul>
           </div>
@@ -167,14 +167,14 @@ const Footer = () => {
         {/* ===== BOTTOM BAR ===== */}
         <div className="footer-bottom">
           <div className="flex flex-col gap-2">
-            <p className="text-gray-600 text-[11px] font-mono tracking-wider">
+            <p className="text-meta text-[11px] font-mono tracking-wider">
               © {currentYear} PRISMA FILES. ALL RIGHTS RESERVED.
             </p>
             <div className="case-remains-open">
               Case remains open.
             </div>
           </div>
-          <p className="flex items-center gap-3 text-gray-600 text-[11px] font-mono tracking-wider">
+          <p className="flex items-center gap-3 text-meta text-[11px] font-mono tracking-wider">
             LAST UPDATED: ██/██/2026 <span className="w-1.5 h-1.5 rounded-full bg-blood animate-pulse" /> SRM UNIVERSITY
           </p>
         </div>

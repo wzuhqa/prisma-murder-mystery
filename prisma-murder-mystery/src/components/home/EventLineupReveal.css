@@ -105,10 +105,12 @@
   width: 200%;
   height: 80%;
   background: radial-gradient(ellipse at center bottom,
-      rgba(20, 20, 40, 0.8) 0%,
+      rgba(20, 20, 40, 0.5) 0%,
+      rgba(20, 20, 40, 0.2) 40%,
       transparent 70%);
-  filter: blur(60px);
+  /* Removed filter: blur(60px) for performance */
   animation: smokeDrift 20s ease-in-out infinite;
+  will-change: transform;
 }
 
 .lineup-smoke-1 {
@@ -175,6 +177,7 @@
 
 .lineup-moving-scan-css {
   position: absolute;
+  top: 0;
   left: 0;
   right: 0;
   height: 3px;
@@ -185,11 +188,12 @@
   z-index: 4;
   pointer-events: none;
   animation: movingScanScroll 4s linear infinite;
+  will-change: transform;
 }
 
 @keyframes movingScanScroll {
   0% {
-    top: 0;
+    transform: translateY(0);
     opacity: 0;
   }
 
@@ -202,20 +206,21 @@
   }
 
   100% {
-    top: 100%;
+    transform: translateY(1000px);
     opacity: 0;
   }
 }
 
-/* Film Grain Texture */
+/* Film Grain Texture - Cinematic Dark: subtle and performant */
 .lineup-grain {
   position: absolute;
   inset: 0;
   z-index: 5;
   pointer-events: none;
   opacity: 0.04;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  animation: grainShift 0.5s steps(10) infinite;
+  /* Reduced numOctaves for better performance */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  animation: grainShift 0.8s steps(6) infinite;
 }
 
 @keyframes grainShift {
@@ -267,15 +272,15 @@
   display: none;
 }
 
-/* Vignette Effect */
+/* Vignette Effect - Cinematic Dark: softer edges */
 .lineup-vignette {
   position: absolute;
   inset: 0;
   z-index: 7;
   pointer-events: none;
   background: radial-gradient(ellipse at center,
-      transparent 40%,
-      rgba(0, 0, 0, 0.6) 100%);
+      transparent 45%,
+      rgba(0, 0, 0, 0.45) 100%);
 }
 
 /* Hidden Distorted Face */
@@ -374,12 +379,14 @@
 }
 
 .lineup-status-text {
-  font-family: 'Courier New', monospace;
-  font-size: 11px;
-  font-weight: 400;
-  letter-spacing: 3px;
-  color: var(--lineup-gold);
+  /* CHANGED: Labels -> thin uppercase */
+  font-family: var(--font-body);
+  font-weight: 300;
   text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  color: #8b0000;
+  text-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
   animation: textFlicker 4s ease-in-out infinite;
 }
 
@@ -427,16 +434,17 @@
 
 /* Main Headline */
 .lineup-headline {
-  position: relative;
-  font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(2rem, 5vw, 4.5rem);
-  font-weight: 700;
+  /* CHANGED: Header -> distressed horror font */
+  font-family: var(--font-creepy);
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 400;
+  /* Creepster is usually 400 */
+  color: #fff;
+  text-transform: uppercase;
+  margin: 0;
   line-height: 1.1;
-  margin-bottom: 18px;
-  /* Reduced from 30px */
-  display: flex;
-  flex-direction: column;
-  gap: 0.1em;
+  position: relative;
+  z-index: 10;
 }
 
 .lineup-headline-main,
@@ -584,12 +592,10 @@
   left: -20%;
   right: -20%;
   height: 60%;
-  background: linear-gradient(180deg,
-      transparent 0%,
-      rgba(10, 10, 20, 0.4) 50%,
-      rgba(10, 10, 20, 0.8) 100%);
-  filter: blur(30px);
+  background: radial-gradient(ellipse at center bottom, rgba(10, 10, 20, 0.6) 0%, transparent 60%);
+  /* Removed filter: blur(30px) */
   animation: stageFogDrift 10s ease-in-out infinite;
+  will-change: transform;
 }
 
 @keyframes stageFogDrift {
@@ -1040,10 +1046,14 @@
   position: relative;
   width: 100%;
   aspect-ratio: 4/5;
-  background: #080808;
+  /* Lightened from #080808 so silhouette is actually visible */
+  background: linear-gradient(180deg, #0e0e14 0%, #11111a 60%, #0a0008 100%);
   padding: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(139, 0, 0, 0.15);
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.9),
+    /* Subtle red ambient from below */
+    0 20px 40px rgba(100, 0, 0, 0.2);
 }
 
 .portrait-frame {
@@ -1057,17 +1067,23 @@
 .portrait-silhouette {
   width: 100%;
   height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 125' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 20c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20zm0 45c-15 0-30 8-30 20v10h60V85c0-12-15-20-30-20z' fill='%23111'/%3E%3C/svg%3E");
-  background-size: cover;
-  background-position: center;
-  filter: blur(20px) contrast(0.8);
-  opacity: 0.6;
-  transition: filter 0.5s ease;
+  /* Made visible: changed SVG fill from #111 (near-black) to #3a3a4a (readable dark grey),
+     and container bg from #080808 to a gradient. Reduced blur from 20px to 8px. */
+  background-image:
+    /* Atmospheric red glow pool below figure */
+    radial-gradient(ellipse 60% 30% at 50% 95%, rgba(120, 10, 15, 0.35) 0%, transparent 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 100 125' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 20c-11 0-20 9-20 20s9 20 20 20 20-9 20-20-9-20-20-20zm0 45c-15 0-30 8-30 20v10h60V85c0-12-15-20-30-20z' fill='%233a3a4a'/%3E%3C/svg%3E");
+  background-size: cover, cover;
+  background-position: center, center;
+  /* Enough blur to obscure identity but enough visible to read as a person */
+  filter: blur(8px) contrast(1.1) brightness(1.2);
+  opacity: 0.85;
+  transition: filter 0.5s ease, opacity 0.5s ease;
 }
 
 .revealed .portrait-silhouette {
-  filter: blur(4px) brightness(1.2);
-  opacity: 0.4;
+  filter: blur(4px) brightness(1.2) contrast(1.1);
+  opacity: 0.55;
 }
 
 /* Overlays shared by all states */
@@ -1081,17 +1097,17 @@
   position: absolute;
   inset: 0;
   background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAA GFBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAN898vAAAAB3RSTlMAAAAAAAB77f7fAAAAQ0lEQVQ4y2NgwAaYmZkZGRgYmCUYmCUZGIYwMDxhYHjCwDCEgeEJA8MTBoYnDAxPGBieMDA8YWB4wsDwhIHhCQPDExYGACHkCAsx/7X9AAAAAElFTkSuQmCC");
-  opacity: 0.1;
+  opacity: 0.06;
   mix-blend-mode: overlay;
-  animation: staticNoise 0.2s steps(4) infinite;
+  animation: staticNoise 0.4s steps(4) infinite;
 }
 
 .grain-overlay {
   position: absolute;
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  animation: grainSlide 1s steps(2) infinite;
+  opacity: 0.07;
+  animation: grainSlide 1.5s steps(2) infinite;
 }
 
 /* Light Sweep effect */
@@ -1241,8 +1257,8 @@
 }
 
 .flicker-clear {
-  filter: blur(2px) contrast(1.5) !important;
-  opacity: 0.4 !important;
+  /* Removed filter: blur(2px) contrast(1.5) */
+  opacity: 0.7 !important;
 }
 
 .scanline-tiny {
@@ -1315,37 +1331,35 @@
   pointer-events: none;
 }
 
-/* Reveal Elements */
+/* Reveal Elements - Cinematic Dark: reduced RGB split overhead */
 .rgb-split {
   position: absolute;
   inset: 0;
   background: inherit;
-  filter: blur(1px);
-  animation: rgbGlitchBurst 0.3s ease-out;
+  /* Removed filter: blur(1px) */
+  animation: rgbGlitchBurst 0.5s ease-out;
 }
 
 @keyframes rgbGlitchBurst {
   0% {
-    transform: skewX(10deg);
-    filter: hue-rotate(90deg) blur(5px);
+    transform: skewX(5deg);
     opacity: 0.8;
   }
 
-  10% {
-    transform: translate(-10px, -5px) skewX(-20deg);
+  20% {
+    transform: translate(-5px, -2px) skewX(-10deg);
   }
 
-  30% {
-    transform: translate(10px, 5px) skewX(20deg);
+  40% {
+    transform: translate(5px, 2px) skewX(10deg);
   }
 
-  50% {
-    transform: translate(-5px, 2px) skewX(-10deg);
+  60% {
+    transform: translate(-2px, 1px) skewX(-5deg);
   }
 
   100% {
     transform: skewX(0);
-    filter: hue-rotate(0) blur(0);
     opacity: 0;
   }
 }
@@ -1355,7 +1369,7 @@
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background-image: radial-gradient(circle, #ff4500 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255, 69, 0, 0.8) 1px, transparent 2px);
   background-size: 20px 20px;
   opacity: 0;
   animation: emberBurst 1s ease-out forwards;
@@ -1363,15 +1377,13 @@
 
 @keyframes emberBurst {
   0% {
-    opacity: 0.8;
+    opacity: 0.6;
     transform: scale(0.5);
-    filter: blur(2px);
   }
 
   100% {
     opacity: 0;
     transform: scale(1.5) translateY(-50px);
-    filter: blur(5px);
   }
 }
 

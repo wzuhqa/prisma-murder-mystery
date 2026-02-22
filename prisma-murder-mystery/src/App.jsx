@@ -2,15 +2,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { useState, useEffect, useCallback, useRef, lazy, Suspense } from 'react'
 import CinematicIntro from './components/cinematic/CinematicIntro'
 import SlashNavbar from './components/common/SlashNavbar'
-import GlobalParticles from './components/common/GlobalParticles'
+import ForensicCursor from './components/common/ForensicCursor/ForensicCursor'
 import { NavigationProvider } from './context/NavigationContext'
-import { RedStringProvider } from './context/RedStringContext'
 import ErrorBoundary from './components/ErrorBoundary'
-import ForensicCursor from './components/common/ForensicCursor/ForensicCursor';
-import SmoothScroll from './components/common/SmoothScroll';
-import CameraFlashTransition from './components/common/CameraFlashTransition';
-import AnalogDegradation from './components/common/AnalogDegradation/AnalogDegradation';
-import RedStringBreadcrumb from './components/common/RedStringBreadcrumb';
 
 // Lazy load page components for code splitting
 const Home = lazy(() => import('./pages/Home'))
@@ -74,29 +68,21 @@ const AppContent = () => {
   }
 
   return (
-    <SmoothScroll>
-      <div className="min-h-screen bg-base">
-        <ErrorBoundary>
-          <AnalogDegradation />
-        </ErrorBoundary>
-        <GlobalParticles enabled={false} intensity="medium" />
-        <SlashNavbar />
-        <RedStringBreadcrumb />
-        <CameraFlashTransition />
-        <div className="pt-24 relative z-20">
-          <Suspense fallback={<PageLoader />}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/register" element={<Register />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/contact" element={<ContactNoir />} />
-              <Route path="/about" element={<About />} />
-            </Routes>
-          </Suspense>
-        </div>
+    <div className="min-h-screen bg-base">
+      <SlashNavbar />
+      <div className="pt-24 relative z-20">
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/events" element={<Events />} />
+            <Route path="/team" element={<Team />} />
+            <Route path="/contact" element={<ContactNoir />} />
+            <Route path="/about" element={<About />} />
+          </Routes>
+        </Suspense>
       </div>
-    </SmoothScroll>
+    </div>
   )
 }
 
@@ -110,9 +96,7 @@ function App() {
       <BrowserRouter basename={import.meta.env.BASE_URL}>
         <ForensicCursor />
         <NavigationProvider>
-          <RedStringProvider>
-            <AppContent />
-          </RedStringProvider>
+          <AppContent />
         </NavigationProvider>
       </BrowserRouter>
     </ErrorBoundary>

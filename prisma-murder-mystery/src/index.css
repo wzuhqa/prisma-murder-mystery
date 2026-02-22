@@ -2,17 +2,48 @@
 
 @import "tailwindcss";
 
+/* ===== TAILWIND V4 THEME REGISTRATION =====
+   Required so utilities like bg-blood, text-noir, border-blood, etc.
+   resolve to actual values instead of being undefined.
+   ============================================ */
+@theme {
+  --color-blood: #C41E3A;
+  --color-blood-light: #FF1744;
+  --color-blood-dark: #8B0000;
+  --color-blood-accent: #7A0E12;
+  --color-noir: #0A0A0F;
+  --color-noir-light: #1A1A1E;
+  --color-noir-lighter: #222228;
+  --color-base: #060608;
+  --color-midnight: #060608;
+  --color-gold: #C9A227;
+  --color-gold-light: #E8B923;
+  --color-gold-dark: #A67C00;
+  --color-fog: #2a2a3a;
+  --color-fog-light: #3a3a4a;
+  --color-evidence: #c9a96e;
+  --color-chalk: #E5E5E5;
+
+  --font-family-heading: 'Playfair Display', Georgia, serif;
+  --font-family-body: 'Inter', system-ui, sans-serif;
+  --font-family-mono: 'Courier Prime', 'Fira Code', 'Courier New', monospace;
+  --font-family-display: 'Bebas Neue', 'Oswald', sans-serif;
+}
+
 /* ===== CUSTOM THEME ===== */
 /* Noir Aesthetic Refinement Tokens (V2.5) */
 :root {
-  --bg-base: #060608;
-  --bg-panel: #1A1A1E;
-  /* Darkened Charcoal Paper */
-  --bg-elevated: #222228;
+  --bg-base: #0a0a0d;
+  /* Slightly lighter for cinematic dark */
+  --bg-panel: #1e1e24;
+  /* Darkened Charcoal Paper - slightly lighter */
+  --bg-elevated: #262630;
 
-  --text-header: #E5E5E5;
-  --text-body: #B3B3B8;
-  --text-meta: #6C6C72;
+  --text-header: #E8E8E8;
+  /* Brighter for better contrast */
+  --text-body: #C0C0C5;
+  /* Brighter for readability */
+  --text-meta: #808088;
   --color-blood-accent: #7A0E12;
   /* Dried Blood */
 
@@ -165,12 +196,13 @@ body::before {
   backface-visibility: hidden;
 }
 
-/* Psychological Spotlight & Adaptive Depth (V2.3) */
+/* Psychological Spotlight & Adaptive Depth (V2.3) - Cinematic Dark */
 .psychological-spotlight::after {
   content: '';
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.05);
+  /* Reduced from 0.2 */
   z-index: 9990;
   pointer-events: none;
   transition: opacity 0.4s ease;
@@ -181,10 +213,10 @@ body::after {
   content: '';
   position: fixed;
   inset: 0;
-  /* Noir Color Grading Layer (Red-Brown Tint) & Static Grain */
+  /* Noir Color Grading Layer (Red-Brown Tint) & Static Grain - Reduced intensity for clarity */
   background:
-    radial-gradient(circle at center, rgba(20, 10, 10, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%),
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+    radial-gradient(circle at center, rgba(20, 10, 10, 0.02) 0%, rgba(0, 0, 0, 0.12) 100%),
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 9999;
   will-change: transform;
@@ -192,7 +224,8 @@ body::after {
 }
 
 .psychological-spotlight::after {
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0, 0, 0, 0.15);
+  /* Reduced from 0.35 */
 }
 
 ::selection {
@@ -976,16 +1009,16 @@ body::after {
   overflow: hidden;
 }
 
-/* Film Grain */
+/* Film Grain - Cinematic Dark: subtle, non-intrusive */
 .global-grain {
   position: absolute;
   inset: -50%;
   width: 200%;
   height: 200%;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
-  opacity: 0.05;
-  filter: contrast(150%) brightness(100%);
-  animation: globalGrainMove 0.5s steps(10) infinite;
+  opacity: 0.07;
+  filter: contrast(120%) brightness(100%);
+  animation: globalGrainMove 0.8s steps(10) infinite;
   mix-blend-mode: overlay;
 }
 
@@ -1042,12 +1075,12 @@ body::after {
   opacity: 0.6;
 }
 
-/* Vignette & Red Flicker */
+/* Vignette & Red Flicker - Cinematic Dark: softer edge darkening */
 .global-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 50%, rgba(0, 0, 0, 0.4) 90%, rgba(0, 0, 0, 0.8));
-  animation: ambientRedFlicker 10s infinite;
+  background: radial-gradient(circle at center, transparent 55%, rgba(0, 0, 0, 0.3) 92%, rgba(0, 0, 0, 0.65));
+  animation: ambientRedFlicker 12s infinite;
 }
 
 @keyframes ambientRedFlicker {
@@ -1625,7 +1658,7 @@ body::after {
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.02), transparent);
   animation: fogDrift 25s linear infinite;
   pointer-events: none;
-  will-change: transform;
+  /* Removed will-change: transform; per performance guidelines to use sparingly */
 }
 
 .text-flicker {
@@ -1699,10 +1732,11 @@ body::after {
   inset: 0;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='smudge'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.15' numOctaves='3' seed='5'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.2 0'/%3E%3C/filter%3E%3Ccircle cx='50' cy='50' r='30' filter='url(%23smudge)' opacity='0.4'/%3E%3C/svg%3E");
   background-size: 150px 150px;
-  opacity: 0.1;
+  opacity: 0.03;
+  /* Reduced opacity to compensate for removed overlay */
   pointer-events: none;
   z-index: 1;
-  mix-blend-mode: overlay;
+  /* Removed mix-blend-mode: overlay for performance */
 }
 
 .float-animation {
@@ -1734,9 +1768,9 @@ body::after {
 }
 
 .glass-effect {
-  background: rgba(10, 10, 15, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(10, 10, 15, 0.95);
+  /* More opaque since blur is gone */
+  /* Removed backdrop-filter: blur(20px) which completely tanks FPS on scroll */
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
@@ -1762,7 +1796,11 @@ body::after {
   background-clip: text;
 }
 
-/* ===== MARQUEE ===== */
+/* ===== MARQUEE =====
+   NOTE: Use individual animation properties (not the shorthand) so that
+   the component can override animationDuration and animationDirection
+   via inline styles without breaking the shorthand.
+   ============================== */
 .marquee-container {
   overflow: hidden;
   white-space: nowrap;
@@ -1774,7 +1812,12 @@ body::after {
 .marquee-content {
   display: inline-flex;
   align-items: center;
-  animation: marquee 30s linear infinite;
+  justify-content: center;
+  animation-name: marquee;
+  animation-duration: 30s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  animation-play-state: running;
 }
 
 .marquee-content:hover {
@@ -2044,27 +2087,7 @@ body::after {
   }
 }
 
-@keyframes fogLayer {
-  0% {
-    transform: translateX(-100%) skewX(20deg);
-  }
-
-  100% {
-    transform: translateX(200%) skewX(-20deg);
-  }
-}
-
-@keyframes vignettePulse {
-
-  0%,
-  100% {
-    opacity: 0.7;
-  }
-
-  50% {
-    opacity: 0.9;
-  }
-}
+/* fogLayer and vignettePulse already defined above — duplicates removed */
 
 @keyframes titleSkew {
 
@@ -2156,81 +2179,7 @@ body::after {
 }
 
 /* ===== NOIR FILM EFFECTS ===== */
-@keyframes filmGrain {
-
-  0%,
-  100% {
-    transform: translate(0, 0);
-    opacity: 0.3;
-  }
-
-  10% {
-    transform: translate(-2%, 2%);
-    opacity: 0.35;
-  }
-
-  20% {
-    transform: translate(2%, -2%);
-    opacity: 0.25;
-  }
-
-  30% {
-    transform: translate(-1%, 1%);
-    opacity: 0.4;
-  }
-
-  40% {
-    transform: translate(1%, -1%);
-    opacity: 0.3;
-  }
-
-  50% {
-    transform: translate(-2%, -2%);
-    opacity: 0.35;
-  }
-
-  60% {
-    transform: translate(2%, 2%);
-    opacity: 0.25;
-  }
-
-  70% {
-    transform: translate(0, 2%);
-    opacity: 0.4;
-  }
-
-  80% {
-    transform: translate(-2%, 0);
-    opacity: 0.3;
-  }
-
-  90% {
-    transform: translate(2%, 0);
-    opacity: 0.35;
-  }
-}
-
-@keyframes rainRipple {
-
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(2px);
-  }
-}
-
-@keyframes fogLayer {
-  0% {
-    transform: translateX(-100%) skewX(15deg);
-  }
-
-  100% {
-    transform: translateX(200%) skewX(-15deg);
-  }
-}
+/* filmGrain, rainRipple, fogLayer keyframes already defined above — duplicates removed */
 
 
 
@@ -2276,22 +2225,7 @@ body::after {
   }
 }
 
-@keyframes spotlightReveal {
-  0% {
-    opacity: 0;
-    transform: scale(0.8);
-  }
-
-  50% {
-    opacity: 1;
-    transform: scale(1.1);
-  }
-
-  100% {
-    opacity: 0.8;
-    transform: scale(1);
-  }
-}
+/* spotlightReveal keyframes already defined above — duplicate removed */
 
 @keyframes sepiaOverlay {
 
@@ -2986,6 +2920,60 @@ html.lenis body {
   overflow: hidden;
 }
 
+/* ===== RAIN ANIMATION (Performance Optimized) ===== */
+.rain-container {
+  overflow: hidden;
+  z-index: 10;
+}
+
+.rain-layer {
+  position: absolute;
+  inset: -100px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cline x1='50' y1='0' x2='50' y2='100' stroke='white' stroke-width='0.5' opacity='0.3'/%3E%3C/svg%3E");
+  background-size: 100px 300px;
+  animation: rain-fall linear infinite;
+}
+
+.rain-layer-1 {
+  opacity: calc(0.3 * var(--rain-intensity, 1));
+  animation-duration: 0.6s;
+}
+
+.rain-layer-2 {
+  opacity: calc(0.2 * var(--rain-intensity, 1));
+  animation-duration: 0.8s;
+  animation-delay: -0.2s;
+  transform: rotate(2deg);
+}
+
+.rain-layer-3 {
+  opacity: calc(0.15 * var(--rain-intensity, 1));
+  animation-duration: 1.1s;
+  animation-delay: -0.5s;
+  transform: rotate(-1deg);
+}
+
+@keyframes rain-fall {
+  from {
+    background-position: 0 -300px;
+  }
+
+  to {
+    background-position: 10px 600px;
+  }
+}
+
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
+}
+
+/* ===== FORENSIC SCANNER RETICLE ANIMATION ===== */
+@keyframes reticle-rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

@@ -22,9 +22,9 @@
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    opacity: 0.5;
+    opacity: 0.07;
     pointer-events: none;
-    animation: grainMove 0.5s steps(10) infinite;
+    animation: grainMove 0.8s steps(10) infinite;
 }
 
 .faq-scanlines {
@@ -62,15 +62,18 @@
 }
 
 .faq-title {
-    font-family: var(--font-heading);
+    font-family: var(--font-creepy);
     font-size: var(--text-4xl);
+    font-weight: 400;
+    /* Creepster */
     color: var(--text-header);
     margin-bottom: 1rem;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 .faq-subtitle {
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: 300;
     font-size: var(--text-sm);
     color: var(--text-meta);
     letter-spacing: 0.1em;
@@ -112,7 +115,9 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: var(--font-mono);
+    font-family: var(--font-body);
+    font-weight: 300;
+    text-transform: uppercase;
     font-size: 0.6rem;
     letter-spacing: 0.1em;
     color: var(--color-blood-accent);

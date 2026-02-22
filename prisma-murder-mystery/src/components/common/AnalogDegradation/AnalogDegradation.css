@@ -14,7 +14,7 @@
     transform: translateZ(0);
 }
 
-/* Base VHS Noise Layer */
+/* Base VHS Noise Layer - Cinematic Dark: subtle 8% */
 .vhs-noise {
     position: absolute;
     top: -100px;
@@ -22,32 +22,32 @@
     right: -100px;
     bottom: -100px;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.2' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-    opacity: 0.15;
+    opacity: 0.08;
     pointer-events: none;
     will-change: transform, opacity;
     backface-visibility: hidden;
-    animation: vhs-flicker 0.15s infinite alternate;
+    animation: vhs-flicker 0.25s infinite alternate;
 }
 
 @keyframes vhs-flicker {
     0% {
         transform: translate3d(1px, -1px, 0);
-        opacity: 0.1;
+        opacity: 0.06;
     }
 
     30% {
         transform: translate3d(-1px, 2px, 0);
-        opacity: 0.15;
+        opacity: 0.08;
     }
 
     70% {
         transform: translate3d(2px, 1px, 0);
-        opacity: 0.1;
+        opacity: 0.06;
     }
 
     100% {
         transform: translate3d(-2px, -2px, 0);
-        opacity: 0.2;
+        opacity: 0.1;
     }
 }
 
@@ -135,6 +135,7 @@
 }
 
 @keyframes scratch-flash {
+
     0%,
     9%,
     11%,
@@ -150,6 +151,7 @@
 }
 
 @keyframes scratch-flash-2 {
+
     0%,
     2%,
     4%,
@@ -179,7 +181,8 @@
 .vcr-rec,
 .vcr-play {
     position: absolute;
-    top: 30px;
+    top: 110px;
+    /* Shifted down to prevent overlap with 90px navbar */
     left: 40px;
     display: flex;
     align-items: center;
@@ -188,7 +191,7 @@
 }
 
 .vcr-play {
-    top: 30px;
+    top: 110px;
     left: auto;
     right: 40px;
     opacity: 0.7;
@@ -217,17 +220,17 @@
     font-size: 20px;
 }
 
-/* Fisheye / Heavy Vignette */
+/* Fisheye / Heavy Vignette - Cinematic Dark: visible content */
 .fisheye-vignette {
     position: absolute;
     inset: 0;
     background: radial-gradient(circle,
-            transparent 50%,
-            rgba(0, 0, 0, 0.4) 80%,
-            rgba(0, 0, 0, 0.95) 100%);
-    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.9);
+            transparent 55%,
+            rgba(0, 0, 0, 0.25) 80%,
+            rgba(0, 0, 0, 0.55) 100%);
+    box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.5);
     pointer-events: none;
-    mix-blend-mode: multiply;
+    mix-blend-mode: overlay;
 }
 
 /* Global Scratched & Unstable Typography (Optimized) */

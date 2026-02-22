@@ -30,7 +30,7 @@ const SectionDivider = ({ label = 'CONNECTING EVIDENCE...' }) => {
                     className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-10"
                 >
                     <div className="bg-noir border border-blood/25 px-4 py-1.5 rounded-sm shadow-lg">
-                        <span className="font-mono text-[9px] md:text-[10px] text-blood/50 tracking-[0.35em] uppercase whitespace-nowrap">
+                        <span className="font-sans font-light text-[9px] md:text-[10px] text-blood/50 tracking-[0.35em] uppercase whitespace-nowrap">
                             {label}
                         </span>
                     </div>

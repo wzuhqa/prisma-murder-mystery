@@ -12,16 +12,33 @@ const EnhancedCountdown = lazy(() => import('../components/home/EnhancedCountdow
 const EventLineupReveal = lazy(() => import('../components/home/EventLineupReveal'))
 const SpecterArchive = lazy(() => import('../components/home/SpecterArchive'))
 const SponsorsMarquee = lazy(() => import('../components/home/SponsorsMarquee'))
-
 const FAQSection = lazy(() => import('../components/home/FAQSection'))
 
+// Skeleton loader for lazy components with forensic theme
+const SectionLoader = ({ height = 'h-96', label = 'DECIPHERING DATA...' }) => (
+  <div className={`${height} flex items-center justify-center bg-noir/20 relative overflow-hidden`}>
+    {/* Scan line effect */}
+    <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blood/5 to-transparent animate-scan" />
 
-// Loading placeholder for lazy components
-const SectionLoader = () => (
-  <div className="h-96 flex items-center justify-center bg-noir/20">
     <div className="flex flex-col items-center gap-4">
-      <div className="w-12 h-12 border-2 border-blood/30 border-t-blood rounded-full animate-spin" />
-      <span className="font-mono text-xs text-blood tracking-widest uppercase animate-pulse">Initializing Component...</span>
+      {/* Forensic scanner animation */}
+      <div className="relative w-16 h-16">
+        <div className="absolute inset-0 border-2 border-blood/20 rounded-lg" />
+        <div className="absolute inset-2 border border-blood/40 rounded" />
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-8 h-8 border-2 border-blood/30 border-t-blood rounded-full animate-spin" />
+        </div>
+        {/* Corner brackets */}
+        <div className="absolute -top-1 -left-1 w-3 h-3 border-t-2 border-l-2 border-blood/60" />
+        <div className="absolute -top-1 -right-1 w-3 h-3 border-t-2 border-r-2 border-blood/60" />
+        <div className="absolute -bottom-1 -left-1 w-3 h-3 border-b-2 border-l-2 border-blood/60" />
+        <div className="absolute -bottom-1 -right-1 w-3 h-3 border-b-2 border-r-2 border-blood/60" />
+      </div>
+
+      <div className="flex items-center gap-2">
+        <span className="w-2 h-2 bg-blood rounded-full animate-pulse" />
+        <span className="font-mono text-xs text-blood tracking-widest uppercase animate-pulse">{label}</span>
+      </div>
     </div>
   </div>
 )
@@ -44,19 +61,10 @@ const Home = () => {
 
       <SectionDivider label="CASE BRIEFING BELOW" />
 
-      {/* ===== SECTION 2: CASE SUMMARY PANEL (V2.6) ===== */}
+      {/* ===== CASE SUMMARY PANEL ===== */}
       <Suspense fallback={<SectionLoader />}>
         <CaseSummaryPanel />
       </Suspense>
-
-      <SectionDivider label="TIME SENSITIVE" />
-
-      {/* ===== ENHANCED COUNTDOWN SECTION ===== */}
-      <section className="relative z-20 bg-base">
-        <Suspense fallback={<SectionLoader />}>
-          <EnhancedCountdown targetTime="2026-02-28T00:00:00" />
-        </Suspense>
-      </section>
 
       <SectionDivider label="SUSPECT LINEUP" />
 

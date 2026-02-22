@@ -2,19 +2,8 @@ import { useState, useEffect, useCallback } from 'react'
 import { ForensicScannerContext, useForensicScanner } from '../../context/ForensicScannerContext'
 import { motion, AnimatePresence } from 'framer-motion'
 
-// Scanning reticle cursor component
+// Scanning reticle cursor component - optimized with CSS animation instead of JS interval
 const ScanningReticle = ({ x, y, isActive }) => {
-  const [rotation, setRotation] = useState(0)
-
-  useEffect(() => {
-    if (isActive) {
-      const interval = setInterval(() => {
-        setRotation(prev => (prev + 2) % 360)
-      }, 16)
-      return () => clearInterval(interval)
-    }
-  }, [isActive])
-
   return (
     <motion.div
       className="fixed pointer-events-none z-[9999]"
@@ -32,10 +21,12 @@ const ScanningReticle = ({ x, y, isActive }) => {
     >
       {/* Outer ring */}
       <svg width="80" height="80" viewBox="0 0 80 80">
-        {/* Rotating outer segments */}
-        <motion.g
-          animate={{ rotate: rotation }}
-          style={{ transformOrigin: 'center' }}
+        {/* Rotating outer segments - CSS animation via style */}
+        <g
+          style={{
+            transformOrigin: 'center',
+            animation: isActive ? 'reticle-rotate 3s linear infinite' : 'none'
+          }}
         >
           <circle
             cx="40" cy="40" r="36"
@@ -45,7 +36,7 @@ const ScanningReticle = ({ x, y, isActive }) => {
             strokeDasharray="8 4"
             opacity="0.8"
           />
-        </motion.g>
+        </g>
 
         {/* Crosshairs */}
         <line x1="40" y1="8" x2="40" y2="20" stroke="#ef4444" strokeWidth="1.5" />

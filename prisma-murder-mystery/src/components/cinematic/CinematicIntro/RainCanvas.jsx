@@ -4,8 +4,11 @@ import { useEffect, useRef } from 'react'
  * Rain Canvas Component
  * 
  * Particle-based rain system using Canvas
- * Object pooling for performance
- * GPU-accelerated rendering
+ * Optimizations:
+ * - Object pooling for performance
+ * - Reduced particle count (50 vs 100)
+ * - Throttled to 30fps
+ * - Reduced motion support
  */
 
 class RainParticle {
@@ -38,35 +41,47 @@ class RainParticle {
     }
 }
 
-const RainCanvas = ({ particleCount = 100, enabled = true }) => {
+const RainCanvas = ({ particleCount = 50, enabled = true }) => {
     const canvasRef = useRef(null)
     const rafRef = useRef(null)
     const particlesRef = useRef([])
+    const lastFrameTimeRef = useRef(0)
 
     useEffect(() => {
-        if (!enabled) return
+        // Check for reduced motion preference
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        if (!enabled || prefersReducedMotion) return
 
         const canvas = canvasRef.current
         if (!canvas) return
 
         const ctx = canvas.getContext('2d', { alpha: true })
+        const fps = 30
+        const frameInterval = 1000 / fps
 
         // Set canvas size
         const resize = () => {
             canvas.width = window.innerWidth
             canvas.height = window.innerHeight
 
-            // Reinitialize particles
+            // Reinitialize particles with capped count
+            const actualCount = Math.min(particleCount, 60) // Hard cap at 60
             particlesRef.current = Array.from(
-                { length: particleCount },
+                { length: actualCount },
                 () => new RainParticle(canvas.width, canvas.height)
             )
         }
         resize()
         window.addEventListener('resize', resize)
 
-        // Animation loop
-        const animate = () => {
+        // Animation loop with throttling
+        const animate = (timestamp) => {
+            if (timestamp - lastFrameTimeRef.current < frameInterval) {
+                rafRef.current = requestAnimationFrame(animate)
+                return
+            }
+            lastFrameTimeRef.current = timestamp
+
             const { width, height } = canvas
 
             // Clear canvas
@@ -91,6 +106,10 @@ const RainCanvas = ({ particleCount = 100, enabled = true }) => {
         }
     }, [particleCount, enabled])
 
+    // Don't render canvas when disabled
+    // Note: This is safe because enabled is in the useEffect dependency array,
+    // so when enabled changes from true to false, the cleanup function runs first
+    // (canceling the animation frame), then the effect re-runs and returns early.
     if (!enabled) return null
 
     return (
@@ -104,8 +123,7 @@ const RainCanvas = ({ particleCount = 100, enabled = true }) => {
                 height: '100%',
                 pointerEvents: 'none',
                 zIndex: 9997,
-                opacity: 0.6,
-                willChange: 'contents'
+                opacity: 0.6
             }}
         />
     )

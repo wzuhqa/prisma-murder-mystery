@@ -9,8 +9,53 @@ const HeroSection = () => {
   const sectionRef = useRef(null);
   const cardRef = useRef(null);
   const [investigateHover, setInvestigateHover] = useState(false);
-  const lampRef = useRef(null);
+  const [isOpening, setIsOpening] = useState(false);
   const [easterEggActive, setEasterEggActive] = useState(false);
+  const lampRef = useRef(null);
+
+  const navigate = (to) => {
+    if (isOpening) return;
+    setIsOpening(true);
+
+    const tl = gsap.timeline();
+
+    // Phase 1: Blade Slice (Sharp and swift)
+    tl.to('[data-slice-line]', {
+      width: '100%',
+      duration: 0.15,
+      ease: 'power4.in'
+    });
+
+    // Phase 2: Split & Separate (The "Sealed File" being opened)
+    tl.to('[data-split-top]', {
+      y: -40,
+      x: -5,
+      rotate: -2,
+      opacity: 0,
+      duration: 0.4,
+      ease: 'power2.inOut'
+    }, '+=0.05');
+
+    tl.to('[data-split-bottom]', {
+      y: 40,
+      x: 5,
+      rotate: 2,
+      opacity: 0,
+      duration: 0.4,
+      ease: 'power2.inOut'
+    }, '<');
+
+    // Phase 3: Final Page Transition
+    tl.to(sectionRef.current, {
+      opacity: 0,
+      scale: 1.1,
+      filter: 'blur(20px)',
+      duration: 0.8,
+      onComplete: () => {
+        window.location.href = import.meta.env.BASE_URL + to.substring(1);
+      }
+    }, '-=0.2');
+  };
 
   // Cinematic Entrance: "Lamp Turn On" (V2.5)
   useEffect(() => {
@@ -19,7 +64,9 @@ const HeroSection = () => {
     // Initial State: Darkness
     gsap.set(sectionRef.current, { opacity: 0 });
     gsap.set(lampRef.current, { scale: 0, opacity: 0 });
-    gsap.set(cardRef.current, { y: 60, opacity: 0, rotateX: 20 });
+    if (cardRef.current) {
+      gsap.set(cardRef.current, { y: 60, opacity: 0, rotateX: 20 });
+    }
 
     // Step 1: Flicker & Lamp On
     tl.to(sectionRef.current, { opacity: 1, duration: 0.1 });
@@ -31,51 +78,52 @@ const HeroSection = () => {
     }, "+=0.5");
 
     // Step 2: Physical Elements Rise
-    tl.to(cardRef.current, {
-      y: 0,
-      opacity: 1,
-      rotateX: 0,
-      duration: 1.5,
-      ease: "power3.out"
-    }, "-=0.8");
+    if (cardRef.current) {
+      tl.to(cardRef.current, {
+        y: 0,
+        opacity: 1,
+        rotateX: 0,
+        duration: 1.5,
+        ease: "power3.out"
+      }, "-=0.8");
 
-    // Step 3: Staggered text reveal for inner card elements
-    const metaRows = cardRef.current?.querySelectorAll('[class*="metaRow"]');
-    if (metaRows && metaRows.length) {
-      tl.fromTo(
-        metaRows,
-        { opacity: 0, y: 20, rotateX: -90 },
-        {
-          opacity: 1,
-          y: 0,
-          rotateX: 0,
-          duration: 0.8,
-          stagger: 0.03,
-          ease: "power3.out"
-        },
-        "-=0.5"
-      );
-    }
+      // Step 3: Staggered text reveal for inner card elements
+      const metaRows = cardRef.current.querySelectorAll('[class*="metaRow"]');
+      if (metaRows && metaRows.length) {
+        tl.fromTo(
+          metaRows,
+          { opacity: 0, y: 20, rotateX: -90 },
+          {
+            opacity: 1,
+            y: 0,
+            rotateX: 0,
+            duration: 0.8,
+            stagger: 0.03,
+            ease: "power3.out"
+          },
+          "-=0.5"
+        );
+      }
 
-    // Step 4: Buttons fade in with stagger
-    const buttons = cardRef.current?.querySelectorAll('a');
-    if (buttons && buttons.length) {
-      tl.fromTo(
-        buttons,
-        { opacity: 0, y: 15, scale: 0.95 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 0.6,
-          stagger: 0.15,
-          ease: "back.out(1.5)"
-        },
-        "-=0.3"
-      );
+      // Step 4: Buttons fade in with stagger
+      const buttons = cardRef.current.querySelectorAll('button');
+      if (buttons && buttons.length) {
+        tl.fromTo(
+          buttons,
+          { opacity: 0, y: 15, scale: 0.95 },
+          {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.6,
+            stagger: 0.15,
+            ease: "back.out(1.5)"
+          },
+          "-=0.3"
+        );
+      }
     }
   }, []);
-
 
   // Hidden Terminal Easter Egg (Invisible Ink / Code)
   useEffect(() => {
@@ -111,11 +159,10 @@ const HeroSection = () => {
         <p>THEY ARE WATCHING</p>
       </div>
 
-
       {/* Background: Red string lines (Atmospheric) */}
       <svg className={styles.redStrings} viewBox="0 0 1000 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         <path d="M50,100 L300,350 L700,200 L950,450" stroke="rgba(139,0,0,0.15)" fill="none" strokeWidth="1" />
-        <path d="M100,500 L400,250 L650,400 L900,150" stroke="rgba(139,0,0,0.12)" fill="none" strokeWidth="0.8" />
+        <path d="M100,500 L400,250 L650,400 L900,150" stroke="rgba(139,0,0,1,0.12)" fill="none" strokeWidth="0.8" />
       </svg>
 
       {/* Dust Particles Layer */}
@@ -195,24 +242,53 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className={styles.buttonGroup}>
-              <Link
-                to="/events"
+              <button
+                onClick={() => navigate('/events')}
+                onMouseEnter={() => setInvestigateHover(true)}
+                onMouseLeave={() => setInvestigateHover(false)}
                 className={styles.tabButton}
+                data-cursor="target"
               >
-                <div className={styles.scannerLine} />
-                <span className={styles.tabIcon}>⌕</span>
-                {investigateHover ? 'ACCESS GRANTED' : 'ENTER INVESTIGATION'}
-              </Link>
+                <div className={styles.buttonSeal} />
+                <div className={styles.sliceLine} data-slice-line />
 
-              <Link
-                to="/register"
+                {/* Stamp element */}
+                <div className={styles.buttonStamp}>CONFIDENTIAL</div>
+
+                {/* Split Text Container */}
+                <div className={styles.splitTextContainer}>
+                  <div className={styles.splitTop} data-split-top>
+                    <span className={styles.tabIcon}>⌕</span>
+                    INVESTIGATE
+                  </div>
+                  <div className={styles.splitBottom} data-split-bottom aria-hidden="true">
+                    <span className={styles.tabIcon}>⌕</span>
+                    INVESTIGATE
+                  </div>
+                </div>
+              </button>
+
+              <button
+                onClick={() => navigate('/register')}
                 className={styles.approvalClip}
+                data-cursor="target"
               >
-                <div className={styles.clipPin} />
-                <div className={styles.paperRipple} />
-                <span className={styles.clipText}>APPROVE ACCESS</span>
-                <span className={styles.clipSubtext}>GRAB PASSES</span>
-              </Link>
+                <div className={styles.buttonSeal} />
+                <div className={styles.sliceLine} data-slice-line />
+
+                {/* Stamp element */}
+                <div className={styles.buttonStamp}>APPROVED</div>
+
+                {/* Split Text Container */}
+                <div className={styles.splitTextContainer}>
+                  <div className={styles.splitTop} data-split-top>
+                    <span className={styles.clipText}>REGISTER ACCESS</span>
+                  </div>
+                  <div className={styles.splitBottom} data-split-bottom aria-hidden="true">
+                    <span className={styles.clipText}>REGISTER ACCESS</span>
+                  </div>
+                </div>
+              </button>
             </div>
           </div>
         </div>

@@ -1,214 +1,188 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRedString } from '../../context/RedStringContext';
 import './RedStringBreadcrumb.css';
 
-const MAX_THICKNESS = 6;
-const MIN_THICKNESS = 2;
-
-// Simple Web Audio API synthesizer for a "paper crinkle/thud" sound
-const playCrinkleSound = () => {
-    try {
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        if (!AudioContext) return;
-        const ctx = new AudioContext();
-
-        // Noise buffer
-        const bufferSize = ctx.sampleRate * 0.1; // 100ms
-        const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-        const data = buffer.getChannelData(0);
-        for (let i = 0; i < bufferSize; i++) {
-            data[i] = Math.random() * 2 - 1;
-        }
-
-        const noise = ctx.createBufferSource();
-        noise.buffer = buffer;
-
-        // Filter to make it sound more like paper/thud than pure static
-        const filter = ctx.createBiquadFilter();
-        filter.type = 'lowpass';
-        filter.frequency.setValueAtTime(1000, ctx.currentTime);
-        filter.frequency.exponentialRampToValueAtTime(100, ctx.currentTime + 0.1);
-
-        // Envelope
-        const gain = ctx.createGain();
-        gain.gain.setValueAtTime(0.5, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.1);
-
-        noise.connect(filter);
-        filter.connect(gain);
-        gain.connect(ctx.destination);
-
-        noise.start();
-    } catch (e) {
-        // Ignore AudioContext errors (e.g., if user hasn't interacted yet)
-    }
+// Page configuration with display names and icons
+const pageConfig = {
+    '/': { name: 'Home', icon: '◈' },
+    '/events': { name: 'Events', icon: '◇' },
+    '/team': { name: 'Team', icon: '◆' },
+    '/contact': { name: 'Contact', icon: '◊' },
+    '/about': { name: 'About', icon: '○' },
+    '/register': { name: 'Register', icon: '□' }
 };
 
 const RedStringBreadcrumb = () => {
     const navigate = useNavigate();
+    const location = useLocation();
     const { visitedPages: history } = useRedString();
-
-    // Track previous history length to know when to play sound
-    const prevHistoryLengthRef = useRef(history?.length || 0);
-
     const containerRef = useRef(null);
     const [lineCoords, setLineCoords] = useState([]);
-
-    // Play sound when a new node is added
-    useEffect(() => {
-        if (history && history.length > prevHistoryLengthRef.current) {
-            playCrinkleSound();
-        }
-        prevHistoryLengthRef.current = history?.length || 0;
-    }, [history]);
-
+    const [hoveredIndex, setHoveredIndex] = useState(null);
 
     // Calculate coordinates for the red string SVG lines
     useEffect(() => {
-        if (!containerRef.current || !history || history.length < 2) {
+        if (!containerRef.current || history.length < 2) {
             setLineCoords([]);
             return;
         }
 
-        // Small delay to ensure DOM nodes are fully rendered before measuring
-        const timeoutId = setTimeout(() => {
-            if (!containerRef.current) return;
-
+        const calculateLines = () => {
             const containerRect = containerRef.current.getBoundingClientRect();
-            const nodeElements = Array.from(containerRef.current.querySelectorAll('.breadcrumb-node'));
+            const coords = [];
 
-            const coords = nodeElements.map(el => {
-                const rect = el.getBoundingClientRect();
-                return {
-                    // Center of the node relative to the container
-                    x: rect.left - containerRect.left + rect.width / 2,
-                    y: rect.top - containerRect.top + rect.height / 2
-                };
-            });
+            for (let i = 0; i < history.length - 1; i++) {
+                const startEl = containerRef.current.querySelector(`[data-index="${i}"]`);
+                const endEl = containerRef.current.querySelector(`[data-index="${i + 1}"]`);
 
-            // Create line segments between consecutive nodes
-            const segments = [];
-            for (let i = 0; i < coords.length - 1; i++) {
-                segments.push({
-                    start: coords[i],
-                    end: coords[i + 1]
-                });
+                if (startEl && endEl) {
+                    const startRect = startEl.getBoundingClientRect();
+                    const endRect = endEl.getBoundingClientRect();
+
+                    coords.push({
+                        start: {
+                            x: startRect.right - containerRect.left,
+                            y: startRect.top + startRect.height / 2 - containerRect.top
+                        },
+                        end: {
+                            x: endRect.left - containerRect.left,
+                            y: endRect.top + endRect.height / 2 - containerRect.top
+                        }
+                    });
+                }
             }
-            setLineCoords(segments);
-        }, 100);
 
-        return () => clearTimeout(timeoutId);
+            setLineCoords(coords);
+        };
+
+        // Calculate after a small delay to ensure DOM is ready
+        const timer = setTimeout(calculateLines, 50);
+        window.addEventListener('resize', calculateLines);
+
+        return () => {
+            clearTimeout(timer);
+            window.removeEventListener('resize', calculateLines);
+        };
     }, [history]);
 
-    if (history.length === 0) return null;
+    const handleNavigate = (path, index) => {
+        // Navigate to the page at the given index in history
+        navigate(path);
+    };
+
+    if (history.length < 2) return null;
+
+    // Base thickness for the string
+    const baseThickness = 2;
 
     return (
-        <div className="breadcrumb-trail-container" ref={containerRef}>
-
+        <motion.div
+            className="red-string-breadcrumb"
+            ref={containerRef}
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.5 }}
+        >
             {/* SVG canvas for drawing the red strings */}
             {lineCoords.length > 0 && (
                 <svg className="red-string-canvas">
                     <defs>
-                        <filter id="string-glow" x="-20%" y="-20%" width="140%" height="140%">
-                            <feGaussianBlur stdDeviation="2" result="blur" />
+                        {/* Gradient for string depth */}
+                        <linearGradient id="string-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#8b0000" />
+                            <stop offset="50%" stopColor="#ff1a1a" />
+                            <stop offset="100%" stopColor="#8b0000" />
+                        </linearGradient>
+
+                        {/* Glow filter */}
+                        <filter id="string-glow-breadcrumb" x="-20%" y="-20%" width="140%" height="140%">
+                            <feGaussianBlur stdDeviation="1" result="blur" />
                             <feComposite in="SourceGraphic" in2="blur" operator="over" />
                         </filter>
                     </defs>
-                    <AnimatePresence>
-                        {lineCoords.map((segment, index) => {
-                            // Dynamic thickness based on how far along the history we are.
-                            // The more nodes, the thicker the most recent string.
-                            const baseThickness = Math.min(MIN_THICKNESS + (history.length * 0.5), MAX_THICKNESS);
 
-                            return (
-                                <g key={`segment-${index}`}>
-                                    {/* Shadow Trail Route */}
-                                    <motion.line
-                                        x1={segment.start.x} y1={segment.start.y}
-                                        x2={segment.end.x} y2={segment.end.y}
-                                        className="red-string-shadow"
-                                        initial={{ pathLength: 0, opacity: 0 }}
-                                        animate={{ pathLength: 1, opacity: 0.4 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{ duration: 0.8, ease: "easeOut" }}
-                                    />
-                                    {/* Main Thread */}
-                                    <motion.line
-                                        x1={segment.start.x} y1={segment.start.y}
-                                        x2={segment.end.x} y2={segment.end.y}
-                                        className="red-string"
-                                        strokeWidth={baseThickness}
-                                        filter="url(#string-glow)"
-                                        initial={{ pathLength: 0, opacity: 0 }}
-                                        animate={{ pathLength: 1, opacity: 1 }}
-                                        exit={{ opacity: 0, transition: { duration: 0.3 } }}
-                                        transition={{
-                                            // Tension/Spring effect when string is drawn
-                                            pathLength: { type: "spring", stiffness: 50, damping: 15 },
-                                            opacity: { duration: 0.2 }
-                                        }}
-                                    />
-                                    {/* Frayed Edge Overlay */}
-                                    <motion.line
-                                        x1={segment.start.x} y1={segment.start.y}
-                                        x2={segment.end.x} y2={segment.end.y}
-                                        className="red-string-fray"
-                                        strokeWidth={baseThickness * 0.8}
-                                        initial={{ pathLength: 0, opacity: 0 }}
-                                        animate={{ pathLength: 1, opacity: 0.7 }}
-                                        exit={{ opacity: 0 }}
-                                        transition={{
-                                            pathLength: { type: "spring", stiffness: 50, damping: 15, delay: 0.1 },
-                                        }}
-                                    />
-                                </g>
-                            );
-                        })}
-                    </AnimatePresence>
+                    {lineCoords.map((segment, i) => {
+                        // Calculate control point for a slight droop (catenary effect)
+                        const midX = (segment.start.x + segment.end.x) / 2;
+                        const midY = (segment.start.y + segment.end.y) / 2 + 8; // 8px droop
+
+                        return (
+                            <React.Fragment key={i}>
+                                {/* Shadow layer */}
+                                <motion.line
+                                    x1={segment.start.x} y1={segment.start.y}
+                                    x2={segment.end.x} y2={segment.end.y}
+                                    className="red-string-shadow"
+                                    initial={{ pathLength: 0, opacity: 0 }}
+                                    animate={{ pathLength: 1, opacity: 0.3 }}
+                                    transition={{ duration: 0.8, delay: i * 0.1 }}
+                                />
+                                {/* Main string */}
+                                <motion.line
+                                    x1={segment.start.x} y1={segment.start.y}
+                                    x2={segment.end.x} y2={segment.end.y}
+                                    className="red-string"
+                                    strokeWidth={baseThickness}
+                                    initial={{ pathLength: 0, opacity: 0 }}
+                                    animate={{ pathLength: 1, opacity: 0.8 }}
+                                    transition={{ duration: 0.8, delay: i * 0.1 }}
+                                />
+                                {/* Fray effect - thinner overlapping line */}
+                                <motion.line
+                                    x1={segment.start.x} y1={segment.start.y}
+                                    x2={segment.end.x} y2={segment.end.y}
+                                    className="red-string-fray"
+                                    strokeWidth={baseThickness * 0.8}
+                                    initial={{ pathLength: 0, opacity: 0 }}
+                                    animate={{ pathLength: 1, opacity: 0.4 }}
+                                    transition={{ duration: 0.8, delay: i * 0.1 + 0.2 }}
+                                />
+                            </React.Fragment>
+                        );
+                    })}
                 </svg>
             )}
 
-            {/* Breadcrumb Nodes */}
-            <div className="breadcrumb-nodes-wrapper">
-                <AnimatePresence mode="popLayout">
-                    {history.map((node, index) => {
-                        const isCurrent = index === history.length - 1;
+            {/* Breadcrumb items */}
+            <div className="breadcrumb-items">
+                {history.map((path, index) => {
+                    const config = pageConfig[path] || { name: path, icon: '◈' };
+                    const isLast = index === history.length - 1;
+                    const isCurrent = path === location.pathname;
 
-                        // Generate a slight random rotation and offset for the "messy pinboard" look
-                        // Using a deterministic approach based on the node ID so it doesn't change on re-renders
-                        const _seed = node.id;
-                        const randomRotation = (Math.sin(_seed) * 10).toFixed(1);
-                        const randomYOffset = (Math.cos(_seed) * 15).toFixed(1);
+                    return (
+                        <motion.div
+                            key={`${path}-${index}`}
+                            data-index={index}
+                            className={`breadcrumb-item ${isCurrent ? 'current' : ''} ${isLast ? 'last' : ''}`}
+                            onClick={() => handleNavigate(path, index)}
+                            onMouseEnter={() => setHoveredIndex(index)}
+                            onMouseLeave={() => setHoveredIndex(null)}
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            initial={{ opacity: 0, x: -10 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.3, delay: index * 0.1 }}
+                        >
+                            {/* Pin decoration */}
+                            <div className="breadcrumb-pin" />
 
-                        return (
-                            <motion.div
-                                key={node.id}
-                                className={`breadcrumb-node ${isCurrent ? 'is-current' : ''}`}
-                                style={{
-                                    '--rand-rot': `${randomRotation}deg`,
-                                    '--rand-y': `${randomYOffset}px`
-                                }}
-                                initial={{ scale: 0, opacity: 0, y: 20 }}
-                                animate={{ scale: 1, opacity: 1, y: 0 }}
-                                exit={{ scale: 0, opacity: 0, transition: { duration: 0.2 } }}
-                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                                onClick={() => !isCurrent && navigate(node.path)}
-                            >
-                                {/* Visual "Pin" indicator */}
-                                <div className="board-pin"></div>
+                            {/* Icon */}
+                            <span className="breadcrumb-icon">{config.icon}</span>
 
-                                {/* Node Label (Polaroid/Scrap paper style) */}
-                                <div className="node-label">
-                                    <span className="node-text">{node.label}</span>
-                                </div>
-                            </motion.div>
-                        );
-                    })}
-                </AnimatePresence>
+                            {/* Name */}
+                            <span className="breadcrumb-name">{config.name}</span>
+
+                            {/* Red string attachment point */}
+                            {!isLast && <div className="string-attachment" />}
+                        </motion.div>
+                    );
+                })}
             </div>
-        </div>
+        </motion.div>
     );
 };
 

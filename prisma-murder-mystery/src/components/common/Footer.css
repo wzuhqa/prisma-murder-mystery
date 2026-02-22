@@ -49,14 +49,14 @@
     z-index: 1;
 }
 
-/* Atmospheric Grain Animation */
+/* Atmospheric Grain Animation - Cinematic Dark: subtle 6% */
 .footer-grain {
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    opacity: 0.03;
+    opacity: 0.06;
     pointer-events: none;
-    animation: grainSlide 1s steps(2) infinite;
+    animation: grainSlide 1.5s steps(2) infinite;
     z-index: 2;
 }
 
@@ -107,7 +107,8 @@
     z-index: 10;
     max-width: 1200px;
     margin: 0 auto;
-    padding: var(--space-16, 4rem) clamp(1.25rem, 4vw, 2.5rem) var(--space-12, 3rem);
+    /* Increased padding for professional breathing space */
+    padding: clamp(6rem, 12vh, 10rem) clamp(1.25rem, 4vw, 2.5rem) clamp(5rem, 10vh, 8rem);
 }
 
 /* Pulsing Top Border */
@@ -139,22 +140,21 @@
 
 /* Typography Hierarchy */
 .footer-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: var(--font-heading);
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 4px;
     text-transform: uppercase;
-    color: #c9a227;
-    /* Gold */
+    color: var(--color-gold);
     margin-bottom: 24px;
     opacity: 0.9;
 }
 
 .footer-link {
     position: relative;
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-mono);
     font-size: 14px;
-    color: #9a9a9a;
+    color: var(--text-meta);
     text-decoration: none;
     transition: color 0.3s ease, transform 0.3s ease;
     display: inline-flex;
@@ -176,7 +176,7 @@
     left: 0;
     width: 0;
     height: 1px;
-    background: #b11226;
+    background: var(--color-blood);
     transition: width 0.3s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
@@ -280,9 +280,9 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    font-family: 'Courier New', monospace;
+    font-family: var(--font-mono);
     font-size: 11px;
-    color: #444;
+    color: var(--text-meta);
     letter-spacing: 1px;
 }
 

@@ -50,8 +50,9 @@
 }
 
 .title {
-    font-family: var(--font-display);
-    font-weight: 900;
+    font-family: var(--font-creepy);
+    font-weight: 400;
+    /* Creepster is meant to be 400 weight */
     font-size: clamp(2.5rem, 6vw, 4.5rem);
     color: var(--text-header);
     line-height: 1.1;
@@ -97,10 +98,12 @@
 }
 
 .stampClassified {
+    font-family: var(--font-body);
+    font-weight: 300;
+    text-transform: uppercase;
     border: 3px solid var(--color-blood-accent);
     color: var(--color-blood-accent);
     padding: 0.5rem 1.5rem;
-    font-weight: 900;
     transform: rotate(-10deg);
     opacity: 0.7;
     font-size: 1.2rem;

@@ -116,25 +116,25 @@
     padding: 6rem 1.5rem 3rem;
 }
 
-/* Vignette overlay */
+/* Vignette overlay - Cinematic Dark: softer edges */
 .noir-vignette {
     position: absolute;
     inset: 0;
-    background: radial-gradient(ellipse at center, transparent 30%, rgba(0, 0, 0, 0.5) 100%);
+    background: radial-gradient(ellipse at center, transparent 35%, rgba(0, 0, 0, 0.4) 100%);
     pointer-events: none;
     z-index: 2;
 }
 
-/* Film grain texture */
+/* Film grain texture - Cinematic Dark: subtle 8% */
 .noir-grain {
     position: absolute;
     inset: 0;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.08'/%3E%3C/svg%3E");
-    opacity: 0.3;
+    opacity: 0.08;
     mix-blend-mode: overlay;
     pointer-events: none;
     z-index: 3;
-    animation: grain-shift 8s steps(10) infinite;
+    animation: grain-shift 10s steps(10) infinite;
 }
 
 @keyframes grain-shift {

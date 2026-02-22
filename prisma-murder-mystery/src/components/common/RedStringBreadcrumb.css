@@ -1,28 +1,16 @@
-.breadcrumb-trail-container {
+/* Red String Breadcrumb Styles */
+.red-string-breadcrumb {
     position: fixed;
-    top: 100px;
+    top: 80px;
     left: 20px;
-    z-index: 10;
-    /* Keep it above the bloody background but behind the relative sections */
-    pointer-events: none;
-    width: calc(100% - 40px);
-    max-width: 600px;
-    min-height: 120px;
+    z-index: 100;
     display: flex;
     align-items: center;
-    font-family: 'Courier New', Courier, monospace;
-}
-
-@media (max-width: 768px) {
-    .breadcrumb-trail-container {
-        top: 80px;
-        left: 10px;
-        width: calc(100% - 20px);
-        max-width: 100%;
-        transform: scale(0.85);
-        /* Slightly smaller on mobile */
-        transform-origin: top left;
-    }
+    padding: 10px 15px;
+    background: rgba(10, 10, 13, 0.85);
+    border: 1px solid rgba(139, 0, 0, 0.3);
+    border-radius: 4px;
+    backdrop-filter: blur(10px);
 }
 
 /* SVG Canvas styling for the connecting strings */
@@ -34,174 +22,158 @@
     height: 100%;
     pointer-events: none;
     overflow: visible;
-    z-index: 1;
-    /* Below nodes */
 }
 
 .red-string {
     stroke: #ff1a1a;
     stroke-linecap: round;
-    fill: none;
+    filter: url(#string-glow-breadcrumb);
 }
 
 .red-string-fray {
     stroke: rgba(200, 0, 0, 0.5);
-    stroke-dasharray: 2, 6, 4, 8;
-    /* Very frayed irregular texture */
-    fill: none;
     stroke-linecap: round;
-    pointer-events: none;
-    z-index: 2;
+    stroke-dasharray: 4 2;
 }
 
 .red-string-shadow {
     stroke: rgba(0, 0, 0, 0.4);
-    stroke-width: 4;
-    filter: blur(4px);
-    fill: none;
-    transform: translateY(15px);
-    /* Push shadow down to board */
-    pointer-events: none;
-    z-index: 0;
+    stroke-linecap: round;
+    filter: blur(1px);
 }
 
-/* Flex wrapper for the nodes */
-.breadcrumb-nodes-wrapper {
+/* Breadcrumb items container */
+.breadcrumb-items {
     display: flex;
-    flex-direction: row;
     align-items: center;
-    gap: 40px;
-    /* Base horizontal distance between pins */
-    width: 100%;
-    padding: 20px 10px;
-    flex-wrap: wrap;
-    /* Allow wrapping if history gets long on small screens */
-    opacity: 0.6;
-    /* Push it further into the background visually */
+    gap: 20px;
+    position: relative;
+    z-index: 1;
 }
 
-/* Individual Node / "Scrap of Paper" */
-.breadcrumb-node {
+/* Individual breadcrumb item */
+.breadcrumb-item {
     position: relative;
-    pointer-events: auto;
-    /* Re-enable clicks for nodes */
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background: rgba(20, 20, 25, 0.9);
+    border: 1px solid rgba(139, 0, 0, 0.4);
+    border-radius: 3px;
     cursor: pointer;
-    z-index: 2;
-    /* Above the strings */
-    transform: rotate(var(--rand-rot)) translateY(var(--rand-y));
-    transition: filter 0.3s ease, transform 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    transition: all 0.3s ease;
 }
 
-@keyframes pin-wiggle {
-    0% {
-        transform: scale(1.05) rotate(calc(var(--rand-rot) * -1)) translateY(var(--rand-y)) rotateZ(0deg);
-    }
-
-    25% {
-        transform: scale(1.05) rotate(calc(var(--rand-rot) * -1)) translateY(var(--rand-y)) rotateZ(-5deg);
-    }
-
-    50% {
-        transform: scale(1.05) rotate(calc(var(--rand-rot) * -1)) translateY(var(--rand-y)) rotateZ(5deg);
-    }
-
-    75% {
-        transform: scale(1.05) rotate(calc(var(--rand-rot) * -1)) translateY(var(--rand-y)) rotateZ(-3deg);
-    }
-
-    100% {
-        transform: scale(1.05) rotate(calc(var(--rand-rot) * -1)) translateY(var(--rand-y)) rotateZ(0deg);
-    }
+.breadcrumb-item:hover {
+    background: rgba(139, 0, 0, 0.2);
+    border-color: rgba(255, 26, 26, 0.6);
+    box-shadow: 0 0 15px rgba(139, 0, 0, 0.3);
 }
 
-.breadcrumb-node:not(.is-current):hover {
-    filter: drop-shadow(0 0 8px rgba(255, 0, 0, 0.4));
-    animation: pin-wiggle 0.4s ease-in-out;
-    transform: scale(1.05) rotate(calc(var(--rand-rot) * -1)) translateY(var(--rand-y));
+.breadcrumb-item.current {
+    border-color: rgba(255, 26, 26, 0.8);
+    background: rgba(139, 0, 0, 0.15);
 }
 
-/* 
-  Different appearance for the current page vs history.
-  Current node is solid, history nodes are slightly faded/transparent.
-*/
-.breadcrumb-node:not(.is-current) {
-    opacity: 0.7;
+.breadcrumb-item.last {
+    /* Slightly different style for the last item */
+    border-color: rgba(255, 26, 26, 0.6);
 }
 
-/* The visual "Push Pin" */
-.board-pin {
-    width: 12px;
-    height: 12px;
-    background: radial-gradient(circle at 30% 30%, #ff4d4d, #990000 60%, #330000);
-    border-radius: 50%;
-    box-shadow:
-        inset -1px -1px 3px rgba(0, 0, 0, 0.8),
-        2px 5px 4px rgba(0, 0, 0, 0.6);
-    position: relative;
-    z-index: 3;
-    margin-bottom: 5px;
-}
-
-/* Add a silver pin needle shadow pointing down */
-.board-pin::after {
-    content: '';
+/* Pin decoration on each item */
+.breadcrumb-pin {
     position: absolute;
-    top: 10px;
-    left: 5px;
-    width: 2px;
-    height: 12px;
-    background: linear-gradient(to right, #666, #aaa, #333);
-    transform: rotate(-15deg);
-    z-index: -1;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.5);
-    opacity: 0.6;
-}
-
-/* The text label */
-.node-label {
-    background-color: #f4eee1;
-    /* Old paper color */
-    padding: 4px 8px;
-    border: 1px solid #d4c8b0;
-    box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.5);
-    position: relative;
-    /* Grunge edges using clip-path (subtle) */
-    clip-path: polygon(0% 2%, 100% 0%, 98% 100%, 2% 98%);
-}
-
-.is-current .node-label {
-    background-color: #2a0808;
-    border-color: #ff1a1a;
-}
-
-.node-text {
-    font-size: 0.75rem;
-    font-weight: bold;
-    letter-spacing: 0.05em;
-    color: #111;
-    /* Rough marker font effect */
-    text-transform: uppercase;
-}
-
-.is-current .node-text {
-    color: #ff3333;
-    text-shadow: 0 0 5px rgba(255, 51, 51, 0.5);
-}
-
-/* Masking tape strip on top of label */
-.node-label::before {
-    content: '';
-    position: absolute;
-    top: -6px;
+    top: -4px;
     left: 50%;
-    transform: translateX(-50%) rotate(-3deg);
-    width: 30px;
-    height: 10px;
-    background-color: rgba(220, 220, 200, 0.6);
-    border: 1px dashed rgba(180, 180, 150, 0.8);
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
-    pointer-events: none;
+    transform: translateX(-50%);
+    width: 8px;
+    height: 8px;
+    background: radial-gradient(circle at 30% 30%, #ff4444, #8b0000);
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.breadcrumb-pin::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 2px;
+    height: 6px;
+    background: linear-gradient(to bottom, #666, #333);
+}
+
+/* Icon styling */
+.breadcrumb-icon {
+    font-size: 12px;
+    color: rgba(255, 26, 26, 0.8);
+}
+
+/* Name styling */
+.breadcrumb-name {
+    font-size: 11px;
+    font-family: 'IBM Plex Mono', monospace;
+    color: rgba(229, 229, 229, 0.9);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* String attachment point */
+.string-attachment {
+    position: absolute;
+    right: -10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 4px;
+    height: 4px;
+    background: #8b0000;
+    border-radius: 50%;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .red-string-breadcrumb {
+        top: auto;
+        bottom: 20px;
+        left: 10px;
+        right: 10px;
+        justify-content: center;
+    }
+
+    .breadcrumb-items {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .breadcrumb-item {
+        padding: 4px 8px;
+    }
+
+    .breadcrumb-name {
+        font-size: 10px;
+    }
+}
+
+/* Animation for string drawing */
+@keyframes drawString {
+    from {
+        stroke-dashoffset: 100;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Hover glow effect */
+.breadcrumb-item:hover .breadcrumb-icon {
+    text-shadow: 0 0 10px rgba(255, 26, 26, 0.8);
+}
+
+.breadcrumb-item:hover .breadcrumb-name {
+    color: #fff;
 }

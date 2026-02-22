@@ -157,7 +157,7 @@ const Events = () => {
       </AnimatePresence>
 
       {/* Main content */}
-      <div className="relative max-w-7xl mx-auto px-[var(--section-padding-x)] pt-[16rem] pb-24 z-10">
+      <div className="relative max-w-7xl mx-auto px-[var(--section-padding-x)] pt-28 md:pt-32 lg:pt-36 pb-24 z-10">
         {/* Header */}
         <header className="events-header">
           <motion.div

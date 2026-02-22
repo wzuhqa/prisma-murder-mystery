@@ -32,56 +32,24 @@ const VignetteOverlay = () => (
   />
 )
 
-// Pre-defined rain drop data for deterministic rendering
-const RAIN_DROP_DATA = [...Array(150)].map((_, i) => ({
-  id: i,
-  left: (i * 0.67 + 0.5) % 100,
-  delay: (i * 0.013) % 2,
-  duration: 0.6 + (i * 0.027) % 0.4,
-  width: 1 + (i * 0.13) % 2,
-  opacity: 0.2 + (i * 0.2) % 0.3,
-  xOffset: (i * 1.7) % 15
-}))
-
-// Rain component with wet pavement reflections
+// CSS-based rain effect - much more performant than 180 individual Framer Motion elements
+// Uses CSS animations with pseudo-elements and keyframes
 const RainEffect = ({ intensity = 1 }) => {
-  const drops = RAIN_DROP_DATA.slice(0, Math.floor(150 * intensity))
+  // Reduce intensity for better performance
+  const actualIntensity = Math.min(intensity, 0.7)
 
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {drops.map(drop => (
-        <motion.div
-          key={drop.id}
-          className="absolute bg-gradient-to-b from-transparent via-blue-200/40 to-transparent"
-          style={{
-            left: drop.left,
-            width: drop.width,
-            opacity: drop.opacity
-          }}
-          animate={{ y: ['-20vh', '120vh'], x: [0, drop.xOffset] }}
-          transition={{
-            duration: drop.duration,
-            repeat: Infinity,
-            delay: drop.delay,
-            ease: 'linear'
-          }}
-        />
-      ))}
-      {/* Rain droplet streaks */}
-      {drops.slice(0, 30).map(drop => (
-        <motion.div
-          key={`streak-${drop.id}`}
-          className="absolute w-0.5 h-12 bg-gradient-to-b from-white/10 via-white/20 to-transparent"
-          style={{ left: drop.left }}
-          animate={{ y: ['-30vh', '120vh'], x: [0, 25] }}
-          transition={{
-            duration: drop.duration * 1.5,
-            repeat: Infinity,
-            delay: drop.delay + 0.1,
-            ease: 'linear'
-          }}
-        />
-      ))}
+    <div
+      className="absolute inset-0 overflow-hidden pointer-events-none rain-container"
+      style={{
+        '--rain-intensity': actualIntensity,
+        opacity: actualIntensity
+      }}
+    >
+      {/* CSS-animated rain layers - see index.css for keyframes */}
+      <div className="rain-layer rain-layer-1" />
+      <div className="rain-layer rain-layer-2" />
+      <div className="rain-layer rain-layer-3" />
     </div>
   )
 }
