@@ -161,6 +161,8 @@ body {
   background-color: var(--bg-base);
   color: var(--text-body);
   overflow-x: hidden;
+  scrollbar-gutter: stable;
+  /* Modern fix: reserves scrollbar gutter to prevent layout shift */
   min-height: 100vh;
   cursor: none;
   font-weight: 600;

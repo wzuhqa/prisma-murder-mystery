@@ -2,7 +2,6 @@ import { useEffect, useCallback, useRef } from 'react'
 import useSceneMachine from './hooks/useSceneMachine'
 import useCinematicAudio from './hooks/useCinematicAudio'
 import FilmGrainCanvas from './FilmGrainCanvas'
-import RainCanvas from './RainCanvas'
 import DarknessScene from './scenes/DarknessScene'
 import LightFlickerScene from './scenes/LightFlickerScene'
 import CaseFileScene from './scenes/CaseFileScene'
@@ -18,7 +17,7 @@ import styles from './CinematicIntro.module.css'
  * 
  * Features:
  * - State machine-based scene progression
- * - Canvas-based film grain and rain
+ * - Canvas-based film grain
  * - GSAP timeline animations
  * - Cinematic audio system
  * - Skippable with ESC or click
@@ -98,12 +97,6 @@ const CinematicIntro = ({ onComplete }) => {
         <div ref={containerRef} className={styles.container}>
             {/* Film grain canvas */}
             <FilmGrainCanvas intensity={0.08} opacity={0.15} />
-
-            {/* Rain canvas */}
-            <RainCanvas
-                particleCount={80}
-                enabled={currentScene === SCENES.DARKNESS || currentScene === SCENES.LIGHT}
-            />
 
             {/* Film effects */}
             <div className={styles.vignette} />
