@@ -1,21 +1,19 @@
 .heroRoot {
   position: relative;
   min-height: 100vh;
-  /* DESK BACKGROUND: Dark Wood Texture with Vignette - Cinematic Dark */
   background-color: #0d0b0a;
   background-image:
     radial-gradient(circle at 60% 40%, rgba(255, 255, 230, 0.06) 0%, transparent 60%),
-    /* Subtle Desk Lamp */
     radial-gradient(circle at center, transparent 35%, rgba(0, 0, 0, 0.25) 100%),
-    /* Vignette - reduced */
     linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.3)),
     url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='wood'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.01 0.4' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='1 0 0 0 0.1 0 1 0 0 0.05 0 0 1 0 0.02 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23wood)' opacity='0.3'/%3E%3C/svg%3E");
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  /* Use clamp for vertical padding: no less than 5rem top on small screens */
   padding: clamp(5rem, 10vh, 8rem) clamp(1rem, 4vw, 2rem) clamp(3rem, 6vh, 5rem);
+  /* Perspective for 3D tilt */
+  perspective: 2000px;
 }
 
 .deskBackground {
@@ -58,28 +56,22 @@
 }
 
 /* ── Background: CONFIDENTIAL watermarks ── */
-.watermarkLeft,
-.watermarkRight {
+/* ── Background: Centered Heading Backer ── */
+.watermarkHeadingBacker {
   position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-12deg);
   font-family: 'Courier New', monospace;
-  font-size: clamp(3rem, 8vw, 7rem);
+  font-size: clamp(8rem, 25vw, 18rem);
   font-weight: 900;
-  color: rgba(255, 255, 255, 0.02);
+  color: rgba(255, 255, 255, 0.015);
   pointer-events: none;
   user-select: none;
   z-index: 0;
-}
-
-.watermarkLeft {
-  top: 18%;
-  left: -2%;
-  transform: rotate(-25deg);
-}
-
-.watermarkRight {
-  bottom: 18%;
-  right: -2%;
-  transform: rotate(15deg);
+  white-space: nowrap;
+  line-height: 0.8;
+  text-align: center;
 }
 
 /* ── Background: Red string lines ── */
@@ -129,25 +121,20 @@
 /* ── Case File Card (V2.5 Noir Refinement) ── */
 .caseCard {
   position: relative;
-  width: min(100%, 650px);
-  /* Removed hardcoded 850px min-height — was causing severe mobile overflow.
-     Content now sizes naturally; 90svh cap prevents it exceeding the viewport. */
+  width: min(100%, 800px);
   min-height: auto;
-  max-height: 90svh;
+  max-height: 95svh;
   overflow-y: auto;
   background-color: var(--bg-panel);
-  /* #1A1A1E Charcoal */
-  background-image:
-    url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
 
-  /* Directional Shadow (Desk Lamp) */
   box-shadow:
     -5px -5px 20px rgba(255, 255, 255, 0.02),
-    /* Soft top-left highlight */
-    20px 30px 60px rgba(0, 0, 0, 0.9);
-  /* Heavy bottom-right shadow */
+    20px 30px 60px rgba(0, 0, 0, 0.8),
+    inset 0 0 40px rgba(0, 0, 0, 0.6),
+    inset 0 0 100px rgba(0, 0, 0, 0.2);
 
-  padding: clamp(2rem, 5vw, 4rem);
+  padding: clamp(1.5rem, 4vw, 3rem);
   z-index: 10;
   border: 1px solid #222228;
   display: flex;
@@ -244,35 +231,20 @@
   transform: rotate(10deg);
 }
 
-/* ── Evidence Threads Overlay ── */
-.evidenceThreads {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
 
-.threadPath {
-  stroke: #8b0000;
-  stroke-width: 1.5;
-  fill: none;
-  opacity: 0.15;
-  stroke-dasharray: 4 2;
-}
 
 /* ── Case File ID ── */
 .caseFileId {
   font-family: 'Courier New', monospace;
   font-size: 0.8rem;
-  color: rgba(0, 0, 0, 0.5);
-  margin-bottom: 3rem;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 2rem;
   font-weight: 900;
-  /* FORCE MAX BOLD */
-  border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.2);
   padding-bottom: 5px;
-  display: inline-block;
+  display: block;
+  text-align: center;
+  width: 100%;
 }
 
 /* ── Title Row ── */
@@ -296,7 +268,7 @@
   color: #1a1a1a;
   margin: 0;
   mix-blend-mode: multiply;
-  line-height: 0.85;
+  line-height: 1.1;
 }
 
 .universityBadge {
@@ -305,8 +277,8 @@
   text-transform: uppercase;
   letter-spacing: 0.15em;
   font-size: 0.7rem;
-  color: rgba(0, 0, 0, 0.6);
-  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   padding: 0.4rem 1rem;
   margin-bottom: 1.5rem;
   display: inline-block;
@@ -315,7 +287,7 @@
 /* ── Institutional Meta ── */
 .metaBlock {
   position: relative;
-  margin: 3rem 0;
+  margin: 2rem 0;
   padding-left: 1.5rem;
   border-left: 3px solid #8b0000;
   text-align: left;
@@ -325,8 +297,9 @@
   display: flex;
   font-family: var(--font-mono);
   font-size: 0.75rem;
-  margin-bottom: 0.5rem;
-  white-space: pre;
+  margin-bottom: 0.65rem;
+  white-space: normal;
+  flex-wrap: wrap;
   /* Let weight be inherited or normal to contrast with labels */
 }
 
@@ -400,39 +373,61 @@
 
 .buttonGroup {
   display: flex;
-  gap: clamp(1rem, 4vw, 2.5rem);
+  gap: 1.5rem;
   align-items: center;
   justify-content: center;
+  flex-direction: row;
   flex-wrap: wrap;
   margin-top: 3rem;
+  width: 100%;
 }
 
 .tabButton,
 .approvalClip {
   position: relative;
   background: #0d0d0d;
-  /* Pure matte dark */
   border: 1px solid rgba(80, 0, 0, 0.4);
-  /* Muted dark red border */
   color: rgba(220, 220, 220, 0.85);
-  padding: 1rem 2.5rem;
-  /* True Typewriter Font */
+  padding: 0;
+  min-height: 3.5rem;
   font-family: var(--font-special-elite), 'Courier New', monospace;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 4px;
   text-decoration: none;
-  /* Dark inner shadow, removing superficial glows */
   box-shadow: inset 0 0 30px rgba(0, 0, 0, 1), 0 5px 15px rgba(0, 0, 0, 0.9);
   transition: all 0.4s ease;
-  overflow: hidden;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   cursor: crosshair !important;
-  width: 100%;
-  max-width: 320px;
-  border-radius: 2px;
+  flex: 1;
+  min-width: 320px;
+  max-width: 400px;
+  min-height: 64px;
+  /* Visual offset to compensate for the folder-tab cut */
+  padding-right: 2.5rem;
+  /* Asymmetrical folder-tab shape */
+  clip-path: polygon(0 0, 90% 0, 100% 20%, 100% 100%, 0 100%);
+  border: 1px solid rgba(139, 0, 0, 0.4);
+  background: #080808;
+}
+
+.approvalClip {
+  position: relative;
+  background: #080808;
+  border: 1px solid rgba(139, 0, 0, 0.4);
+  color: var(--text-header);
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  cursor: crosshair !important;
+  flex: 1;
+  min-width: 320px;
+  max-width: 400px;
+  min-height: 64px;
+  /* Torn paper edge effect */
+  clip-path: polygon(2% 0%, 98% 1%, 100% 4%, 99% 97%, 97% 100%, 3% 99%, 0% 95%, 1% 5%);
 }
 
 /* Subtle grain mask for matte texture */
@@ -450,18 +445,24 @@
 .buttonSeal {
   position: absolute;
   top: 50%;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background: rgba(139, 0, 0, 0.3);
+  left: -10%;
+  width: 120%;
+  height: 24px;
+  /* Distressed evidence tape */
+  background: repeating-linear-gradient(45deg,
+      rgba(139, 0, 0, 0.8),
+      rgba(139, 0, 0, 0.8) 10px,
+      rgba(110, 0, 0, 0.9) 10px,
+      rgba(110, 0, 0, 0.9) 20px);
   z-index: 5;
   pointer-events: none;
-  transform: translateY(-50%) skewY(-2deg);
-  border-top: 1px solid rgba(139, 0, 0, 0.4);
-  border-bottom: 1px solid rgba(139, 0, 0, 0.4);
-  /* Breathing inner wound line */
-  box-shadow: 0 0 5px rgba(139, 0, 0, 0.1);
-  animation: breathing-wound 4s ease-in-out infinite alternate;
+  transform: translateY(-50%) rotate(-2deg);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  opacity: 0.8;
+  /* Torn edges via masking */
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
 }
 
 @keyframes breathing-wound {
@@ -478,10 +479,20 @@
 
 .tabButton:hover,
 .approvalClip:hover {
-  background: #050505;
-  border-color: rgba(139, 0, 0, 0.8);
-  box-shadow: inset 0 0 40px rgba(0, 0, 0, 1), 0 8px 25px rgba(0, 0, 0, 0.95);
-  color: rgba(255, 255, 255, 0.95);
+  background: #0a0a0a;
+  border-color: rgba(180, 0, 0, 0.6);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.8),
+    inset 0 0 20px rgba(139, 0, 0, 0.1);
+  transform: translateY(-4px) scale(1.01);
+  filter: brightness(1.1) contrast(1.05);
+}
+
+.tabButton:hover .buttonSeal,
+.approvalClip:hover .buttonSeal {
+  opacity: 1;
+  transform: translateY(-55%) rotate(-1deg) scale(1.05);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* CONFIDENTIAL STAMP / NOIR */
@@ -531,72 +542,73 @@
   }
 }
 
-/* SPLIT TEXT LOGIC */
-.splitTextContainer {
+/* BUTTON CONTENT LOGIC */
+.buttonContent {
   position: relative;
   width: 100%;
   height: 100%;
   display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 0.8rem;
   z-index: 10;
-  /* Psychological details */
-  animation: micro-unease 8s infinite;
+  padding: 0 1rem;
+  /* Strong vertical nudge to push the text down into the optical center */
+  padding-top: 1.4rem;
+  transition: transform 0.3s ease;
   text-shadow: 1px 1px 0px rgba(0, 0, 0, 1);
+  text-align: center;
+  line-height: 1;
+  /* Corrects font baseline issues */
 }
 
-@keyframes micro-unease {
+.tabButton:hover .buttonContent,
+.approvalClip:hover .buttonContent {
+  transform: scale(1.02);
+}
 
-  0%,
-  95% {
-    transform: translate(0) scale(1);
-    opacity: 1;
-    filter: none;
-  }
+.tabIcon {
+  font-style: normal;
+  opacity: 0.7;
+  font-size: 1.1em;
+}
 
-  96% {
-    transform: translate(-0.5px, 0.5px) scale(0.998);
-    opacity: 0.8;
-    filter: drop-shadow(1px 0 0 rgba(139, 0, 0, 0.5));
-  }
+.clipText {
+  font-family: var(--font-special-elite), 'Courier New', monospace;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  color: inherit;
+}
 
-  98% {
-    transform: translate(0.5px, -0.5px) scale(1.002);
-    opacity: 0.9;
-    filter: drop-shadow(-1px 0 0 rgba(139, 0, 0, 0.2));
-  }
+/* ── Scan line effect ── */
+.buttonScanLine {
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(to right,
+      transparent,
+      rgba(139, 0, 0, 0.2),
+      transparent);
+  z-index: 3;
+  pointer-events: none;
+}
 
-  99% {
-    transform: translate(-0.2px, 0px);
-    opacity: 0.85;
+.tabButton:hover .buttonScanLine,
+.approvalClip:hover .buttonScanLine {
+  animation: button-scan 1.5s linear infinite;
+}
+
+@keyframes button-scan {
+  0% {
+    left: -100%;
   }
 
   100% {
-    transform: translate(0) scale(1);
-    opacity: 1;
-    filter: none;
+    left: 200%;
   }
-}
-
-.splitTop,
-.splitBottom {
-  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-  overflow: hidden;
-  height: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.splitTop {
-  align-items: flex-end;
-  padding-bottom: 3px;
-}
-
-.splitBottom {
-  align-items: flex-start;
-  padding-top: 3px;
 }
 
 /* Slicing Line purely for click animation */
@@ -712,6 +724,12 @@
     gap: 1rem;
   }
 
+  .tabButton,
+  .approvalClip {
+    min-width: 100%;
+    max-width: 100%;
+  }
+
   .metaRow {
     flex-direction: column;
     white-space: normal;
@@ -737,7 +755,12 @@
 /* Extra small screens */
 @media (max-width: 380px) {
   .caseCard {
-    padding: 1.25rem 1rem;
+    padding: 1.25rem 0.85rem;
+  }
+
+  .prismaTitle {
+    font-size: clamp(2.5rem, 15vw, 4rem);
+    line-height: 1.2;
   }
 
   .buttonGroup {
@@ -809,4 +832,100 @@
 .terminalClose:hover {
   color: #E5E5E5;
   background: #1A1A1A;
+}
+
+/* ══════════════════════════════════════════════════
+   NOIR ENHANCEMENTS v3.0
+   ══════════════════════════════════════════════════ */
+
+/* ── Police Scanner Ticker ─────────────────────── */
+
+/* ── Police Scanner Ticker ─────────────────────── */
+.scannerTicker {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin: 1.5rem 0 1rem;
+  /* Increased top margin */
+  padding: 0.45rem 0.75rem;
+  background: rgba(0, 0, 0, 0.4);
+  border-left: 2px solid rgba(139, 0, 0, 0.6);
+  overflow: hidden;
+  min-height: 2rem;
+}
+
+.scannerBadge {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #C41E3A;
+  white-space: nowrap;
+  flex-shrink: 0;
+  animation: badge-flicker 3s ease-in-out infinite;
+}
+
+@keyframes badge-flicker {
+
+  0%,
+  90%,
+  100% {
+    opacity: 1;
+  }
+
+  92% {
+    opacity: 0.3;
+  }
+
+  94% {
+    opacity: 0.9;
+  }
+
+  96% {
+    opacity: 0.2;
+  }
+
+  98% {
+    opacity: 1;
+  }
+}
+
+.scannerText {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(200, 200, 200, 0.55);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Fingerprint stamp ─────────────────────────── */
+.fingerprint {
+  position: absolute;
+  top: 60px;
+  right: 30px;
+  width: 80px;
+  height: 80px;
+  color: rgba(139, 0, 0, 0.12);
+  pointer-events: none;
+  transform: rotate(12deg);
+  z-index: 1;
+}
+
+.fingerprint svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Hide new decorative elements on mobile ─────── */
+@media (max-width: 768px) {
+  .fingerprint {
+    display: none;
+  }
+
+  .scannerText {
+    font-size: 0.6rem;
+  }
 }

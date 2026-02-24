@@ -428,7 +428,8 @@
   justify-content: center;
   width: 100%;
   max-width: 1400px;
-  padding: 48px 40px;
+  padding: clamp(60px, 12vh, 80px) 20px;
+  /* Increased from 48px 40px */
   text-align: center;
 }
 
@@ -436,15 +437,18 @@
 .lineup-headline {
   /* CHANGED: Header -> distressed horror font */
   font-family: var(--font-creepy);
-  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-size: clamp(2.2rem, 10vw, 5rem);
+  /* Slightly smaller min size */
   font-weight: 400;
   /* Creepster is usually 400 */
   color: #fff;
   text-transform: uppercase;
   margin: 0;
-  line-height: 1.1;
+  line-height: 1.25;
   position: relative;
   z-index: 10;
+  word-break: break-word;
+  white-space: normal;
 }
 
 .lineup-headline-main,
@@ -528,15 +532,18 @@
 
 /* Subtext */
 .lineup-subtext {
-  margin-bottom: 20px;
-  /* Reduced from 50px */
+  margin-top: 20px;
+  margin-bottom: 40px;
+  /* Increased from 20px */
 }
 
 .lineup-subtext-inner {
   font-family: 'Courier New', monospace;
-  font-size: clamp(0.7rem, 1.5vw, 1rem);
+  font-size: clamp(0.65rem, 3vw, 1rem);
+  /* Smaller min size */
   font-weight: 300;
-  letter-spacing: 8px;
+  letter-spacing: clamp(4px, 1.5vw, 8px);
+  /* Fluid letter spacing */
   text-transform: uppercase;
   color: var(--lineup-gold);
   opacity: 0.9;
@@ -1082,8 +1089,8 @@
 }
 
 .revealed .portrait-silhouette {
-  filter: blur(4px) brightness(1.2) contrast(1.1);
-  opacity: 0.55;
+  filter: blur(2px) brightness(1.3) contrast(1.15);
+  opacity: 0.75;
 }
 
 /* Overlays shared by all states */
@@ -1137,9 +1144,11 @@
 
 /* BOTTOM: Card Footer */
 .card-footer {
+  display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 12px;
   text-align: left;
+  margin-top: 10px;
 }
 
 .identity-label {
@@ -1148,7 +1157,7 @@
   font-family: 'Courier New', monospace;
   font-size: 9px;
   letter-spacing: 2px;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   color: #555;
   font-weight: bold;
 }
@@ -1223,23 +1232,7 @@
   /* Left edge red line */
 }
 
-/* Redacted Bars */
-.redacted-bar-portrait {
-  position: absolute;
-  top: 40%;
-  left: 0;
-  width: 100%;
-  height: 25px;
-  background: #000;
-  z-index: 5;
-}
-
-.redacted-bar-name {
-  position: absolute;
-  inset: 0;
-  background: #000;
-  transform-origin: left;
-}
+/* Redacted Bars REMOVED */
 
 /* Global Grid Stagger */
 .artist-card:nth-child(even) {

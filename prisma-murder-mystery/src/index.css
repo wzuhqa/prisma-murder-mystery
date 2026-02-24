@@ -28,6 +28,8 @@
   --font-family-body: 'Inter', system-ui, sans-serif;
   --font-family-mono: 'Courier Prime', 'Fira Code', 'Courier New', monospace;
   --font-family-display: 'Bebas Neue', 'Oswald', sans-serif;
+  --font-family-creepy: 'Creepster', cursive;
+  --font-family-special-elite: 'Special Elite', 'Courier New', monospace;
 }
 
 /* ===== CUSTOM THEME ===== */

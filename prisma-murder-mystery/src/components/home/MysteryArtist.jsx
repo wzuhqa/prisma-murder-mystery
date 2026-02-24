@@ -2,7 +2,7 @@ import { motion } from 'framer-motion'
 import { HelpCircle } from 'lucide-react'
 
 // Import luxury easing system
-import { ELEGANT_ENTER, SILK_SMOOTH } from '../../utils/luxuryEasing'
+import { ELEGANT_ENTER } from '../../utils/luxuryEasing'
 
 // Pre-computed particle positions
 const PARTICLES = [
@@ -19,7 +19,7 @@ const MysteryArtist = () => {
     <section className="relative py-20 md:py-32 overflow-hidden">
       {/* Background fog */}
       <div className="fog-effect" style={{ top: '30%', animationDelay: '2s' }} />
-      
+
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
           {/* Mystery silhouette */}
@@ -28,7 +28,7 @@ const MysteryArtist = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             // Dramatic silhouette reveal
-            transition={{ 
+            transition={{
               duration: 0.8,
               ease: [0.22, 1, 0.36, 1]  // ELEGANT_ENTER
             }}
@@ -36,16 +36,16 @@ const MysteryArtist = () => {
           >
             {/* Outer glow ring */}
             <div className="absolute inset-0 rounded-full bg-blood/10 blur-3xl scale-150" />
-            
+
             {/* Main circle */}
             <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-noir-light to-noir border-2 border-blood/30 flex items-center justify-center pulse-glow">
               {/* Inner pattern */}
               <div className="absolute inset-4 rounded-full border border-dashed border-gold/20 animate-[spin-slow_20s_linear_infinite]" />
               <div className="absolute inset-8 rounded-full border border-dotted border-blood/20 animate-[spin-slow_15s_linear_infinite_reverse]" />
-              
+
               {/* Question mark */}
               <motion.div
-                animate={{ 
+                animate={{
                   scale: [1, 1.1, 1],
                   opacity: [0.8, 1, 0.8]
                 }}
@@ -87,8 +87,8 @@ const MysteryArtist = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             // Elegant slide in with delay for staggered effect
-            transition={{ 
-              duration: 0.8, 
+            transition={{
+              duration: 0.8,
               delay: 0.2,
               ease: [0.22, 1, 0.36, 1]  // ELEGANT_ENTER
             }}
@@ -96,38 +96,38 @@ const MysteryArtist = () => {
           >
             {/* Evidence stamp */}
             <div className="evidence-stamp inline-block mb-6 text-xs">
-              CLASSIFIED
+              CONFIRMED
             </div>
 
             <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-              <span className="text-chalk">Coming</span>{' '}
+              <span className="text-chalk">Headlining</span>{' '}
               <span className="text-gradient-gold">Artist</span>
             </h2>
 
             <div className="space-y-3 mb-8">
               <div className="flex items-center gap-3 justify-center lg:justify-start">
                 <span className="font-mono text-blood text-sm">SUSPECT:</span>
-                <span className="font-mono text-fog-light text-sm tracking-wider">████████████</span>
+                <span className="font-mono text-fog-light text-sm tracking-wider">DILJIT DOSANJH</span>
               </div>
               <div className="flex items-center gap-3 justify-center lg:justify-start">
                 <span className="font-mono text-blood text-sm">STATUS:</span>
-                <span className="font-mono text-gold text-sm tracking-wider">IDENTITY UNKNOWN</span>
+                <span className="font-mono text-gold text-sm tracking-wider">IDENTITY CONFIRMED</span>
               </div>
               <div className="flex items-center gap-3 justify-center lg:justify-start">
                 <span className="font-mono text-blood text-sm">REVEAL:</span>
-                <span className="font-mono text-fog-light text-sm tracking-wider animate-pulse">COMING SOON...</span>
+                <span className="font-mono text-fog-light text-sm tracking-wider">FEB 28 - MAR 01, 2026</span>
               </div>
             </div>
 
             <p className="text-fog-light text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
-              A mysterious performer is set to take the stage at PRISMA 2026. 
-              Their identity remains classified. Stay tuned for the big reveal...
+              The Punjabi sensation DILJIT DOSANJH is set to take the stage at PRISMA 2026.
+              Get ready for an unforgettable night of music and energy!
             </p>
 
             {/* Decorative line */}
             <div className="mt-8 flex items-center gap-3 justify-center lg:justify-start">
               <div className="h-px w-16 bg-blood/50" />
-              <span className="text-blood text-xs font-mono">🔍 INVESTIGATION ONGOING</span>
+              <span className="text-blood text-xs font-mono">🎤 HEADLINER CONFIRMED</span>
               <div className="h-px w-16 bg-blood/50" />
             </div>
           </motion.div>

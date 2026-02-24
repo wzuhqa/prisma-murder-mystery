@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import './EventLineupReveal.css'
 
 const EventLineupReveal = () => {
+  const navigate = useNavigate()
 
   // Fixed random-looking positions for pixel fragments
   const PIXEL_POSITIONS = [
@@ -36,13 +38,12 @@ const EventLineupReveal = () => {
   }
 
   const handleRegister = () => {
-    // Placeholder for register action
-    window.open('https://forms.gle/your-form-id', '_blank')
+    navigate('/register')
   }
 
   const ARTIST_DATA = [
-    { id: 'subject-01', cid: 'Subject 01', name: 'Identity Redacted', realName: 'COMING SOON', silhouette: 'standing' },
-    { id: 'subject-02', cid: 'Subject 02', name: 'Identity Redacted', realName: 'STAY TUNED', silhouette: 'seated' }
+    { id: 'subject-01', cid: 'Subject 01', name: 'THE NIGHTHAWK', realName: 'ASTRAL ECHO', silhouette: 'standing' },
+    { id: 'subject-02', cid: 'Subject 02', name: 'SILVER TONGUES', realName: 'VOX SPECTER', silhouette: 'seated' }
   ]
 
   return (
@@ -231,9 +232,9 @@ const EventLineupReveal = () => {
             textTransform: 'uppercase',
           }}
         >
-          <span style={{ animation: 'digitFlicker 3s ease-in-out infinite' }}>▓▓▓</span>
-          {' '}MORE SUSPECTS INCOMING{' '}
-          <span style={{ animation: 'digitFlicker 3s ease-in-out infinite 1s' }}>▓▓▓</span>
+          <span style={{ animation: 'digitFlicker 3s ease-in-out infinite' }}>ID_72X</span>
+          {' '}ANALYZING RESIDUE...{' '}
+          <span style={{ animation: 'digitFlicker 3s ease-in-out infinite 1s' }}>ID_09Y</span>
         </motion.div>
 
         {/* Terminal status text */}
@@ -310,43 +311,18 @@ const ArtistCard = ({ artist, isDecrypted, onWhisper }) => {
             </div>
           </div>
 
-          {/* Redacted Bar Animation */}
-          <AnimatePresence>
-            {!isDecrypted && (
-              <motion.div
-                className="redacted-bar-portrait"
-                exit={{ x: '100%', opacity: 0 }}
-                transition={{ duration: 0.5, ease: "circIn" }}
-              />
-            )}
-          </AnimatePresence>
+          {/* Redacted Bar Animation - REMORED */}
         </div>
 
         {/* BOTTOM: Artist Identity Section */}
         <div className="card-footer">
-          <div className="identity-label">
-            <span className="label-text">IDENTITY:</span>
-            <span className="label-status">{isDecrypted ? 'UNCLASSIFIED' : 'REDACTED'}</span>
-          </div>
-
-          <div className="artist-name-wrapper">
-            <h3 className="artist-name scratched-text">
-              {isDecrypted ? artist.realName : artist.name}
-            </h3>
-            <AnimatePresence>
-              {!isDecrypted && (
-                <motion.div
-                  className="redacted-bar-name"
-                  exit={{ scaleX: 0 }}
-                  transition={{ duration: 0.4, delay: 0.2 }}
-                />
-              )}
-            </AnimatePresence>
-          </div>
+          <h3 className="artist-name scratched-text">
+            {artist.name}
+          </h3>
 
           <div className="case-status-bar">
             <span className="status-label">STATUS:</span>
-            <span className="status-value pulsate">UNDER OBSERVATION</span>
+            <span className="status-value pulsate">IDENTIFIED</span>
           </div>
         </div>
 

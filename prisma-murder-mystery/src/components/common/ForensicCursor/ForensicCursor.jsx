@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import gsap from 'gsap';
 import './ForensicCursor.css';
@@ -10,6 +10,7 @@ const ForensicCursor = () => {
     const spotlightRef = useRef(null);
     const isPointerRef = useRef(false);
     const isVisibleRef = useRef(false);
+    const [isOverInteractive, setIsOverInteractive] = useState(false);
 
     useEffect(() => {
         if (typeof window !== 'undefined' && window.innerWidth <= 1024) return;
@@ -39,6 +40,9 @@ const ForensicCursor = () => {
             // Check for specialized target cursor (V2.6)
             const isTarget = target && target.closest('[data-cursor="target"]');
 
+            // Update interactive state to hide spotlight
+            setIsOverInteractive(isInteractive);
+
             if (isInteractive !== isPointerRef.current || isTarget) {
                 isPointerRef.current = isInteractive;
                 cursor.classList.toggle('forensic-cursor--pointer', isInteractive && !isTarget);
@@ -67,10 +71,12 @@ const ForensicCursor = () => {
 
     return (
         <>
-            <div
-                ref={spotlightRef}
-                className="forensic-spotlight"
-            />
+            {!isOverInteractive && (
+                <div
+                    ref={spotlightRef}
+                    className="forensic-spotlight"
+                />
+            )}
             <div
                 ref={cursorRef}
                 className="forensic-cursor"

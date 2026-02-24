@@ -226,12 +226,28 @@ export const ForensicScannerProvider = ({ children }) => {
   const [isActive, setIsActive] = useState(true)
   const [ripples, setRipples] = useState([])
   const [revealedElements, setRevealedElements] = useState(new Set())
+  const [isOverInteractive, setIsOverInteractive] = useState(false)
 
   const handleMouseMove = useCallback((e) => {
     setMousePosition({ x: e.clientX, y: e.clientY })
+
+    // Check if hovering over interactive elements
+    const target = e.target
+    const isInteractive = target && (
+      target.closest('button, [role="button"], a, input, select, textarea, label, [tabindex]') !== null
+    )
+    setIsOverInteractive(isInteractive)
   }, [])
 
   const handleClick = useCallback((e) => {
+    // Skip ripple effect when clicking on buttons or interactive elements
+    const target = e.target
+    const isInteractive = target && (
+      target.closest('button, [role="button"], a, input, select, textarea, label, [tabindex]') !== null
+    )
+
+    if (isInteractive) return
+
     const newRipple = {
       id: Date.now(),
       x: e.clientX,
@@ -277,7 +293,7 @@ export const ForensicScannerProvider = ({ children }) => {
       <ScanningReticle
         x={mousePosition.x}
         y={mousePosition.y}
-        isActive={isActive}
+        isActive={isActive && !isOverInteractive}
       />
 
       {/* Render ripples */}
@@ -293,13 +309,15 @@ export const ForensicScannerProvider = ({ children }) => {
         ))}
       </AnimatePresence>
 
-      {/* Spotlight overlay */}
-      <div
-        className="fixed inset-0 pointer-events-none z-40"
-        style={{
-          background: `radial-gradient(circle 180px at ${mousePosition.x}px ${mousePosition.y}px, transparent 0%, rgba(0,0,0,0.85) 100%)`
-        }}
-      />
+      {/* Spotlight overlay - hidden when over interactive elements */}
+      {!isOverInteractive && (
+        <div
+          className="fixed inset-0 pointer-events-none z-40"
+          style={{
+            background: `radial-gradient(circle 180px at ${mousePosition.x}px ${mousePosition.y}px, transparent 0%, rgba(0,0,0,0.85) 100%)`
+          }}
+        />
+      )}
 
       {children}
     </ForensicScannerContext.Provider>

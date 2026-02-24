@@ -8,7 +8,7 @@ const GlitchTitle = ({ text = "PRISMA" }) => {
             <div className={styles.scanlines} />
 
             <div className={styles.titleWrapper}>
-                <div className={styles.redScratch} />
+
                 <span className={styles.baseLayer}>
                     {text}
                 </span>

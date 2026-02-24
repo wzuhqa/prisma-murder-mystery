@@ -353,8 +353,16 @@ const SponsorsMarquee = () => {
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
           className="text-center"
         >
-          <div className="inline-block relative group">
-            <h2 className="font-special-elite text-3xl md:text-5xl tracking-[0.2em] text-blood/90 uppercase bg-blood/5 px-10 py-5 border border-blood/20 relative z-10">
+          <div className="inline-flex flex-col items-center relative group">
+            {/* Centered Heading Backer (Watermark) */}
+            <div
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-mono font-black pointer-events-none select-none opacity-[0.03] text-8xl md:text-10xl tracking-tighter rotate-[-12deg] z-0"
+              style={{ color: '#fff' }}
+            >
+              PRISMA
+            </div>
+
+            <h2 className="font-creepy text-4xl md:text-7xl tracking-widest text-[#C41E3A] uppercase bg-blood/5 px-12 py-7 border border-blood/20 relative z-10 backdrop-blur-md">
               Classified Backers
             </h2>
             <div className="absolute inset-0 bg-blood/5 blur-2xl -z-10 group-hover:bg-blood/10 transition-colors duration-700" />
