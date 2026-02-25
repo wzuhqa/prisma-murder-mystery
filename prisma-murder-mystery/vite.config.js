@@ -22,7 +22,6 @@ export default defineConfig({
           'vendor-react': ['react', 'react-dom', 'react-router-dom'],
           'vendor-animation': ['framer-motion', 'gsap', 'lenis', 'lenis/react'],
           'vendor-ui': ['lucide-react'],
-          'vendor-three': ['three'],
         },
 
         // Asset file naming for better caching
