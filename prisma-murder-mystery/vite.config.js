@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
   plugins: [react(), tailwindcss()],
-  base: '/prisma-murder-mystery-2026/',
+  base: '/prisma-murder-mystery/',
 
   build: {
     // Enable source maps for debugging (can disable in production)
