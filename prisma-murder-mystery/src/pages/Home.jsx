@@ -1,7 +1,6 @@
 import { lazy, Suspense } from 'react'
 import HeroSection from '../components/hero/HeroSection'
 import Footer from '../components/common/Footer'
-import RedThreadConnector from '../components/home/RedThreadConnector'
 import ScrollProgress from '../components/common/ScrollProgress'
 import BackToTop from '../components/common/BackToTop'
 import SectionDivider from '../components/home/SectionDivider'
@@ -47,9 +46,6 @@ const Home = () => {
 
   return (
     <main className="min-h-screen relative z-20">
-      {/* Global Page Connector (Fixed background drawing effect) */}
-      <RedThreadConnector />
-
       {/* ===== SCROLL PROGRESS INDICATOR ===== */}
       <ScrollProgress />
 

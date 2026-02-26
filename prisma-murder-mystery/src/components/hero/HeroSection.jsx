@@ -221,7 +221,7 @@ const HeroSection = () => {
             <div className={styles.titleRow}>
               <div className={styles.universityBadge}>SRM UNIVERSITY DELHI-NCR</div>
               <div className={`${styles.titleWrapper} scratched-text-heavy`}>
-                <GlitchTitle text="PRISMA" />
+                <GlitchTitle text="THE PRISMA ANOMALY" />
                 <span className={`${styles.reopenNote} scratched-text`}>Reopen inquiry?</span>
               </div>
             </div>

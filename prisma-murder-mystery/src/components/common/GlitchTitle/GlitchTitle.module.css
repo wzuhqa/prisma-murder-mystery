@@ -13,12 +13,12 @@
 .titleWrapper {
     position: relative;
     color: var(--text-header);
-    font-family: var(--font-display);
-    font-weight: 900;
+    font-family: var(--font-creepy);
+    font-weight: 400;
     /* Reduced min size from 2.5rem to 1.5rem for mobile safety */
     font-size: clamp(1.5rem, 8vw, 4.5rem);
     text-transform: uppercase;
-    letter-spacing: 0.15em;
+    letter-spacing: 0.05em;
     line-height: 1.2;
     user-select: none;
     text-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
