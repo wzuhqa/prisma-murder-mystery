@@ -112,7 +112,7 @@ const ScrambleText = ({ text, isHovered, isRedacting }) => {
 // ============================================
 // NAV ITEM — with icon, tooltip, visit counter, keyboard nav
 // ============================================
-const NavItem = ({ item, index, isActive, isLocked, onClick, onHover, isHovered, onNavClick, isRedacting, visitCount, onFocusNav }) => {
+const NavItem = memo(({ item, index, isActive, isLocked, onClick, onHover, isHovered, onNavClick, isRedacting, visitCount, onFocusNav }) => {
   const linkRef = useRef(null)
   const threadRef = useRef(null)
   const [isGlitching, setIsGlitching] = useState(false)
@@ -172,6 +172,7 @@ const NavItem = ({ item, index, isActive, isLocked, onClick, onHover, isHovered,
           prefetchRoute(item.path);
         }}
         onMouseLeave={() => onHover(null)}
+        onPointerLeave={() => onHover(null)}
         onKeyDown={handleKeyDown}
         disabled={isLocked}
         aria-current={isActive ? 'page' : undefined}
@@ -202,7 +203,7 @@ const NavItem = ({ item, index, isActive, isLocked, onClick, onHover, isHovered,
       </button>
     </li>
   )
-}
+})
 
 // ============================================
 // MAIN SLASH NAVBAR
@@ -251,7 +252,10 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
         ticking = true
         requestAnimationFrame(() => {
           const scrolled = window.scrollY > 50
-          if (scrolled !== isScrolled) setIsScrolled(scrolled)
+          if (scrolled !== isScrolled) {
+            setIsScrolled(scrolled)
+            setHoveredItem(null) // Reset hover state on height transition
+          }
           const nearBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 50
           if (nearBottom && !atBottom) {
             setAtBottom(true)
@@ -361,7 +365,11 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
             <span className="hamburger-line" />
           </button>
 
-          <ul className={`navbar-menu ${isMobileMenuOpen ? 'navbar-menu--open' : ''}`} role="menubar">
+          <ul
+            className={`navbar-menu ${isMobileMenuOpen ? 'navbar-menu--open' : ''}`}
+            role="menubar"
+            onMouseLeave={() => setHoveredItem(null)}
+          >
             {NAV_ITEMS.map((item, index) => (
               <NavItem
                 key={item.id}

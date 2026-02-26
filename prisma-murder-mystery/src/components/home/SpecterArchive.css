@@ -803,7 +803,7 @@
 .card-content {
   position: relative;
   z-index: 2;
-  padding: 60px 40px 30px 40px;
+  padding: 30px 40px 30px 40px;
   display: flex;
   flex-direction: column;
   gap: 15px;
@@ -811,12 +811,13 @@
 
 /* Year Badge */
 .year-badge {
-  position: absolute;
-  top: 20px;
-  right: 20px;
+  position: relative;
+  align-self: flex-end;
   display: flex;
   align-items: center;
   gap: 8px;
+  margin-bottom: 5px;
+  z-index: 10;
 }
 
 .year-number {
@@ -1117,9 +1118,31 @@
 
   .year-indicators {
     gap: 15px;
-    padding: 0 10px;
+    padding: 10px;
     overflow-x: auto;
     justify-content: flex-start;
+    flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    /* Firefox */
+  }
+
+  .year-indicators::-webkit-scrollbar {
+    display: none;
+    /* Safari and Chrome */
+  }
+
+  .year-indicator {
+    flex-shrink: 0;
+  }
+
+  .year-badge {
+    margin-bottom: 10px;
+  }
+
+  .year-number {
+    font-size: 0.75rem;
+    padding: 6px 12px;
   }
 
   .h-timeline-container {

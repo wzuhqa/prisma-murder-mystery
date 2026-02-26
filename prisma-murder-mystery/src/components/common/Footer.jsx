@@ -55,7 +55,7 @@ const Footer = () => {
               className="group w-11 h-11 border border-white/10 rounded-full flex items-center justify-center hover:border-blood/50 hover:bg-blood/10 transition-all duration-300">
               <Mail size={18} className="text-meta group-hover:text-blood transition-colors" />
             </a>
-            <a href="tel:+91XXXXXXXXXX"
+            <a href="tel:+919306023815"
               className="group w-11 h-11 border border-white/10 rounded-full flex items-center justify-center hover:border-blood/50 hover:bg-blood/10 transition-all duration-300">
               <Phone size={18} className="text-meta group-hover:text-blood transition-colors" />
             </a>
@@ -133,7 +133,7 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={14} className="text-blood/60 shrink-0" />
-                <span className="text-meta text-sm font-mono tracking-wider">+91 XXXXXXXXXX</span>
+                <span className="text-meta text-sm font-mono tracking-wider">+91 93060 23815</span>
               </li>
             </ul>
           </div>
@@ -175,7 +175,7 @@ const Footer = () => {
             </div>
           </div>
           <p className="flex items-center gap-3 text-meta text-[11px] font-mono tracking-wider">
-            LAST UPDATED: ██/██/2026 <span className="w-1.5 h-1.5 rounded-full bg-blood animate-pulse" /> SRM UNIVERSITY
+            LAST UPDATED: 26/02/2026 <span className="w-1.5 h-1.5 rounded-full bg-blood animate-pulse" /> SRM UNIVERSITY
           </p>
         </div>
       </div>

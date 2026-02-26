@@ -7,14 +7,14 @@ import TerminalDecrypt from '../common/TerminalDecrypt/TerminalDecrypt';
 
 /* ─── Police scanner ticker ──────────────────────────────── */
 const SCANNER_MESSAGES = [
-  'CASE #PR-2026-X: ACTIVE — 1 SUSPECT AT LARGE',
+  'CASE #PR-2026-X: ACTIVE — SEARCHING FOR ARCHITECT',
   'FORENSICS REPORT: 3 ANOMALIES DETECTED',
   'LOCATION: SRM UNIVERSITY DELHI-NCR',
   'INCIDENT DATE: FEB 28 – MAR 01, 2026',
-  'CLASSIFICATION: PRISMA ANOMALY — THREAT LEVEL HIGH',
+  'CLASSIFICATION: PRISMA ANOMALY — THREAT LEVEL CRITICAL',
   'DISPATCH: ALL INVESTIGATORS REPORT IMMEDIATELY',
   'EVIDENCE LOCKER: 7 ITEMS SEALED, 2 UNRESOLVED',
-  'WITNESS ACCOUNTS: REDACTED — CLEARANCE REQUIRED',
+  'WITNESS ACCOUNTS: MATCH FOUND — IDENTITY: ARCHITECT',
 ];
 
 const ScannerTicker = () => {
@@ -246,7 +246,7 @@ const HeroSection = () => {
             </div>
 
             <div className={styles.metaBlock}>
-              <div className={styles.metaRow}>LEAD INVESTIGATOR:       <TerminalDecrypt text="UNKNOWN" speed={80} delay={2000} /></div>
+              <div className={styles.metaRow}>LEAD INVESTIGATOR:       <TerminalDecrypt text="AKUL" speed={80} delay={2000} /></div>
               <div className={styles.metaRow}>CASE STATUS:             <TerminalDecrypt text="ACTIVE" speed={80} delay={2200} /></div>
               <div className={styles.metaRow}>THREAT CLASSIFICATION:   <TerminalDecrypt text="HIGH" speed={80} delay={2400} /></div>
             </div>
