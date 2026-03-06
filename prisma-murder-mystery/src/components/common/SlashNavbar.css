@@ -12,8 +12,9 @@
   --nav-border: rgba(139, 0, 0, 0.25);
   --nav-mono: 'IBM Plex Mono', 'Courier New', monospace;
   --nav-text: #d9d9d9;
-  --nav-height: 90px;
-  --nav-height-scrolled: 60px;
+  --nav-height: 100px;
+  /* increased from 90px to fit breadcrumb row */
+  --nav-height-scrolled: 58px;
   --nav-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -48,25 +49,35 @@
 }
 
 .navbar-zone--brand {
-  /* Aligned left automatically by flex-between */
   gap: 1.25rem;
-  /* Increased from 0.5rem to prevent "touching" */
   flex: 1;
+  min-width: 0;
+  /* allow flex shrink */
+  overflow: visible;
+  /* allow breadcrumb to paint below navbar height */
+  position: relative;
+  align-self: stretch;
+  align-items: center;
 }
 
 .navbar-zone--menu {
-  /* Absolutely center this zone so the menu never shifts */
+  /* Absolutely center — add z-index so brand/status don't bleed into it */
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   justify-content: center;
+  z-index: 20;
+  /* Prevent the menu from overlapping brand/status on tighter screens */
+  max-width: calc(100% - 420px);
 }
 
 .navbar-zone--status {
-  /* Aligned right automatically by flex-between */
   justify-content: flex-end;
   flex: 1;
+  min-width: 0;
+  /* allow flex shrink */
+  flex-shrink: 0;
 }
 
 /* ----- SCROLLED COMPACT MODE ----- */
@@ -78,21 +89,32 @@
   box-shadow: 0 5px 30px rgba(0, 0, 0, 0.9);
 }
 
-.slash-navbar--scrolled .brand-uni,
+/* #5 — Scrolled: collapse to a slim single-row brand with clearance badge inline */
+.slash-navbar--scrolled .brand-uni {
+  display: none;
+}
+
 .slash-navbar--scrolled .brand-meta {
-  opacity: 0;
-  height: 0;
-  overflow: hidden;
-  margin: 0;
-  padding: 0;
+  /* Show the clearance badge inline next to the brand name */
+  display: flex;
+  align-items: center;
 }
 
 .slash-navbar--scrolled .navbar-brand {
-  gap: 0;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.slash-navbar--scrolled .brand-header {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .slash-navbar--scrolled .brand-main {
-  font-size: 1.1rem;
+  font-size: 1rem;
+  letter-spacing: 0.12em;
 }
 
 /* Forensic Scan Line */
@@ -205,39 +227,66 @@
   display: flex;
   justify-self: center;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.5rem;
+  /* #8 increased from 0.25rem */
   list-style: none;
   margin: 0;
   padding: 0;
+  overflow: visible;
+  /* #4 allow tooltips to show */
 }
 
 .navbar-item {
   position: relative;
+  overflow: visible;
+  /* #4 ensure tooltips aren't clipped */
 }
 
 .navbar-link {
   background: none;
   border: none;
-  /* Uniform, predictable padding */
-  padding: 0.5rem 0.9rem;
+  padding: 0.45rem 0.75rem;
+  /* tightened to prevent 5-item overflow */
   color: var(--nav-text);
   font-family: var(--nav-mono);
-  font-size: 0.68rem;
+  font-size: 0.64rem;
+  /* slightly smaller to fit all labels */
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.1em;
+  /* reduced from 0.14em to save width */
   cursor: pointer;
   z-index: 20;
   transition: color 0.3s;
   position: relative;
   display: flex;
   align-items: center;
-  gap: 0.35rem;
+  gap: 0.3rem;
   overflow: visible;
   white-space: nowrap;
 }
 
 .navbar-link:hover {
   color: #fff;
+}
+
+/* #3 — Active nav item: gold text + always-visible crimson underline bar */
+.navbar-link--active {
+  color: var(--nav-gold) !important;
+}
+
+.navbar-link--active .link-text {
+  color: var(--nav-gold);
+}
+
+/* Bright underline bar for active item */
+.navbar-link--active .nav-thread {
+  width: 70% !important;
+  opacity: 1 !important;
+  background: var(--nav-crimson);
+  box-shadow: 0 0 8px var(--nav-crimson), 0 0 16px rgba(139, 0, 0, 0.4);
+  height: 2px;
+  bottom: 2px;
+  transition: none;
 }
 
 /* ----- BLOOD DRIP HOVER EFFECT ----- */
@@ -434,12 +483,17 @@
   align-items: center;
   gap: var(--space-4, 1rem);
   justify-self: start;
+  position: relative;
+  /* anchor for absolutely-positioned breadcrumb */
+  align-self: stretch;
+  /* fill full navbar height so bottom:6px works */
 }
 
 .navbar-brand {
   display: flex;
   flex-direction: column;
-  gap: var(--space-2, 0.5rem);
+  gap: 2px;
+  /* tightened from 0.5rem to fit within 100px */
 }
 
 .brand-header {
@@ -452,7 +506,7 @@
   font-weight: 900;
   font-size: 1.1rem;
   letter-spacing: 0.15em;
-  color: #fff;
+  /* color controlled by shimmer animation below */
 }
 
 .brand-uni {
@@ -537,6 +591,64 @@
   font-weight: 700;
   letter-spacing: 0.12em;
   opacity: 0.8;
+}
+
+/* #9 — Live Forensic Clock */
+.forensic-clock {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.forensic-clock-time {
+  font-family: var(--nav-mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--nav-gold);
+  font-variant-numeric: tabular-nums;
+}
+
+.forensic-clock-seconds {
+  color: var(--nav-crimson);
+  text-shadow: 0 0 6px rgba(139, 0, 0, 0.7);
+  animation: sec-tick 1s steps(1) infinite;
+}
+
+@keyframes sec-tick {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0.4;
+  }
+}
+
+.forensic-clock-label {
+  font-family: var(--nav-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.15em;
+  color: var(--nav-crimson);
+  font-weight: 700;
+  opacity: 0.8;
+  animation: live-blink 2s steps(1) infinite;
+}
+
+@keyframes live-blink {
+
+  0%,
+  49% {
+    opacity: 0.8;
+  }
+
+  50%,
+  100% {
+    opacity: 0.3;
+  }
 }
 
 .status-time {
@@ -1684,18 +1796,278 @@
   }
 }
 
-/* ----- REDUCED MOTION FOR NEW ANIMATIONS ----- */
+/* #7 — Nav Active Glow (previously a dead div with no CSS) */
+.nav-active-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(139, 0, 0, 0.1) 0%, transparent 70%);
+  border-radius: 2px;
+  pointer-events: none;
+  animation: active-glow-breathe 3s ease-in-out infinite;
+}
+
+@keyframes active-glow-breathe {
+
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+
+  50% {
+    opacity: 1;
+  }
+}
+
+/* #6 — Styled Mobile Close Button */
+.interrogation-close--styled {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: transparent;
+  border: 1px solid rgba(139, 0, 0, 0.5);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+
+.interrogation-close--styled:hover {
+  border-color: var(--nav-crimson);
+  background: rgba(139, 0, 0, 0.1);
+  box-shadow: 0 0 12px rgba(139, 0, 0, 0.5), inset 0 0 8px rgba(139, 0, 0, 0.1);
+}
+
+.interrogation-close-icon {
+  font-size: 0.85rem;
+  color: rgba(217, 217, 217, 0.7);
+  transition: color 0.2s, text-shadow 0.2s;
+  line-height: 1;
+}
+
+.interrogation-close--styled:hover .interrogation-close-icon {
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+
+/* ============================================
+   NAVBAR ROUND 4 UPGRADES
+   ============================================ */
+
+/* #4 — Brand main gold shimmer animation */
+.brand-main {
+  background: linear-gradient(90deg,
+      #ffffff 0%,
+      #ffffff 35%,
+      var(--nav-gold) 50%,
+      #ffffff 65%,
+      #ffffff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: brand-shimmer 4s linear infinite;
+}
+
+@keyframes brand-shimmer {
+  0% {
+    background-position: 100% center;
+  }
+
+  100% {
+    background-position: -100% center;
+  }
+}
+
+/* #5 — Brand breadcrumb: absolutely positioned below the brand group */
+.brand-breadcrumb {
+  position: absolute;
+  bottom: 6px;
+  /* sits inside the navbar bottom area */
+  left: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  opacity: 0;
+  animation: breadcrumb-fade-in 0.4s ease 0.1s forwards;
+  pointer-events: none;
+}
+
+@keyframes breadcrumb-fade-in {
+  from {
+    opacity: 0;
+    transform: translateX(-4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.breadcrumb-arrow {
+  font-size: 0.45rem;
+  color: var(--nav-crimson);
+  animation: breadcrumb-blink 2s steps(1) infinite;
+}
+
+@keyframes breadcrumb-blink {
+
+  0%,
+  49% {
+    opacity: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 0.3;
+  }
+}
+
+.breadcrumb-label {
+  font-family: var(--nav-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.14em;
+  color: rgba(200, 169, 110, 0.65);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* Hide breadcrumb when scrolled (single-row compact) */
+.slash-navbar--scrolled .brand-breadcrumb {
+  display: none;
+}
+
+/* #7 — Scrolled navbar crimson border glow */
+.slash-navbar--scrolled {
+  border-bottom-color: rgba(139, 0, 0, 0.5);
+  animation: scroll-border-pulse 3s ease-in-out infinite;
+}
+
+@keyframes scroll-border-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.9);
+  }
+
+  50% {
+    box-shadow:
+      0 5px 30px rgba(0, 0, 0, 0.9),
+      0 2px 20px rgba(139, 0, 0, 0.25),
+      0 0 40px rgba(139, 0, 0, 0.1);
+  }
+}
+
+/* #8 — Tooltip keyboard shortcut hint row */
+.tooltip-shortcut {
+  display: block;
+  font-family: var(--nav-mono);
+  font-size: 0.52rem;
+  letter-spacing: 0.15em;
+  color: var(--nav-crimson);
+  margin-top: 4px;
+  opacity: 0.75;
+  font-weight: 700;
+}
+
+/* #9 — Active item "● CURRENT" label: floats below button, inside navbar */
+.nav-current-label {
+  position: absolute;
+  bottom: -13px;
+  /* floats below the button, within navbar height */
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--nav-mono);
+  font-size: 0.38rem;
+  letter-spacing: 0.16em;
+  font-weight: 900;
+  color: var(--nav-gold);
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  animation: current-label-in 0.3s ease 0.1s forwards;
+  text-shadow: 0 0 6px rgba(200, 169, 110, 0.5);
+}
+
+@keyframes current-label-in {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(4px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* #6 — Mobile interrogation items stagger slide-in */
+.interrogation-link--stagger {
+  opacity: 0;
+  transform: translateX(-20px);
+  animation: interrogation-slide-in 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+  animation-delay: calc(var(--i) * 0.08s + 0.1s);
+}
+
+@keyframes interrogation-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Keyboard shortcut badge in mobile menu */
+.interrogation-shortcut {
+  font-family: var(--nav-mono);
+  font-size: 0.6rem;
+  font-weight: 900;
+  color: var(--nav-crimson);
+  letter-spacing: 0.1em;
+  margin-right: 0.5rem;
+  opacity: 0.8;
+  flex-shrink: 0;
+}
+
+/* ----- REDUCED MOTION FOR ALL ANIMATIONS ----- */
 @media (prefers-reduced-motion: reduce) {
 
   .navbar-link--active::before,
   .nav-active-glow,
   .status-dot-pulse::before,
   .logo-circle,
-  .nav-evidence-tag {
+  .nav-evidence-tag,
+  .brand-shimmer,
+  .interrogation-link--stagger,
+  .nav-current-label,
+  .slash-navbar--scrolled {
     animation: none !important;
   }
 
-  .brand-main::after {
+  .brand-main {
+    background: none;
+    -webkit-text-fill-color: #fff;
+    color: #fff;
+  }
+
+  .brand-main::after,
+  .interrogation-link--stagger {
     transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .brand-breadcrumb,
+  .nav-current-label {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

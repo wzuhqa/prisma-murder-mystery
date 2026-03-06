@@ -60,16 +60,42 @@ const PageLoadProgress = ({ isLoading }) => {
 
 
 // ============================================
-// DAYS REMAINING URGENCY BADGE
+// LIVE FORENSIC CLOCK
 // ============================================
+const LiveForensicClock = memo(() => {
+  const [time, setTime] = useState(() => new Date())
+
+  useEffect(() => {
+    const id = setInterval(() => setTime(new Date()), 1000)
+    return () => clearInterval(id)
+  }, [])
+
+  const pad = (n) => String(n).padStart(2, '0')
+  const hh = pad(time.getHours())
+  const mm = pad(time.getMinutes())
+  const ss = pad(time.getSeconds())
+
+  return (
+    <div className="forensic-clock">
+      <span className="status-dot-pulse" />
+      <span className="forensic-clock-time">
+        {hh}:{mm}:<span className="forensic-clock-seconds">{ss}</span>
+      </span>
+      <span className="forensic-clock-label">// LIVE</span>
+    </div>
+  )
+})
 
 // ============================================
-// EVIDENCE TAG (yellow crime scene marker)
+// EVIDENCE TAG (yellow crime scene marker) + CURRENT label (#9)
 // ============================================
 const EvidenceTag = memo(({ index }) => (
-  <div className="nav-evidence-tag">
-    <span className="tag-number">{index + 1}</span>
-  </div>
+  <>
+    <div className="nav-current-label">● CURRENT</div>
+    <div className="nav-evidence-tag">
+      <span className="tag-number">{index + 1}</span>
+    </div>
+  </>
 ))
 
 // ============================================
@@ -191,9 +217,10 @@ const NavItem = memo(({ item, index, isActive, isLocked, onClick, onHover, isHov
           </span>
         )}
 
-        {/* Tooltip */}
+        {/* Tooltip with keyboard shortcut hint (#8) */}
         <div className="nav-tooltip">
           <span className="tooltip-desc">{item.desc}</span>
+          <span className="tooltip-shortcut">[PRESS {index + 1}]</span>
         </div>
 
         {showSplash && <div className="nav-blood-splash" />}
@@ -305,6 +332,23 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
   const toggleMobileMenu = useCallback(() => setIsMobileMenuOpen(p => !p), [])
   const closeMobileMenu = useCallback(() => setIsMobileMenuOpen(false), [])
 
+  // #3 — Keyboard shortcut navigation (1–5 keys)
+  useEffect(() => {
+    const handleGlobalKey = (e) => {
+      // Don't fire when typing in inputs/textareas
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return
+      const idx = parseInt(e.key, 10) - 1
+      if (idx >= 0 && idx < NAV_ITEMS.length) {
+        navigate(NAV_ITEMS[idx].path)
+      }
+    }
+    window.addEventListener('keydown', handleGlobalKey)
+    return () => window.removeEventListener('keydown', handleGlobalKey)
+  }, [navigate])
+
+  // #5 — Current breadcrumb label
+  const activeBreadcrumb = NAV_ITEMS.find(it => it.id === activeSection)?.label ?? ''
+
   return (
     <>
       {/* Page load progress */}
@@ -345,6 +389,13 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
               <div className="brand-meta">
                 <span className="case-id">CLEARANCE: <span className="restricted-glow">RESTRICTED</span></span>
               </div>
+              {/* #5 — Current page breadcrumb */}
+              {activeBreadcrumb && (
+                <div className="brand-breadcrumb">
+                  <span className="breadcrumb-arrow">▶</span>
+                  <span className="breadcrumb-label">{activeBreadcrumb}</span>
+                </div>
+              )}
             </div>
           </div>
           <div className="case-index-divider" aria-hidden="true" />
@@ -394,10 +445,7 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
 
         {/* Zone 3: Status & Ticker */}
         <div className="navbar-zone navbar-zone--status">
-          <div className="status-item">
-            <span className="status-dot-pulse" />
-            <span className="status-text--gold">MONITORING ACTIVE</span>
-          </div>
+          <LiveForensicClock />
         </div>
 
         {/* Mobile full-screen interrogation room overlay */}
@@ -417,17 +465,20 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
 
           <div className="interrogation-header">
             <span className="interrogation-case-id">CASE #PR-2026-X</span>
-            <button className="interrogation-close" onClick={closeMobileMenu} aria-label="Close menu">✕</button>
+            <button className="interrogation-close interrogation-close--styled" onClick={closeMobileMenu} aria-label="Close menu">
+              <span className="interrogation-close-icon">✕</span>
+            </button>
           </div>
 
           <nav className="interrogation-nav">
             {NAV_ITEMS.map((item, i) => (
               <button
                 key={item.id}
-                className={`interrogation-link ${activeSection === item.id ? 'interrogation-link--active' : ''}`}
+                className={`interrogation-link ${activeSection === item.id ? 'interrogation-link--active' : ''} interrogation-link--stagger`}
                 onClick={() => { handleNavClick(item.path); closeMobileMenu() }}
                 style={{ '--i': i }}
               >
+                <span className="interrogation-shortcut">[{i + 1}]</span>
                 <span className="interrogation-icon">{item.icon}</span>
                 <span className="interrogation-label">{item.label}</span>
                 <span className="interrogation-desc">{item.desc}</span>
