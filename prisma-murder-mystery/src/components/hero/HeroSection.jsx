@@ -4,6 +4,7 @@ import gsap from 'gsap';
 import styles from './HeroSection.module.css';
 import GlitchTitle from '../common/GlitchTitle/GlitchTitle';
 import TerminalDecrypt from '../common/TerminalDecrypt/TerminalDecrypt';
+import MagneticButton from '../common/MagneticButton';
 
 /* ─── Police scanner ticker ──────────────────────────────── */
 const SCANNER_MESSAGES = [
@@ -256,37 +257,41 @@ const HeroSection = () => {
 
             {/* CTA Buttons */}
             <div className={styles.buttonGroup}>
-              <button
-                onClick={() => handleNavigation('/events')}
-                onMouseEnter={() => setInvestigateHover(true)}
-                onMouseLeave={() => setInvestigateHover(false)}
-                className={styles.tabButton}
-                data-cursor="target"
-              >
-                <div className={styles.buttonSeal} />
-                <div className={styles.buttonScanLine} />
-                <div className={styles.sliceLine} data-slice-line />
-                <div className={styles.buttonStamp}>CLASSIFIED</div>
-                <div className={styles.buttonContent} data-button-text>
-                  <span className={styles.tabIcon}>⌕</span>
-                  OPEN INVESTIGATION
-                </div>
-              </button>
+              <MagneticButton strength={0.3}>
+                <button
+                  onClick={() => handleNavigation('/events')}
+                  onMouseEnter={() => setInvestigateHover(true)}
+                  onMouseLeave={() => setInvestigateHover(false)}
+                  className={styles.tabButton}
+                  data-cursor="target"
+                >
+                  <div className={styles.buttonSeal} />
+                  <div className={styles.buttonScanLine} />
+                  <div className={styles.sliceLine} data-slice-line />
+                  <div className={styles.buttonStamp}>CLASSIFIED</div>
+                  <div className={styles.buttonContent} data-button-text>
+                    <span className={styles.tabIcon}>⌕</span>
+                    OPEN INVESTIGATION
+                  </div>
+                </button>
+              </MagneticButton>
 
-              <button
-                onClick={() => handleNavigation('/register')}
-                className={styles.approvalClip}
-                data-cursor="target"
-              >
-                <div className={styles.buttonSeal} />
-                <div className={styles.buttonScanLine} />
-                <div className={styles.sliceLine} data-slice-line />
-                <div className={styles.buttonStamp}>APPROVED</div>
-                <div className={styles.buttonContent} data-button-text>
-                  <span className={styles.tabIcon}>🎟</span>
-                  <span className={styles.clipText}>BUY PASSES</span>
-                </div>
-              </button>
+              <MagneticButton strength={0.3}>
+                <button
+                  onClick={() => handleNavigation('/register')}
+                  className={styles.approvalClip}
+                  data-cursor="target"
+                >
+                  <div className={styles.buttonSeal} />
+                  <div className={styles.buttonScanLine} />
+                  <div className={styles.sliceLine} data-slice-line />
+                  <div className={styles.buttonStamp}>APPROVED</div>
+                  <div className={styles.buttonContent} data-button-text>
+                    <span className={styles.tabIcon}>🎟</span>
+                    <span className={styles.clipText}>BUY PASSES</span>
+                  </div>
+                </button>
+              </MagneticButton>
             </div>
           </div>
         </div>

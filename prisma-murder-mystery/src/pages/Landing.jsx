@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+import MagneticButton from '../components/common/MagneticButton'
+import RedactedText from '../components/common/RedactedText'
 import './Landing.css'
 
 // ── Config ────────────────────────────────────────────────────────────────────
@@ -47,15 +50,36 @@ const Landing = () => {
     const countdown = useCountdown()
     const keyBufferRef = useRef('')
 
-    const [phase, setPhase] = useState('boot')   // boot | slash | main
+    // Sequences
+    const [phase, setPhase] = useState('boot') // boot -> slash -> main
     const [currentLine, setCurrentLine] = useState(0)
     const [typedText, setTypedText] = useState('')
     const [visible, setVisible] = useState(false)
-    const [pulseActive, setPulseActive] = useState(false)
-    const [letters, setLetters] = useState('PRISMA'.split(''))
     const [glitching, setGlitching] = useState(false)
+    const [pulseActive, setPulseActive] = useState(false)
+    const [isHoveringTitle, setIsHoveringTitle] = useState(false)
+    const [letters, setLetters] = useState('PRISMA'.split(''))
 
     const CHARS = '!@#$%&<>?'
+
+    // ── Mouse Parallax ────────────────────────────────────────────────────────
+    const mouseX = useMotionValue(0.5)
+    const mouseY = useMotionValue(0.5)
+
+    const smoothMouseX = useSpring(mouseX, { damping: 30, stiffness: 200, mass: 0.5 })
+    const smoothMouseY = useSpring(mouseY, { damping: 30, stiffness: 200, mass: 0.5 })
+
+    // Map [0, 1] screen position to [-5deg, 5deg] rotation (reversed for natural tilt)
+    const rotateY = useTransform(smoothMouseX, [0, 1], [-4, 4])
+    const rotateX = useTransform(smoothMouseY, [0, 1], [4, -4])
+
+    const handleMouseMove = useCallback((e) => {
+        if (phase !== 'main') return
+        const x = e.clientX / window.innerWidth
+        const y = e.clientY / window.innerHeight
+        mouseX.set(x)
+        mouseY.set(y)
+    }, [phase, mouseX, mouseY])
 
     // ── Boot typewriter ───────────────────────────────────────────────────────
     useEffect(() => {
@@ -121,10 +145,19 @@ const Landing = () => {
 
     // ─────────────────────────────────────────────────────────────────────────
     return (
-        <div className="lp">
+        <div className="lp" onMouseMove={handleMouseMove}>
 
             {/* ── Layer 0: Premium background ── */}
             <div className="lp__bg-grain" />
+
+            {/* Animated gradient mesh — 4 slow organic colour blobs */}
+            <div className="lp__bg-mesh" aria-hidden="true">
+                <div className="lp__mesh-blob lp__mesh-blob--1" />
+                <div className="lp__mesh-blob lp__mesh-blob--2" />
+                <div className="lp__mesh-blob lp__mesh-blob--3" />
+                <div className="lp__mesh-blob lp__mesh-blob--4" />
+            </div>
+
             <div className="lp__bg-vignette" />
             <div className="lp__bg-beam" />
             <div className="lp__bg-parallax-shadow" />
@@ -160,7 +193,10 @@ const Landing = () => {
 
             {/* ── MAIN PHASE ── */}
             {phase === 'main' && (
-                <div className="lp__scene">
+                <motion.div
+                    className="lp__scene"
+                    style={{ rotateX, rotateY, transformPerspective: 1200 }}
+                >
 
                     {/* ───────────────────────────────────────────────────────────
                         LEVEL 1 — PRIMARY FOCUS
@@ -172,9 +208,13 @@ const Landing = () => {
                         <p className="lp__eyebrow">SRM UNIVERSITY DELHI-NCR // EST. 2026</p>
 
                         {/* PRISMA — largest, highest contrast element */}
-                        <h1 className={`lp__title ${glitching ? 'lp__title--glitch' : ''}`}>
+                        <h1
+                            className={`lp__title ${glitching ? 'lp__title--glitch' : ''} ${isHoveringTitle ? 'lp__title--interactive-glitch' : ''}`}
+                            onMouseEnter={() => setIsHoveringTitle(true)}
+                            onMouseLeave={() => setIsHoveringTitle(false)}
+                        >
                             {letters.map((ch, i) => (
-                                <span key={i} className="lp__title-letter" style={{ '--i': i }}>{ch}</span>
+                                <span key={i} className="lp__title-letter" data-char={ch} style={{ '--i': i }}>{ch}</span>
                             ))}
                         </h1>
 
@@ -186,14 +226,16 @@ const Landing = () => {
                         </p>
 
                         {/* Primary CTA — single most important action */}
-                        <button
-                            className="lp__cta-primary"
-                            onClick={() => navigate('/register')}
-                        >
-                            <span className="lp__cta-primary__label">REGISTER NOW</span>
-                            <span className="lp__cta-primary__sub">Enlist as an investigator</span>
-                            <span className="lp__cta-primary__arrow">→</span>
-                        </button>
+                        <MagneticButton strength={0.4}>
+                            <button
+                                className="lp__cta-primary"
+                                onClick={() => navigate('/register')}
+                            >
+                                <span className="lp__cta-primary__label">REGISTER NOW</span>
+                                <span className="lp__cta-primary__sub">Enlist as an investigator</span>
+                                <span className="lp__cta-primary__arrow">→</span>
+                            </button>
+                        </MagneticButton>
                     </div>
 
                     {/* ───────────────────────────────────────────────────────────
@@ -219,17 +261,19 @@ const Landing = () => {
                         <div className="lp__panel-divider" />
 
                         {/* Secondary CTA */}
-                        <button
-                            className="lp__cta-secondary"
-                            onClick={() => navigate('/events')}
-                        >
-                            VIEW EVENTS →
-                        </button>
+                        <MagneticButton strength={0.2} className="w-full">
+                            <button
+                                className="lp__cta-secondary"
+                                onClick={() => navigate('/events')}
+                            >
+                                VIEW EVENTS →
+                            </button>
+                        </MagneticButton>
 
                         {/* Investigation meta */}
                         <div className="lp__panel-section lp__panel-meta">
-                            <span>CASE #PR-2026-X</span>
-                            <span>CLEARANCE: RESTRICTED</span>
+                            <RedactedText text="CASE #PR-2026-X" />
+                            <RedactedText text="CLEARANCE: RESTRICTED" />
                         </div>
                     </div>
 
@@ -237,13 +281,14 @@ const Landing = () => {
                         LEVEL 3 — Whisper: barely visible background text
                     ─────────────────────────────────────────────────────────── */}
                     <div className={`lp__whisper ${visible ? 'lp__whisper--visible' : ''}`}>
-                        MONITORING IN PROGRESS // ALL VISITORS RECORDED // CASE #PR-2026-X
+                        <RedactedText text="MONITORING IN PROGRESS // ALL VISITORS RECORDED // CASE #PR-2026-X" />
                     </div>
 
-                </div>
+                </motion.div>
             )}
         </div>
     )
 }
+
 
 export default Landing

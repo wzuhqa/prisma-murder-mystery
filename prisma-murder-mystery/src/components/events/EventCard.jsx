@@ -19,9 +19,9 @@ const EventCard = ({ name }) => {
         <motion.div
             whileHover={{
                 scale: 1.02,
-                backgroundColor: "rgba(196, 30, 58, 0.05)",
-                borderColor: "rgba(196, 30, 58, 0.4)",
-                boxShadow: "0 0 30px rgba(0, 0, 0, 0.6)"
+                backgroundColor: "rgba(201, 162, 39, 0.05)",
+                borderColor: "rgba(201, 162, 39, 0.5)",
+                boxShadow: "0 0 30px rgba(0, 0, 0, 0.6), 0 0 15px rgba(201, 162, 39, 0.1)"
             }}
             onClick={toggleClip}
             className="group relative flex items-center justify-between p-4 rounded-sm border border-white/5 bg-white/[0.01] backdrop-blur-sm transition-all duration-300 cursor-pointer overflow-hidden"
@@ -61,7 +61,7 @@ const EventCard = ({ name }) => {
                 </div>
             </div>
 
-            <div className="absolute inset-0 bg-gradient-to-r from-[#c41e3a]/0 via-[#c41e3a]/5 to-[#c41e3a]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#C9A227]/0 via-[#C9A227]/8 to-[#C9A227]/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
         </motion.div>
     )
 }

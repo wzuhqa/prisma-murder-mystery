@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { AlertTriangle, MapPin, Mail, Instagram, Shield } from 'lucide-react'
 import Footer from '../components/common/Footer'
+import MagneticButton from '../components/common/MagneticButton'
 import './ContactNoir.css'
 
 const Register = () => {
@@ -531,19 +532,21 @@ const Register = () => {
 
                     {/* Submit Button */}
                     <div className="form-actions" style={{ marginTop: '2rem' }}>
-                      <motion.button
-                        type="submit"
-                        disabled={isSubmitting || submitted}
-                        className="evidence-stamp-button"
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.96 }}
-                      >
-                        <span className="stamp-text">
-                          {isSubmitting ? 'PROCESSING...' : submitted ? 'AUTHORIZED' : 'INITIATE REGISTRATION'}
-                        </span>
-                        <div className="stamp-border" />
-                        {!isSubmitting && !submitted && <Shield size={16} className="stamp-icon" />}
-                      </motion.button>
+                      <MagneticButton strength={0.25}>
+                        <motion.button
+                          type="submit"
+                          disabled={isSubmitting || submitted}
+                          className="evidence-stamp-button"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.96 }}
+                        >
+                          <span className="stamp-text">
+                            {isSubmitting ? 'PROCESSING...' : submitted ? 'AUTHORIZED' : 'INITIATE REGISTRATION'}
+                          </span>
+                          <div className="stamp-border" />
+                          {!isSubmitting && !submitted && <Shield size={16} className="stamp-icon" />}
+                        </motion.button>
+                      </MagneticButton>
 
                       <div className="warning-notice">
                         <AlertTriangle size={14} />

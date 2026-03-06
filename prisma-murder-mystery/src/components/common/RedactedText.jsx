@@ -1,56 +1,119 @@
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Eye, EyeOff } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
 
-const RedactedText = ({ 
-  text = 'CLASSIFIED INFORMATION',
-  revealText = '',
-  isRedacted = true,
-  className = ''
+const CHARS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789█▓▒░#@!%&*'
+
+/**
+ * RedactedText
+ * Renders text as a redacted block. On hover, the block "decodes"
+ * using a matrix-style scramble animation that progressively reveals
+ * the real text character by character.
+ *
+ * Props:
+ *   text        - the secret text to reveal
+ *   className   - extra wrapper classes
+ *   decodeSpeed - ms between each character lock-in (default: 40)
+ */
+const RedactedText = ({
+  text = 'CLASSIFIED',
+  className = '',
+  decodeSpeed = 40,
 }) => {
-  const [isRevealed, setIsRevealed] = useState(!isRedacted)
+  const [displayed, setDisplayed] = useState(() => '█'.repeat(text.length))
+  const [isDecoding, setIsDecoding] = useState(false)
+  const intervalRef = useRef(null)
+  const lockedRef = useRef(0)
+  const frameRef = useRef(null)
 
-  const toggleReveal = () => {
-    setIsRevealed(!isRevealed)
+  const startDecode = () => {
+    if (isDecoding) return
+    setIsDecoding(true)
+    lockedRef.current = 0
+
+    // Rapid random scramble ticker
+    const scramble = () => {
+      setDisplayed(
+        text
+          .split('')
+          .map((char, i) => {
+            if (i < lockedRef.current) return char
+            if (char === ' ') return ' '
+            return CHARS[Math.floor(Math.random() * CHARS.length)]
+          })
+          .join('')
+      )
+      frameRef.current = requestAnimationFrame(scramble)
+    }
+    frameRef.current = requestAnimationFrame(scramble)
+
+    // Lock in characters one by one
+    intervalRef.current = setInterval(() => {
+      lockedRef.current += 1
+      if (lockedRef.current >= text.length) {
+        clearInterval(intervalRef.current)
+        cancelAnimationFrame(frameRef.current)
+        setDisplayed(text)
+      }
+    }, decodeSpeed)
   }
 
+  const stopDecode = () => {
+    setIsDecoding(false)
+    clearInterval(intervalRef.current)
+    cancelAnimationFrame(frameRef.current)
+    lockedRef.current = 0
+    setDisplayed('█'.repeat(text.length))
+  }
+
+  // Cleanup on unmount
+  useEffect(() => () => {
+    clearInterval(intervalRef.current)
+    cancelAnimationFrame(frameRef.current)
+  }, [])
+
+  const isRevealed = displayed === text
+
   return (
-    <div className={`relative inline-block ${className}`}>
-      {isRevealed ? (
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="font-mono text-sm text-amber-100 bg-amber-900/30 px-1"
-        >
-          {revealText || text}
-        </motion.span>
-      ) : (
-        <div className="relative inline-flex items-center gap-2">
-          {/* Redaction bars */}
-          <span className="font-mono text-sm bg-stone-900 px-2 py-0.5 tracking-widest">
-            {'█'.repeat(Math.max(text.length, 10))}
-          </span>
-          
-          {/* Stamped effect */}
-          <div 
-            className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-50"
-            style={{ transform: 'rotate(-15deg)' }}
-          >
-            <span className="font-serif text-xs text-red-700 border-2 border-red-700 px-2 py-0.5 uppercase tracking-widest">
-              {isRevealed ? 'DECLASSIFIED' : 'REDACTED'}
-            </span>
-          </div>
-        </div>
-      )}
-      
-      <button
-        onClick={toggleReveal}
-        className="ml-2 text-stone-500 hover:text-stone-300 transition-colors"
-        aria-label={isRevealed ? 'Hide information' : 'Reveal information'}
+    <span
+      className={`relative inline-block group cursor-crosshair ${className}`}
+      onMouseEnter={startDecode}
+      onMouseLeave={stopDecode}
+    >
+      {/* Redacted block */}
+      <span
+        className="font-mono text-sm tracking-widest transition-colors duration-150"
+        style={{
+          color: isRevealed ? '#e8c87a' : '#1a1a1a',
+          background: isRevealed ? 'rgba(139, 90, 0, 0.15)' : '#1a1a1a',
+          padding: '0.1em 0.4em',
+          borderRadius: '2px',
+          textShadow: isRevealed ? '0 0 8px rgba(232,200,122,0.4)' : 'none',
+          letterSpacing: isRevealed ? '0.05em' : '0.1em',
+          border: isDecoding && !isRevealed ? '1px solid rgba(196,30,58,0.4)' : '1px solid transparent',
+          transition: 'border-color 0.1s ease',
+        }}
       >
-        {isRevealed ? <EyeOff size={14} /> : <Eye size={14} />}
-      </button>
-    </div>
+        {displayed}
+      </span>
+
+      {/* Redacted stamp overlay (hidden when decoding) */}
+      {!isDecoding && (
+        <span
+          className="absolute inset-0 flex items-center justify-center pointer-events-none"
+          style={{ transform: 'rotate(-12deg)', opacity: 0.5 }}
+        >
+          <span
+            className="font-mono text-[0.5rem] text-red-700 border border-red-700 px-1 uppercase tracking-[0.2em]"
+          >
+            REDACTED
+          </span>
+        </span>
+      )}
+
+      {/* Hover hint */}
+      <span className="absolute -bottom-4 left-1/2 -translate-x-1/2 text-[0.5rem] text-red-800/60 font-mono tracking-widest opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none">
+        DECRYPTING…
+      </span>
+    </span>
   )
 }
 

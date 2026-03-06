@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 
 // Blood reveal intro sequence
-const CinematicBloodIntro = ({ 
-  onComplete, 
-  duration = 5000,
-  skipable = true 
+const CinematicBloodIntro = ({
+  onComplete,
+  duration = 3000,
+  skipable = true
 }) => {
   const [phase, setPhase] = useState(0)
   const [progress, setProgress] = useState(0)
@@ -63,7 +63,7 @@ const CinematicBloodIntro = ({
         canvas.width / 2, canvas.height / 2, 0,
         canvas.width / 2, canvas.height / 2, canvas.width
       )
-      
+
       if (phase >= 2) {
         gradient.addColorStop(0, 'rgba(20, 0, 0, 0.3)')
         gradient.addColorStop(1, 'rgba(0, 0, 0, 1)')
@@ -141,7 +141,7 @@ const CinematicBloodIntro = ({
 
           ctx.fillStyle = poolGradient
           ctx.beginPath()
-          
+
           // Organic pool shape
           for (let i = 0; i <= 12; i++) {
             const angle = (i / 12) * Math.PI * 2

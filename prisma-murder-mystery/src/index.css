@@ -43,9 +43,9 @@
 
   --text-header: #E8E8E8;
   /* Brighter for better contrast */
-  --text-body: #C0C0C5;
-  /* Brighter for readability */
-  --text-meta: #808088;
+  --text-body: #D0D0D5;
+  /* Noticeably brighter for better readability against dark noise */
+  --text-meta: #909098;
   --color-blood-accent: #7A0E12;
   /* Dried Blood */
 
@@ -225,7 +225,16 @@ body::after {
   z-index: 9999;
   will-change: transform;
   backface-visibility: hidden;
+  transform: translateZ(0);
 }
+
+/* Mobile: reduce grain layer opacity to near zero to prevent GPU lag */
+@media (max-width: 768px) {
+  body::after {
+    opacity: 0.3;
+  }
+}
+
 
 .psychological-spotlight::after {
   background: rgba(0, 0, 0, 0.15);
@@ -253,7 +262,52 @@ body::after {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-blood-accent);
+  background: var(--color-gold-dark);
+}
+
+/* ===== GLOBAL FOCUS RINGS (Accessibility) ===== */
+/* Provides a visible gold ring for keyboard navigation on ALL interactive elements */
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Remove default focus outline only for mouse/pointer users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* ===== SECTION-SPECIFIC BACKGROUNDS ===== */
+
+/* Hero areas — deep dark with centered upward radial glow */
+.section-hero-bg {
+  background:
+    radial-gradient(ellipse 70% 55% at 50% 0%, rgba(180, 0, 0, 0.06) 0%, transparent 65%),
+    radial-gradient(ellipse 80% 60% at 50% 50%, rgba(15, 10, 5, 0.4) 0%, transparent 80%),
+    var(--bg-base);
+  position: relative;
+}
+
+/* Content Areas — slightly lighter panels with glass morphism border */
+.section-content-bg {
+  background:
+    linear-gradient(180deg, rgba(30, 25, 20, 0.0) 0%, rgba(20, 15, 10, 0.5) 100%),
+    var(--bg-panel);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.025),
+    0 4px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Footer — deepest dark with barely-visible grain texture */
+.section-footer-bg {
+  background:
+    radial-gradient(ellipse 100% 40% at 50% 0%, rgba(80, 0, 0, 0.04) 0%, transparent 60%),
+    linear-gradient(180deg, var(--bg-base) 0%, #020204 100%);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 /* ===== SOPHISTICATED TRANSITION ANIMATION SYSTEM ===== */

@@ -191,7 +191,50 @@ const EventLineupReveal = () => {
         </div>
 
         {/* Artist Dossiers Grid */}
-        <div className="lineup-dossier-grid">
+        <div className="lineup-dossier-grid" style={{ position: 'relative' }}>
+          {/* Skeleton shimmer overlay - visible only during decrypt animation */}
+          {isRevealing && (
+            <div style={{
+              position: 'absolute',
+              inset: 0,
+              zIndex: 20,
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+              gap: '1.5rem',
+              pointerEvents: 'none',
+            }}>
+              {ARTIST_DATA.map((_, i) => (
+                <div key={i} style={{
+                  background: 'linear-gradient(135deg, #0d0b0a 0%, #111 50%, #0d0b0a 100%)',
+                  border: '1px solid rgba(201, 162, 39, 0.15)',
+                  borderRadius: '4px',
+                  padding: '1.5rem',
+                  overflow: 'hidden',
+                  position: 'relative',
+                }}>
+                  {/* Shimmer sweep */}
+                  <div style={{
+                    position: 'absolute',
+                    inset: 0,
+                    background: 'linear-gradient(105deg, transparent 30%, rgba(201,162,39,0.08) 50%, transparent 70%)',
+                    animation: 'skeletonShimmer 1s ease-in-out infinite',
+                    animationDelay: `${i * 0.15}s`,
+                  }} />
+                  {/* Placeholder bars */}
+                  <div style={{ height: '12px', background: 'rgba(201,162,39,0.1)', borderRadius: '2px', marginBottom: '0.75rem', width: '60%' }} />
+                  <div style={{ height: '80px', background: 'rgba(255,255,255,0.03)', borderRadius: '2px', marginBottom: '0.75rem' }} />
+                  <div style={{ height: '10px', background: 'rgba(201,162,39,0.08)', borderRadius: '2px', width: '40%' }} />
+                </div>
+              ))}
+              <style>{`
+                @keyframes skeletonShimmer {
+                  0% { transform: translateX(-100%); }
+                  100% { transform: translateX(200%); }
+                }
+              `}</style>
+            </div>
+          )}
+
           {ARTIST_DATA.map((artist) => (
             <ArtistCard
               key={artist.id}

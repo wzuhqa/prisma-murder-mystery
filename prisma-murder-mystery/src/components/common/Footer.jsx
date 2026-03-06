@@ -19,7 +19,7 @@ const Footer = () => {
   }, [])
 
   return (
-    <footer className={`footer-container ${isFlickering ? 'micro-flicker' : ''}`}>
+    <footer className={`footer-container section-footer-bg ${isFlickering ? 'micro-flicker' : ''}`}>
       {/* Atmospheric Overlays */}
       <div className="footer-grain" />
       <div className="footer-stain" />

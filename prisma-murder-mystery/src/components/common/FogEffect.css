@@ -49,6 +49,104 @@
     animation: fogDrift2 var(--fog-duration, 42s) linear infinite;
 }
 
+/* Layer 3 — warm amber/gold, bottom-weighted, counter-drifts for depth */
+.fog-layer-3 {
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 40%;
+    background: radial-gradient(ellipse at center,
+            rgba(201, 162, 39, var(--fog-opacity-gold, 0.04)) 0%,
+            transparent 65%);
+    background-size: 60% 100%;
+    background-repeat: repeat-x;
+    filter: blur(30px);
+    animation: fogDrift3 var(--fog-duration-gold, 50s) linear infinite;
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
+
+@keyframes fogDrift3 {
+    0% {
+        transform: translateX(0) translateZ(0);
+    }
+
+    100% {
+        transform: translateX(-50%) translateZ(0);
+    }
+}
+
+/* Floating glow spots — warm candlelight feel */
+.fog-glow-spot {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    filter: blur(50px);
+}
+
+.fog-glow-spot--1 {
+    width: 300px;
+    height: 200px;
+    bottom: 10%;
+    left: 15%;
+    background: radial-gradient(ellipse at center,
+            rgba(201, 162, 39, 0.06) 0%,
+            transparent 70%);
+    animation: glow-pulse-1 18s ease-in-out infinite;
+}
+
+.fog-glow-spot--2 {
+    width: 250px;
+    height: 180px;
+    bottom: 5%;
+    right: 20%;
+    background: radial-gradient(ellipse at center,
+            rgba(170, 120, 20, 0.05) 0%,
+            transparent 70%);
+    animation: glow-pulse-2 22s ease-in-out infinite;
+    animation-delay: -7s;
+}
+
+@keyframes glow-pulse-1 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1) translateZ(0);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: translate(5%, -8%) scale(1.15) translateZ(0);
+        opacity: 1;
+    }
+}
+
+@keyframes glow-pulse-2 {
+
+    0%,
+    100% {
+        transform: translate(0, 0) scale(1) translateZ(0);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: translate(-6%, 5%) scale(1.2) translateZ(0);
+        opacity: 1;
+    }
+}
+
+/* Mobile: hide extra layers for performance */
+@media (max-width: 768px) {
+
+    .fog-layer-3,
+    .fog-glow-spot {
+        display: none;
+    }
+}
+
 /* Animations */
 @keyframes fogDrift1 {
     0% {
