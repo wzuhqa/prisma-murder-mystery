@@ -147,7 +147,7 @@ const Footer = () => {
             <div className="space-y-4">
               <div className="bg-white/[0.02] border border-white/5 rounded-sm p-4">
                 <span className="font-mono text-[10px] text-blood/50 tracking-widest uppercase block mb-2">Event Date</span>
-                <span className="text-gray-300 text-sm font-heading tracking-wide">FEB 28 – MAR 01, 2026</span>
+                <span className="text-gray-300 text-sm font-heading tracking-wide">MAR 13 – MAR 14, 2026</span>
               </div>
               <div className="bg-white/[0.02] border border-white/5 rounded-sm p-4">
                 <span className="font-mono text-[10px] text-blood/50 tracking-widest uppercase block mb-2">Venue</span>

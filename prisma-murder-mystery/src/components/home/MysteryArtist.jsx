@@ -115,7 +115,7 @@ const MysteryArtist = () => {
               </div>
               <div className="flex items-center gap-3 justify-center lg:justify-start">
                 <span className="font-mono text-blood text-sm">REVEAL:</span>
-                <span className="font-mono text-fog-light text-sm tracking-wider">FEB 28 - MAR 01, 2026</span>
+                <span className="font-mono text-fog-light text-sm tracking-wider">MAR 13 - MAR 14, 2026</span>
               </div>
             </div>
 

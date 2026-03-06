@@ -11,9 +11,9 @@ import './CinematicCountdown.css'
  * - Four glowing digital timer panels with white neon numbers
  * - Flickering intensity effect
  */
-const CinematicCountdown = ({ 
-  targetTime = '2026-02-28T00:00:00',
-  onComplete 
+const CinematicCountdown = ({
+  targetTime = '2026-03-13T00:00:00',
+  onComplete
 }) => {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 })
   const [flickerPanel, setFlickerPanel] = useState(null)
@@ -24,11 +24,11 @@ const CinematicCountdown = ({
     try {
       const target = new Date(targetTime)
       if (isNaN(target.getTime())) {
-        return new Date('2026-02-28T00:00:00')
+        return new Date('2026-03-13T00:00:00')
       }
       return target
     } catch {
-      return new Date('2026-02-28T00:00:00')
+      return new Date('2026-03-13T00:00:00')
     }
   }, [targetTime])
 
@@ -49,9 +49,9 @@ const CinematicCountdown = ({
   useEffect(() => {
     const initialTime = calculateTimeLeft()
     setTimeLeft(initialTime)
-    
+
     const totalSeconds = initialTime.days * 86400 + initialTime.hours * 3600 + initialTime.minutes * 60 + initialTime.seconds
-    
+
     if (totalSeconds <= 0) {
       onComplete?.()
     }
@@ -62,9 +62,9 @@ const CinematicCountdown = ({
     const timer = setInterval(() => {
       const newTime = calculateTimeLeft()
       setTimeLeft(newTime)
-      
+
       const totalSeconds = newTime.days * 86400 + newTime.hours * 3600 + newTime.minutes * 60 + newTime.seconds
-      
+
       // Handle second change animations
       if (newTime.seconds !== previousSecond.current && previousSecond.current !== -1) {
         // Random flicker on one panel occasionally
@@ -76,14 +76,14 @@ const CinematicCountdown = ({
         }
       }
       previousSecond.current = newTime.seconds
-      
+
       // Completion
       if (totalSeconds <= 0) {
         onComplete?.()
         clearInterval(timer)
       }
     }, 1000)
-    
+
     return () => clearInterval(timer)
   }, [calculateTimeLeft, onComplete])
 
@@ -95,7 +95,7 @@ const CinematicCountdown = ({
   ]
 
   return (
-    <div 
+    <div
       className="cinematic-countdown-wrapper"
       role="timer"
       aria-label="Countdown to event"
@@ -149,9 +149,9 @@ const CinematicCountdown = ({
               {index > 0 && (
                 <span className="cinematic-separator" aria-hidden="true">:</span>
               )}
-              
+
               <div className="cinematic-panel-inner">
-                <span 
+                <span
                   className={`cinematic-digit ${flickerPanel === unit.key ? 'flickering' : ''}`}
                   aria-hidden="true"
                 >
@@ -165,7 +165,7 @@ const CinematicCountdown = ({
 
         {/* Event date */}
         <div className="cinematic-event-date">
-          FEBRUARY 28 — MARCH 1, 2026
+          MARCH 13 — MARCH 14, 2026
         </div>
       </div>
     </div>

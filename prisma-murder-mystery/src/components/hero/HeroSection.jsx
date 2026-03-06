@@ -10,7 +10,7 @@ const SCANNER_MESSAGES = [
   'CASE #PR-2026-X: ACTIVE — SEARCHING FOR ARCHITECT',
   'FORENSICS REPORT: 3 DISCREPANCIES DETECTED',
   'LOCATION: SRM UNIVERSITY DELHI-NCR',
-  'INCIDENT DATE: FEB 28 – MAR 01, 2026',
+  'INCIDENT DATE: MAR 13 – MAR 14, 2026',
   'CLASSIFICATION: PRISMA — THREAT LEVEL CRITICAL',
   'DISPATCH: ALL INVESTIGATORS REPORT IMMEDIATELY',
   'EVIDENCE LOCKER: 7 ITEMS SEALED, 2 UNRESOLVED',
@@ -233,7 +233,7 @@ const HeroSection = () => {
               <TerminalDecrypt text="#TheMysteryUnfolds" speed={50} delay={1200} />
             </p>
             <p className={styles.date}>
-              <TerminalDecrypt text="FEB 28 – MAR 01, 2026" speed={60} delay={1600} />
+              <TerminalDecrypt text="MAR 13 – MAR 14, 2026" speed={60} delay={1600} />
             </p>
 
             {/* Confidential Stamp */}

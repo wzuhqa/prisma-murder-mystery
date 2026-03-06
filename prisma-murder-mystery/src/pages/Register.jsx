@@ -259,7 +259,7 @@ const Register = () => {
 
                   <div className="status-item">
                     <span className="status-label">EVENT DATES:</span>
-                    <span className="status-value">FEB 28 – MAR 01</span>
+                    <span className="status-value">MAR 13 – MAR 14</span>
                   </div>
 
                   <div className="status-divider" />

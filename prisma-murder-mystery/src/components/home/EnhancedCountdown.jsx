@@ -17,7 +17,7 @@ const CLUE_ICONS = [
 ]
 
 const EnhancedCountdown = ({
-  targetTime = '2026-02-28T00:00:00',
+  targetTime = '2026-03-13T00:00:00',
   enableSound = false,
   onComplete
 }) => {
@@ -36,11 +36,11 @@ const EnhancedCountdown = ({
     try {
       const target = new Date(targetTime)
       if (isNaN(target.getTime())) {
-        return new Date('2026-02-28T00:00:00')
+        return new Date('2026-03-13T00:00:00')
       }
       return target
     } catch {
-      return new Date('2026-02-28T00:00:00')
+      return new Date('2026-03-13T00:00:00')
     }
   }, [targetTime])
 
@@ -210,7 +210,7 @@ const EnhancedCountdown = ({
         </div>
 
         <div className="countdown-event-date scratched-text">
-          FEBRUARY 28 — MARCH 1, 2026
+          MARCH 13 — MARCH 14, 2026
         </div>
       </div>
     </div>

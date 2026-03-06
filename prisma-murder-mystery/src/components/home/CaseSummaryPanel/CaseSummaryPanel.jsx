@@ -88,7 +88,7 @@ const CaseSummaryPanel = () => {
                     <h2 className={`${styles.title} scratched-text-heavy`}>PRISMA</h2>
 
                     <div className={styles.metadata}>
-                        <p><strong>INCIDENT DATE:</strong> FEB 28, 2026</p>
+                        <p><strong>INCIDENT DATE:</strong> MAR 13, 2026</p>
                         <p><strong>LOCATION:</strong> SRM UNIVERSITY DELHI-NCR</p>
                         <p><strong>PRIORITY:</strong> <span className={styles.highPriority}>CRITICAL</span></p>
                     </div>
