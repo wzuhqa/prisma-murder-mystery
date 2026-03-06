@@ -184,7 +184,7 @@ const AboutArchive = () => {
               className="entry-text"
             >
               <div className="entry-line">ARCHIVE ACCESS GRANTED</div>
-              <div className="entry-case">PRISMA RECORDS</div>
+              <div className="entry-case glitch-hover" data-text="PRISMA RECORDS">PRISMA RECORDS</div>
               <div className="entry-status">STATUS: UNSEALED</div>
             </motion.div>
           </motion.div>
@@ -243,7 +243,7 @@ const AboutArchive = () => {
               >
                 <div className="classified-tag">CLASSIFIED</div>
 
-                <h1 className="archive-title">ABOUT PRISMA</h1>
+                <h1 className="archive-title">ABOUT <span className="glitch-hover" data-text="PRISMA">PRISMA</span></h1>
 
                 <p className="archive-subtitle">
                   The Archive of Legacy and Innovation
@@ -252,7 +252,7 @@ const AboutArchive = () => {
                 <div className="case-file-intro">
                   <div className="file-header">
                     <span className="file-label">PRIMARY CASE FILE</span>
-                    <span className="file-id">PRISMA-2K26</span>
+                    <span className="file-id glitch-hover" data-text="PRISMA-2K26">PRISMA-2K26</span>
                   </div>
 
                   <div className="file-content">
@@ -266,7 +266,7 @@ const AboutArchive = () => {
                       <p className="details-tagline">The Grand Techno-Cultural Extravaganza</p>
 
                       <p className="details-description">
-                        Welcome to Prisma 2K26, the 8th edition of SRM University Delhi NCR, Sonepat's premier techno-cultural fest! Celebrating talent, creativity, and innovation, Prisma offers exhilarating performances, thrilling competitions, and vibrant celebrations. Enjoy dance battles, theatrical acts, music, fashion, gaming, debates, poetry slams, photography, art, and cosplay. A hub of diverse interests, Prisma fosters creativity and excellence, growing bigger each year. Whether a performer, competitor, or spectator, experience the excitement and legacy of Prisma 2K26!
+                        Welcome to <span className="glitch-hover" data-text="Prisma 2K26">Prisma 2K26</span>, the 8th edition of SRM University Delhi NCR, Sonepat's premier techno-cultural fest! Celebrating talent, creativity, and innovation, <span className="glitch-hover" data-text="Prisma">Prisma</span> offers exhilarating performances, thrilling competitions, and vibrant celebrations. Enjoy dance battles, theatrical acts, music, fashion, gaming, debates, poetry slams, photography, art, and cosplay. A hub of diverse interests, <span className="glitch-hover" data-text="Prisma">Prisma</span> fosters creativity and excellence, growing bigger each year. Whether a performer, competitor, or spectator, experience the excitement and legacy of <span className="glitch-hover" data-text="Prisma 2K26">Prisma 2K26</span>!
                       </p>
                     </div>
                   </div>

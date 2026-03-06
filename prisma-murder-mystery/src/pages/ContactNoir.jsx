@@ -178,7 +178,7 @@ const ContactNoir = () => {
                             className="entry-text"
                         >
                             <div className="entry-line">CASE FILE OPENED</div>
-                            <div className="entry-case">PRISMA-2K26</div>
+                            <div className="entry-case glitch-hover" data-text="PRISMA-2K26">PRISMA-2K26</div>
                             <div className="entry-status">STATUS: ACTIVE</div>
                         </motion.div>
                     </motion.div>
@@ -238,7 +238,7 @@ const ContactNoir = () => {
                                     Every statement becomes evidence.
                                 </p>
 
-                                <div className="case-number">CASE #2026-PRISMA</div>
+                                <div className="case-number glitch-hover" data-text="CASE #2026-PRISMA">CASE #2026-PRISMA</div>
                             </motion.div>
 
                             {/* Background Story */}
@@ -268,7 +268,7 @@ const ContactNoir = () => {
 
                                     <div className="status-item">
                                         <span className="status-label">CASE ID:</span>
-                                        <span className="status-value">PRISMA-2K26</span>
+                                        <span className="status-value glitch-hover" data-text="PRISMA-2K26">PRISMA-2K26</span>
                                     </div>
 
                                     <div className="status-item">

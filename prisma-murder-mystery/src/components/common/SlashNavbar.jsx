@@ -381,7 +381,7 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
           <div className="navbar-brand-group">
             <div className="navbar-brand">
               <div className="brand-header">
-                <span className="brand-main">PRISMA 2026</span>
+                <span className="brand-main" data-text="PRISMA 2026">PRISMA 2026</span>
                 <span className="brand-uni">SRM UNIVERSITY DELHI-NCR</span>
               </div>
               <div className="brand-meta">

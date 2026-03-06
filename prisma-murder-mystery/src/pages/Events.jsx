@@ -120,7 +120,7 @@ const Events = () => {
               className="entry-text"
             >
               <div className="entry-line">PROGRAM INDEX ACCESSED</div>
-              <div className="entry-case">PRISMA-2K26</div>
+              <div className="entry-case glitch-hover" data-text="PRISMA-2K26">PRISMA-2K26</div>
               <div className="entry-status">STATUS: ACTIVE</div>
             </motion.div>
           </motion.div>
@@ -175,7 +175,7 @@ const Events = () => {
               Every detail is evidence. Monitoring in progress.
             </p>
 
-            <div className="case-number">CASE #2026-PRISMA</div>
+            <div className="case-number glitch-hover" data-text="CASE #2026-PRISMA">CASE #2026-PRISMA</div>
           </motion.div>
         </header>
 
@@ -197,7 +197,7 @@ const Events = () => {
         {/* Footer */}
         <footer className="mt-20 pb-12 border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center text-[0.6rem] uppercase tracking-[0.3em] text-gray-700 font-mono">
           <div>Every program has an architect.</div>
-          <div className="mt-4 md:mt-0">© 2026 PRISMA TERMINAL // ALL RIGHTS RESERVED</div>
+          <div className="mt-4 md:mt-0">© 2026 <span className="glitch-hover" data-text="PRISMA TERMINAL">PRISMA TERMINAL</span> // ALL RIGHTS RESERVED</div>
         </footer>
       </div>
 
