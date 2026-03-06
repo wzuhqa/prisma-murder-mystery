@@ -106,8 +106,8 @@ const MysteryArtist = () => {
 
             <div className="space-y-3 mb-8">
               <div className="flex items-center gap-3 justify-center lg:justify-start">
-                <span className="font-mono text-blood text-sm">SUSPECT:</span>
-                <span className="font-mono text-fog-light text-sm tracking-wider">DILJIT DOSANJH</span>
+                <span className="font-mono text-blood text-sm">SUSPECTS:</span>
+                <span className="font-mono text-fog-light text-sm tracking-wider">DANNY & SUNANDA SHARMA</span>
               </div>
               <div className="flex items-center gap-3 justify-center lg:justify-start">
                 <span className="font-mono text-blood text-sm">STATUS:</span>
@@ -120,8 +120,8 @@ const MysteryArtist = () => {
             </div>
 
             <p className="text-fog-light text-lg leading-relaxed max-w-md mx-auto lg:mx-0">
-              The Punjabi sensation DILJIT DOSANJH is set to take the stage at PRISMA 2026.
-              Get ready for an unforgettable night of music and energy!
+              The sensational DANNY and the vibrant SUNANDA SHARMA are set to take the stage at PRISMA 2026.
+              Get ready for two unforgettable nights of music and energy!
             </p>
 
             {/* Decorative line */}

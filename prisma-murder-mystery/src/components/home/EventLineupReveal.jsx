@@ -42,8 +42,8 @@ const EventLineupReveal = () => {
   }
 
   const ARTIST_DATA = [
-    { id: 'subject-01', cid: 'Subject 01', name: 'THE NIGHTHAWK', realName: 'ASTRAL ECHO', silhouette: 'standing' },
-    { id: 'subject-02', cid: 'Subject 02', name: 'SILVER TONGUES', realName: 'VOX SPECTER', silhouette: 'seated' }
+    { id: 'subject-01', cid: 'Subject 01', name: 'DANNY', realName: 'DANNY', silhouette: 'standing' },
+    { id: 'subject-02', cid: 'Subject 02', name: 'SUNANDA SHARMA', realName: 'SUNANDA SHARMA', silhouette: 'seated' }
   ]
 
   return (

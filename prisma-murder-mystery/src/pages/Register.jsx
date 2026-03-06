@@ -13,6 +13,11 @@ const Register = () => {
     teamName: ''
   })
 
+  // Pass and Hostel selection state
+  const [passSelected, setPassSelected] = useState(true)
+  const [day1Hostel, setDay1Hostel] = useState(null) // null | 'no-mess' | 'with-mess'
+  const [day2Hostel, setDay2Hostel] = useState(null) // null | 'no-mess' | 'with-mess'
+
   const [focusedField, setFocusedField] = useState(null)
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
@@ -101,9 +106,30 @@ const Register = () => {
     return () => cancelAnimationFrame(animationId)
   }, [])
 
+  // Price Calculation
+  const calculateTotal = () => {
+    let total = 0
+    if (passSelected) total += 1000
+    if (day1Hostel === 'no-mess') total += 300
+    if (day1Hostel === 'with-mess') total += 500
+    if (day2Hostel === 'no-mess') total += 300
+    if (day2Hostel === 'with-mess') total += 500
+    return total
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsSubmitting(true)
+
+    const submissionData = {
+      ...formData,
+      passDetails: {
+        eventPass: passSelected,
+        day1Hostel,
+        day2Hostel,
+        totalPrice: calculateTotal()
+      }
+    }
 
     // Simulate submission with tension
     await new Promise(resolve => setTimeout(resolve, 2500))
@@ -121,6 +147,9 @@ const Register = () => {
     // Reset after showing success
     setTimeout(() => {
       setFormData({ name: '', email: '', phone: '', college: '', teamName: '' })
+      setPassSelected(true)
+      setDay1Hostel(null)
+      setDay2Hostel(null)
       setSubmitted(false)
     }, 8000)
   }
@@ -282,6 +311,104 @@ const Register = () => {
                   </div>
 
                   <form onSubmit={handleSubmit} className="dossier-form">
+                    {/* Pass Selection */}
+                    <div className="form-section-title">SELECT PASS</div>
+                    <div className="pass-selection-card">
+                      <div className="pass-option main-pass">
+                        <label className="checkbox-container">
+                          <input
+                            type="checkbox"
+                            checked={passSelected}
+                            onChange={(e) => setPassSelected(e.target.checked)}
+                          />
+                          <span className="checkmark" />
+                          <div className="option-info">
+                            <span className="option-name">Event Pass</span>
+                            <span className="option-price">₹1000</span>
+                          </div>
+                        </label>
+                      </div>
+
+                      <div className="form-section-title mt-6">HOSTEL ACCOMMODATION (OPTIONAL)</div>
+
+                      {/* Day 1 Options */}
+                      <div className="hostel-day-cluster">
+                        <div className="day-label">DAY 1</div>
+                        <div className="hostel-options">
+                          <label className={`radio-container ${day1Hostel === 'no-mess' ? 'active' : ''}`}>
+                            <input
+                              type="radio"
+                              name="day1Hostel"
+                              checked={day1Hostel === 'no-mess'}
+                              onChange={() => setDay1Hostel(day1Hostel === 'no-mess' ? null : 'no-mess')}
+                              onClick={() => setDay1Hostel(day1Hostel === 'no-mess' ? null : 'no-mess')}
+                            />
+                            <span className="radio-mark" />
+                            <div className="option-info">
+                              <span className="option-name">Without Mess</span>
+                              <span className="option-price">+₹300</span>
+                            </div>
+                          </label>
+                          <label className={`radio-container ${day1Hostel === 'with-mess' ? 'active' : ''}`}>
+                            <input
+                              type="radio"
+                              name="day1Hostel"
+                              checked={day1Hostel === 'with-mess'}
+                              onChange={() => setDay1Hostel(day1Hostel === 'with-mess' ? null : 'with-mess')}
+                              onClick={() => setDay1Hostel(day1Hostel === 'with-mess' ? null : 'with-mess')}
+                            />
+                            <span className="radio-mark" />
+                            <div className="option-info">
+                              <span className="option-name">With Mess</span>
+                              <span className="option-price">+₹500</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      {/* Day 2 Options */}
+                      <div className="hostel-day-cluster mt-4">
+                        <div className="day-label">DAY 2</div>
+                        <div className="hostel-options">
+                          <label className={`radio-container ${day2Hostel === 'no-mess' ? 'active' : ''}`}>
+                            <input
+                              type="radio"
+                              name="day2Hostel"
+                              checked={day2Hostel === 'no-mess'}
+                              onChange={() => setDay2Hostel(day2Hostel === 'no-mess' ? null : 'no-mess')}
+                              onClick={() => setDay2Hostel(day2Hostel === 'no-mess' ? null : 'no-mess')}
+                            />
+                            <span className="radio-mark" />
+                            <div className="option-info">
+                              <span className="option-name">Without Mess</span>
+                              <span className="option-price">+₹300</span>
+                            </div>
+                          </label>
+                          <label className={`radio-container ${day2Hostel === 'with-mess' ? 'active' : ''}`}>
+                            <input
+                              type="radio"
+                              name="day2Hostel"
+                              checked={day2Hostel === 'with-mess'}
+                              onChange={() => setDay2Hostel(day2Hostel === 'with-mess' ? null : 'with-mess')}
+                              onClick={() => setDay2Hostel(day2Hostel === 'with-mess' ? null : 'with-mess')}
+                            />
+                            <span className="radio-mark" />
+                            <div className="option-info">
+                              <span className="option-name">With Mess</span>
+                              <span className="option-price">+₹500</span>
+                            </div>
+                          </label>
+                        </div>
+                      </div>
+
+                      {/* Total Display */}
+                      <div className="price-summary-box">
+                        <div className="total-label">TOTAL INVESTIGATION FEE</div>
+                        <div className="total-amount">₹{calculateTotal()}</div>
+                      </div>
+                    </div>
+
+                    <div className="form-section-title mt-8">OPERATIVE DETAILS</div>
                     {/* Subject Name */}
                     <div className="form-field">
                       <label htmlFor="name" className="field-label">

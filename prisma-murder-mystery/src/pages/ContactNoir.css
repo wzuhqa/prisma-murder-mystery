@@ -104,6 +104,173 @@
     }
 }
 
+/* Documentation of custom styles for Register page */
+.form-section-title {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  color: var(--blood-light, #ff4444);
+  margin-bottom: 1rem;
+  opacity: 0.8;
+}
+
+.pass-selection-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.pass-option.main-pass {
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.checkbox-container, .radio-container {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+}
+
+.checkbox-container input, .radio-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark, .radio-mark {
+  height: 18px;
+  width: 18px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  margin-right: 12px;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.radio-mark {
+  border-radius: 50%;
+}
+
+.checkbox-container:hover input ~ .checkmark,
+.radio-container:hover input ~ .radio-mark {
+  border-color: var(--blood-light, #ff4444);
+}
+
+.checkbox-container input:checked ~ .checkmark,
+.radio-container input:checked ~ .radio-mark {
+  background-color: var(--blood, #8b0000);
+  border-color: var(--blood, #8b0000);
+}
+
+.checkmark:after, .radio-mark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after,
+.radio-container input:checked ~ .radio-mark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 6px;
+  top: 2px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.radio-container .radio-mark:after {
+  top: 4px;
+  left: 4px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+
+.option-info {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.option-name {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: #e5e5e5;
+}
+
+.option-price {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  color: var(--gold, #c9a96e);
+}
+
+.hostel-day-cluster {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.day-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.65rem;
+  color: #888;
+  letter-spacing: 0.1em;
+}
+
+.hostel-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.radio-container {
+  padding: 0.75rem;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.radio-container.active {
+  border-color: rgba(139, 0, 0, 0.3);
+  background: rgba(139, 0, 0, 0.05);
+}
+
+.price-summary-box {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.total-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  color: #888;
+}
+
+.total-amount {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.5rem;
+  color: var(--blood-light, #ff4444);
+  font-weight: bold;
+  text-shadow: 0 0 10px rgba(255, 68, 68, 0.2);
+}
 /* Container & Atmosphere */
 .noir-contact-container {
     position: relative;
