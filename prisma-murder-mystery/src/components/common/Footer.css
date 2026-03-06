@@ -12,9 +12,7 @@
 .crime-tape {
     animation: crimeTapePulse 3s ease-in-out infinite;
     position: relative;
-    z-index: 30;
-    -webkit-text-stroke: 1.5px rgba(0, 0, 0, 0.8);
-    text-stroke: 1.5px rgba(0, 0, 0, 0.8);
+    z-index: 99999;
 }
 
 @keyframes crimeTapePulse {
@@ -262,7 +260,7 @@
 .footer-grid {
     display: grid;
     grid-template-columns: 1.5fr 1fr 1fr 1.2fr;
-    gap: var(--space-10, 2.5rem);
+    gap: var(--space-16, 4rem);
 }
 
 .footer-brand-text {
@@ -322,5 +320,89 @@
         flex-direction: column;
         text-align: center;
         gap: 15px;
+    }
+}
+
+/* PRISMA Logo Glitch Hover */
+.logo-glitch-hover {
+    position: relative;
+    display: inline-block;
+}
+
+.logo-glitch-hover::before,
+.logo-glitch-hover::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.logo-glitch-hover:hover::before {
+    left: 4px;
+    text-shadow: -2px 0 red;
+    animation: glitch-anim-1 2s infinite linear alternate-reverse;
+    opacity: 1;
+}
+
+.logo-glitch-hover:hover::after {
+    left: -4px;
+    text-shadow: 2px 0 blue;
+    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+    opacity: 1;
+}
+
+@keyframes glitch-anim-1 {
+    0% {
+        clip-path: inset(20% 0 80% 0);
+    }
+
+    20% {
+        clip-path: inset(60% 0 10% 0);
+    }
+
+    40% {
+        clip-path: inset(10% 0 50% 0);
+    }
+
+    60% {
+        clip-path: inset(80% 0 5% 0);
+    }
+
+    80% {
+        clip-path: inset(30% 0 40% 0);
+    }
+
+    100% {
+        clip-path: inset(50% 0 30% 0);
+    }
+}
+
+@keyframes glitch-anim-2 {
+    0% {
+        clip-path: inset(10% 0 60% 0);
+    }
+
+    20% {
+        clip-path: inset(30% 0 20% 0);
+    }
+
+    40% {
+        clip-path: inset(70% 0 10% 0);
+    }
+
+    60% {
+        clip-path: inset(20% 0 50% 0);
+    }
+
+    80% {
+        clip-path: inset(90% 0 5% 0);
+    }
+
+    100% {
+        clip-path: inset(5% 0 80% 0);
     }
 }

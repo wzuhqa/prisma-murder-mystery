@@ -26,7 +26,7 @@ const Footer = () => {
       <div className="footer-pulse-line" />
 
       {/* Crime tape top border */}
-      <div className="crime-tape w-full text-center text-[11px] tracking-[8px] py-2.5 bg-blood text-midnight font-black opacity-90 shadow-lg">
+      <div className="crime-tape w-full text-center text-[11px] tracking-[8px] py-2.5 bg-blood text-chalk font-black opacity-90 shadow-lg">
         ⚠ DO NOT CROSS — CRIME SCENE — DO NOT CROSS ⚠
       </div>
 
@@ -34,7 +34,7 @@ const Footer = () => {
         {/* ===== TOP SECTION: Brand + Tagline ===== */}
         <div className="text-center mb-16 md:mb-20 relative">
           <div className="inline-block relative">
-            <h3 className="font-heading text-5xl md:text-7xl font-bold tracking-tighter text-blood mb-3" style={{ textShadow: '0 0 40px rgba(139, 0, 0, 0.3)' }}>
+            <h3 className="logo-glitch-hover font-heading text-5xl md:text-7xl font-bold tracking-tighter text-blood mb-3" style={{ textShadow: '0 0 40px rgba(139, 0, 0, 0.3)' }} data-text="PRISMA">
               PRISMA
             </h3>
             <p className="font-mono text-[10px] md:text-xs tracking-[0.5em] text-meta uppercase">
@@ -46,7 +46,7 @@ const Footer = () => {
           </p>
 
           {/* Social Icons — Prominent */}
-          <div className="flex items-center justify-center gap-6 mt-8">
+          <div className="flex items-center justify-center gap-10 mt-12 mb-8">
             <a href="https://instagram.com/prisma.srmuh" target="_blank" rel="noopener noreferrer"
               className="group w-11 h-11 border border-white/10 rounded-full flex items-center justify-center hover:border-blood/50 hover:bg-blood/10 transition-all duration-300">
               <Instagram size={18} className="text-meta group-hover:text-blood transition-colors" />
@@ -77,7 +77,7 @@ const Footer = () => {
               <span className="text-blood/30 mr-2">01</span>
               Case Files
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-6">
               {[
                 { label: 'Case Overview', path: '/' },
                 { label: 'Suspect Dossier', path: '/events' },
@@ -100,7 +100,7 @@ const Footer = () => {
               <span className="text-blood/30 mr-2">02</span>
               Evidence Room
             </h4>
-            <ul className="space-y-4">
+            <ul className="space-y-6">
               {['Fashion', 'Gaming', 'Photography', 'Dance', 'Music', 'Drama', 'Literary'].map(item => (
                 <li key={item}>
                   <Link to="/events" className="footer-link">
@@ -118,7 +118,7 @@ const Footer = () => {
               <span className="text-blood/30 mr-2">03</span>
               Headquarters
             </h4>
-            <ul className="space-y-5">
+            <ul className="space-y-7">
               <li className="flex items-start gap-3 group">
                 <MapPin size={14} className="text-blood/60 shrink-0 mt-1" />
                 <span className="text-meta text-sm leading-relaxed group-hover:text-chalk transition-colors">
@@ -144,7 +144,7 @@ const Footer = () => {
               <span className="text-blood/30 mr-2">04</span>
               Intel Brief
             </h4>
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="bg-white/[0.02] border border-white/5 rounded-sm p-4">
                 <span className="font-mono text-[10px] text-blood/50 tracking-widest uppercase block mb-2">Event Date</span>
                 <span className="text-gray-300 text-sm font-heading tracking-wide">MAR 13 – MAR 14, 2026</span>

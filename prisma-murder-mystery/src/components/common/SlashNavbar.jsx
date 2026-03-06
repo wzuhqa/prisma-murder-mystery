@@ -346,8 +346,6 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
     return () => window.removeEventListener('keydown', handleGlobalKey)
   }, [navigate])
 
-  // #5 — Current breadcrumb label
-  const activeBreadcrumb = NAV_ITEMS.find(it => it.id === activeSection)?.label ?? ''
 
   return (
     <>
@@ -389,13 +387,7 @@ const SlashNavbar = ({ ambientGlow = true, isLocked = false }) => {
               <div className="brand-meta">
                 <span className="case-id">CLEARANCE: <span className="restricted-glow">RESTRICTED</span></span>
               </div>
-              {/* #5 — Current page breadcrumb */}
-              {activeBreadcrumb && (
-                <div className="brand-breadcrumb">
-                  <span className="breadcrumb-arrow">▶</span>
-                  <span className="breadcrumb-label">{activeBreadcrumb}</span>
-                </div>
-              )}
+
             </div>
           </div>
           <div className="case-index-divider" aria-hidden="true" />

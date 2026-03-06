@@ -12,8 +12,8 @@
   --nav-border: rgba(139, 0, 0, 0.25);
   --nav-mono: 'IBM Plex Mono', 'Courier New', monospace;
   --nav-text: #d9d9d9;
-  --nav-height: 100px;
-  /* increased from 90px to fit breadcrumb row */
+  --nav-height: 80px;
+  /* Reduced from 100px */
   --nav-height-scrolled: 58px;
   --nav-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -31,7 +31,7 @@
   padding: 0 1.5rem;
   /* Reduced from clamp for a more precise, edge-to-edge feel */
   background: var(--nav-bg);
-  border-bottom: 2px solid var(--nav-border);
+  border-bottom: none;
   z-index: 1000;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
   font-family: var(--nav-mono);
@@ -95,9 +95,8 @@
 }
 
 .slash-navbar--scrolled .brand-meta {
-  /* Show the clearance badge inline next to the brand name */
-  display: flex;
-  align-items: center;
+  /* Hide the clearance badge when scrolled */
+  display: none;
 }
 
 .slash-navbar--scrolled .navbar-brand {
@@ -205,6 +204,7 @@
       rgba(139, 0, 0, 0.1) 100%);
   pointer-events: none;
   z-index: 5;
+  display: none;
 }
 
 /* Evidence tape corner tabs */
@@ -220,6 +220,7 @@
   transform: rotate(-2deg);
   pointer-events: none;
   z-index: 5;
+  display: none;
 }
 
 /* ----- MENU ----- */
@@ -525,8 +526,6 @@
 .case-id {
   font-size: var(--text-xs, 0.65rem);
   color: var(--nav-crimson);
-  border: 1px solid rgba(139, 0, 0, 0.3);
-  padding: 3px 10px;
   letter-spacing: 0.05em;
   white-space: nowrap;
 }
@@ -542,8 +541,7 @@
   color: #ff3333;
   font-weight: 700;
   text-shadow: 0 0 5px rgba(255, 51, 51, 0.6);
-  border: 1px solid rgba(255, 51, 51, 0.3);
-  padding: 3px 8px;
+  padding-left: 2px;
 }
 
 .navbar-zone--status {
@@ -1528,6 +1526,7 @@
   opacity: 0.8;
   box-shadow: 0 0 10px var(--nav-crimson);
   animation: glow-underline 3s ease-in-out infinite;
+  display: none;
 }
 
 @keyframes glow-underline {

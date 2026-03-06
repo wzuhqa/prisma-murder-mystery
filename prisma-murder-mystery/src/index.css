@@ -163,6 +163,8 @@ body {
   background-color: var(--bg-base);
   color: var(--text-body);
   overflow-x: hidden;
+  overflow-y: scroll;
+  /* Force vertical scrollbar to prevent layout shift between pages */
   scrollbar-gutter: stable;
   /* Modern fix: reserves scrollbar gutter to prevent layout shift */
   min-height: 100vh;
