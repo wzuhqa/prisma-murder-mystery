@@ -8,10 +8,10 @@ import TerminalDecrypt from '../common/TerminalDecrypt/TerminalDecrypt';
 /* ─── Police scanner ticker ──────────────────────────────── */
 const SCANNER_MESSAGES = [
   'CASE #PR-2026-X: ACTIVE — SEARCHING FOR ARCHITECT',
-  'FORENSICS REPORT: 3 ANOMALIES DETECTED',
+  'FORENSICS REPORT: 3 DISCREPANCIES DETECTED',
   'LOCATION: SRM UNIVERSITY DELHI-NCR',
   'INCIDENT DATE: FEB 28 – MAR 01, 2026',
-  'CLASSIFICATION: PRISMA ANOMALY — THREAT LEVEL CRITICAL',
+  'CLASSIFICATION: PRISMA — THREAT LEVEL CRITICAL',
   'DISPATCH: ALL INVESTIGATORS REPORT IMMEDIATELY',
   'EVIDENCE LOCKER: 7 ITEMS SEALED, 2 UNRESOLVED',
   'WITNESS ACCOUNTS: MATCH FOUND — IDENTITY: ARCHITECT',
@@ -221,7 +221,7 @@ const HeroSection = () => {
             <div className={styles.titleRow}>
               <div className={styles.universityBadge}>SRM UNIVERSITY DELHI-NCR</div>
               <div className={`${styles.titleWrapper} scratched-text-heavy`}>
-                <GlitchTitle text="THE PRISMA ANOMALY" />
+                <GlitchTitle text="PRISMA" />
                 <span className={`${styles.reopenNote} scratched-text`}>Reopen inquiry?</span>
               </div>
             </div>

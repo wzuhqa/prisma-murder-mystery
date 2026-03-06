@@ -13,7 +13,7 @@ const EventAccordion = ({ type, events, isOpen: initialOpen = false }) => {
             >
                 <div className="flex flex-col items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-[#c41e3a] shadow-[0_0_8px_#c41e3a]" />
-                    <span className="text-[0.65rem] uppercase tracking-[0.3em] text-gray-400 group-hover:text-[#e8e0d0] transition-colors duration-300 font-mono font-bold">
+                    <span className="text-[0.85rem] uppercase tracking-[0.3em] text-gray-400 group-hover:text-[#e8e0d0] transition-colors duration-300 font-mono font-bold">
                         {type} // PARTICIPATION_TYPE
                     </span>
                 </div>

@@ -622,7 +622,7 @@
 
 .category-description {
     font-family: 'Inter', sans-serif;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     color: rgba(232, 224, 208, 0.7);
     line-height: 1.6;
     max-width: 40rem;
@@ -631,7 +631,7 @@
 
 .category-tagline {
     font-family: 'Courier Prime', monospace;
-    font-size: 0.7rem;
+    font-size: 0.9rem;
     letter-spacing: 0.3em;
     color: #c41e3a;
     margin-top: 1rem;

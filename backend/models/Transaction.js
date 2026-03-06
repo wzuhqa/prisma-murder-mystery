@@ -9,16 +9,16 @@ const TransactionSchema = new mongoose.Schema(
         },
         orderId: {
             type: String,
-            required: true, // Razorpay Order ID
+            required: true, // Easebuzz txnid
             unique: true
         },
         paymentId: {
-            type: String, // Razorpay Payment ID, will be updated on callback/webhook
+            type: String, // Easebuzz easepayid, will be updated on callback/webhook
             sparse: true,
             unique: true
         },
         signature: {
-            type: String // Razorpay Signature for verification
+            type: String // Easebuzz Signature for verification
         },
         amount: {
             type: Number,

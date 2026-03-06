@@ -85,7 +85,7 @@ const CaseSummaryPanel = () => {
                         <span className={styles.caseNumber}>#PR-2026-B2</span>
                     </div>
 
-                    <h2 className={`${styles.title} scratched-text-heavy`}>The PRISMA Anomaly</h2>
+                    <h2 className={`${styles.title} scratched-text-heavy`}>PRISMA</h2>
 
                     <div className={styles.metadata}>
                         <p><strong>INCIDENT DATE:</strong> FEB 28, 2026</p>

@@ -34,7 +34,7 @@ const EventCard = ({ name }) => {
 
             <div className="relative z-10 flex items-center gap-3">
                 <span className="text-[#c41e3a] font-mono text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">[</span>
-                <span className="text-gray-400 group-hover:text-[#e8e0d0] font-mono text-xs tracking-[0.2em] transition-all duration-300 uppercase group-hover:translate-x-1">
+                <span className="text-gray-400 group-hover:text-[#e8e0d0] font-mono text-sm tracking-[0.2em] transition-all duration-300 uppercase group-hover:translate-x-1">
                     {name}
                 </span>
                 <span className="text-[#c41e3a] font-mono text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">]</span>

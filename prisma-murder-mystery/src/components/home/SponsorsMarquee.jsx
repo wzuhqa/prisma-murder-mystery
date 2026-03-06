@@ -186,7 +186,7 @@ const MarqueeRow = ({ tier, tierKey, reverse = false }) => {
   const isInView = useInView(rowRef, { once: true, margin: "-100px" })
 
   return (
-    <div ref={rowRef} className="mb-8 last:mb-0">
+    <div ref={rowRef} className="mb-8 last:mb-0 w-full overflow-hidden">
       {/* Tier Label with slide-in effect */}
       <motion.div
         className="flex items-center gap-4 mb-5 px-8 max-w-7xl mx-auto"
@@ -207,13 +207,13 @@ const MarqueeRow = ({ tier, tierKey, reverse = false }) => {
       </motion.div>
 
       {/* Marquee Track */}
-      <div className="marquee-container relative overflow-hidden group/marquee">
+      <div className="marquee-container relative overflow-hidden group/marquee flex justify-center">
         {/* Edge fades */}
         <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-noir to-transparent z-20 pointer-events-none" />
         <div className="absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-noir to-transparent z-20 pointer-events-none" />
 
         <div
-          className="marquee-content flex items-center"
+          className="marquee-content flex items-center min-w-full"
           style={{
             animationDuration: `${tier.speed}s`,
             animationDirection: reverse ? 'reverse' : 'normal',
