@@ -56,7 +56,7 @@ const CheckoutPage = () => {
         setPaying(true);
 
         await initiatePayment({
-            eventId: selectedEvent._id,
+            event: selectedEvent,
             quantity,
             user,
             onSuccess: (data) => {
@@ -223,11 +223,11 @@ const CheckoutPage = () => {
                             disabled={paying || selectedEvent?.availableTickets === 0}
                             id="checkout-buy-btn"
                         >
-                            {paying ? 'Processing...' : 'Proceed to Pay'}
+                            {paying ? 'Processing...' : 'Proceed to Pay (Demo)'}
                         </button>
 
                         <p style={{ color: '#4a3020', fontSize: '11px', textAlign: 'center', marginTop: '16px' }}>
-                            Secured by Easebuzz · All transactions are encrypted
+                            Demo Mode: No actual payment will be processed
                         </p>
                     </>
                 )}

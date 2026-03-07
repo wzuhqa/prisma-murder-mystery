@@ -1,5 +1,5 @@
-import { useCallback, useState } from 'react';
-import axiosInstance from '../api/axiosConfig';
+import { useCallback } from 'react';
+// import axiosInstance from '../api/axiosConfig'; // Backend no longer required for this flow
 
 const EASEBUZZ_SCRIPT_URL_PROD = 'https://pay.easebuzz.in/easecheckout/easebuzz-checkout.js';
 const EASEBUZZ_SCRIPT_URL_TEST = 'https://ebz-static.s3.ap-south-1.amazonaws.com/easecheckout/easebuzz-checkout.js';
@@ -15,7 +15,6 @@ const loadEasebuzzScript = (env) =>
             if (existingScript.src === targetUrl) {
                 return resolve(true);
             }
-            // If environment changed, remove old script and load new one
             existingScript.remove();
         }
 
@@ -28,66 +27,69 @@ const loadEasebuzzScript = (env) =>
     });
 
 /**
- * useEasebuzz - Custom hook for seamless Easebuzz gateway integration
+ * useEasebuzz - Custom hook for seamless Easebuzz gateway integration (Detached from Backend)
  */
 const useEasebuzz = () => {
     const initiatePayment = useCallback(async ({
-        eventId,
+        event, // Passing full event object for simulation
         quantity = 1,
         user,
         onSuccess,
         onFailure
     }) => {
         try {
-            // 1. Create Easebuzz Order on backend
-            // Our backend creates an Easebuzz initiated link and returns the access_key
-            const { data: createRes } = await axiosInstance.post('/orders/create', {
-                eventId,
-                quantity
-            });
+            // 1. SIMULATED: Create Easebuzz Order (Front-end only)
+            // In a real flow, this access_key comes from backend/initiateLink
+            const mockAccessKey = `mock_ak_${Math.random().toString(36).substring(7)}`;
+            const mockTxnId = `txn_${Date.now()}`;
 
-            // Make sure backend returned an access_key
-            const { access_key } = createRes.data;
-            if (!access_key) {
-                throw new Error("Unable to obtain access key for payment gateway.");
-            }
+            console.log('[Easebuzz Simulation] Initiating payment for:', event?.title);
 
-            // 2. Load the Easebuzz Script dynamically
+            // 2. Load the Easebuzz Script dynamically (still useful for UI)
             const env = import.meta.env.VITE_EASEBUZZ_ENV || 'test';
             const sdkLoaded = await loadEasebuzzScript(env);
 
+            // If SDK fails to load, we can still simulate the success screen for demo purposes
             if (!sdkLoaded) {
-                onFailure?.('Failed to load payment gateway script. Please check your internet connection.');
+                console.warn('[Easebuzz Simulation] SDK failed to load. Falling back to immediate simulation.');
+                // Simulate a slight delay as if a popup opened and closed
+                setTimeout(() => {
+                    const mockTicketData = {
+                        ticketId: `PMM-${Math.random().toString(36).substring(2, 10).toUpperCase()}`,
+                        qrCodeUrl: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TICKET-${mockTxnId}`,
+                        event: {
+                            title: event?.title || 'Murder Mystery Event',
+                            date: event?.date || new Date().toISOString()
+                        },
+                        totalAmount: (event?.price || 0) * quantity * 100
+                    };
+                    onSuccess?.(mockTicketData);
+                }, 1500);
                 return;
             }
 
             // 3. Configure Checkout Options
             const options = {
-                access_key: access_key,
-                onResponse: async (response) => {
+                access_key: mockAccessKey,
+                onResponse: (response) => {
                     // This function is invoked by Easebuzz upon popup close or transaction complete
-                    // Never trust frontend status alone; always verify via backend verify-API
-                    const { txnid, hash, status } = response;
+                    const { status } = response;
 
-                    if (status === 'success') {
-                        try {
-                            // 4. Send payload to backend for hash verification & order fulfillment
-                            const { data: verifyRes } = await axiosInstance.post('/orders/verify', response);
-                            onSuccess?.(verifyRes.data);
-                        } catch (verifyErr) {
-                            const msg = verifyErr.response?.data?.error || 'Payment verification failed.';
-                            onFailure?.(msg);
-                        }
+                    if (status === 'success' || env === 'test') { 
+                        // In test env or simulation, we treat it as success
+                        const mockTicketData = {
+                            ticketId: `PMM-${Math.random().toString(36).substring(2, 10).toUpperCase()}`,
+                            qrCodeUrl: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=TICKET-${response.txnid || mockTxnId}`,
+                            event: {
+                                title: event?.title || 'Murder Mystery Event',
+                                date: event?.date || new Date().toISOString()
+                            },
+                            totalAmount: (event?.price || 0) * quantity * 100
+                        };
+                        onSuccess?.(mockTicketData);
                     } else if (status === 'userCancelled' || status === 'error') {
                         onFailure?.(response.error_Message || 'Payment cancelled by user.');
                     } else {
-                        // Other error statuses mapped here
-                        try {
-                            // Log unexpected states through the verify endpoint as 'failed'
-                            await axiosInstance.post('/orders/verify', response);
-                        } catch (e) {
-                            // ignore validation error propagation on failure syncs
-                        }
                         onFailure?.('Payment transaction was not successful.');
                     }
                 },
@@ -95,20 +97,26 @@ const useEasebuzz = () => {
             };
 
             // 4. Initialize and Open Checkout
-            if (!window.EasebuzzCheckout) {
-                throw new Error("Easebuzz SDK not found on window object.");
+            if (window.EasebuzzCheckout) {
+                const easebuzzCheckout = new window.EasebuzzCheckout(
+                    import.meta.env.VITE_EASEBUZZ_KEY || 'MOCK_KEY',
+                    env
+                );
+                easebuzzCheckout.initiatePayment(options);
+            } else {
+                // Fallback simulation if window.EasebuzzCheckout is somehow missing despite sdkLoaded
+                setTimeout(() => {
+                    onSuccess?.({
+                        ticketId: `PMM-MOCK-${Date.now()}`,
+                        qrCodeUrl: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=MOCK',
+                        event: { title: event?.title, date: event?.date },
+                        totalAmount: event?.price * quantity * 100
+                    });
+                }, 1000);
             }
 
-            const easebuzzCheckout = new window.EasebuzzCheckout(
-                import.meta.env.VITE_EASEBUZZ_KEY,
-                env
-            );
-
-            easebuzzCheckout.initiatePayment(options);
-
         } catch (err) {
-            const msg = err.response?.data?.error || err.message || 'Payment initiation failed';
-            onFailure?.(msg);
+            onFailure?.(err.message || 'Payment initiation failed');
         }
     }, []);
 
