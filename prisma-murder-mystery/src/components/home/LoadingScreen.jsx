@@ -31,10 +31,10 @@ const LoadingScreen = ({ onSkip }) => {
       <div className="absolute inset-0 bg-gradient-to-b from-midnight via-noir to-blood-dark/30" />
 
       {/* Blood drip lines */}
-      <div className="absolute top-0 left-[15%] w-[3px] bg-gradient-to-b from-blood via-blood-light to-transparent" 
-           style={{ height: `${Math.min(progress * 1.2, 120)}px`, transition: 'height 0.3s' }} />
-      <div className="absolute top-0 left-[85%] w-[3px] bg-gradient-to-b from-blood via-blood-light to-transparent" 
-           style={{ height: `${Math.min(progress * 0.8, 80)}px`, transition: 'height 0.3s' }} />
+      <div className="absolute top-0 left-[15%] w-[3px] h-[120px] bg-gradient-to-b from-blood via-blood-light to-transparent"
+        style={{ transform: `scaleY(${Math.min(progress * 1.2 / 120, 1)})`, transformOrigin: 'top', transition: 'transform 0.3s' }} />
+      <div className="absolute top-0 left-[85%] w-[3px] h-[80px] bg-gradient-to-b from-blood via-blood-light to-transparent"
+        style={{ transform: `scaleY(${Math.min(progress * 0.8 / 80, 1)})`, transformOrigin: 'top', transition: 'transform 0.3s' }} />
 
       {/* Central content */}
       <div className="relative z-10 text-center">
@@ -66,11 +66,11 @@ const LoadingScreen = ({ onSkip }) => {
             <span>LOADING EVIDENCE</span>
             <span>{Math.min(Math.round(progress), 100)}%</span>
           </div>
-          
+
           <div className="h-2 bg-noir-lighter rounded-full overflow-hidden relative">
             <div
-              className="h-full gradient-blood rounded-full"
-              style={{ width: `${Math.min(progress, 100)}%` }}
+              className="h-full w-full gradient-blood rounded-full"
+              style={{ transform: `scaleX(${Math.min(progress, 100) / 100})`, transformOrigin: 'left', transition: 'transform 0.3s' }}
             />
           </div>
         </div>

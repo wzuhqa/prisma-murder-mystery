@@ -12,6 +12,10 @@ const axiosInstance = axios.create({
     }
 });
 
+// Simple in-memory cache for GET requests
+const CACHE = new Map();
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
+
 // ─── Request Interceptor — attach JWT ─────────────────────────────────────────
 axiosInstance.interceptors.request.use(
     (config) => {
@@ -19,6 +23,32 @@ axiosInstance.interceptors.request.use(
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
+
+        // Check cache for GET requests
+        if (config.method === 'get') {
+            const cacheKey = config.url;
+            const cachedParams = config.params ? JSON.stringify(config.params) : '';
+            const fullKey = cacheKey + cachedParams;
+
+            if (CACHE.has(fullKey)) {
+                const cachedData = CACHE.get(fullKey);
+                if (Date.now() - cachedData.timestamp < CACHE_TTL) {
+                    config.adapter = () => Promise.resolve({
+                        data: cachedData.data,
+                        status: 200,
+                        statusText: 'OK',
+                        headers: {},
+                        config,
+                        request: {}
+                    });
+                } else {
+                    CACHE.delete(fullKey);
+                }
+            }
+            config.meta = config.meta || {};
+            config.meta.cacheKey = fullKey;
+        }
+
         return config;
     },
     (error) => Promise.reject(error)
@@ -26,7 +56,16 @@ axiosInstance.interceptors.request.use(
 
 // ─── Response Interceptor — handle 401 auto-logout ────────────────────────────
 axiosInstance.interceptors.response.use(
-    (response) => response,
+    (response) => {
+        // Save GET responses to cache
+        if (response.config.method === 'get' && response.config.meta?.cacheKey) {
+            CACHE.set(response.config.meta.cacheKey, {
+                timestamp: Date.now(),
+                data: response.data
+            });
+        }
+        return response;
+    },
     (error) => {
         if (error.response?.status === 401) {
             // Token expired or invalid — clear storage and redirect

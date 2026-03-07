@@ -138,7 +138,7 @@ const CheckoutPage = () => {
                     </p>
 
                     {ticket.qrCodeUrl && (
-                        <img src={ticket.qrCodeUrl} alt="QR Code" width={200} height={200} style={s.qr} />
+                        <img src={ticket.qrCodeUrl} alt="QR Code" width={200} height={200} style={s.qr} loading="lazy" decoding="async" />
                     )}
 
                     <p style={{ ...s.label, textAlign: 'center', marginTop: '16px' }}>Ticket ID</p>

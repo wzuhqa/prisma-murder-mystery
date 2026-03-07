@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import React from 'react';
 import gsap from 'gsap';
 import styles from './HeroSection.module.css';
 import GlitchTitle from '../common/GlitchTitle/GlitchTitle';
@@ -18,7 +19,7 @@ const SCANNER_MESSAGES = [
   'WITNESS ACCOUNTS: MATCH FOUND — IDENTITY: ARCHITECT',
 ];
 
-const ScannerTicker = () => {
+const ScannerTicker = React.memo(() => {
   const [idx, setIdx] = useState(0);
   const [visible, setVisible] = useState(true);
 
@@ -48,10 +49,10 @@ const ScannerTicker = () => {
       </span>
     </div>
   );
-};
+});
 
 /* ─── Fingerprint SVG ───────────────────────────────────── */
-const FingerprintStamp = () => (
+const FingerprintStamp = React.memo(() => (
   <div className={styles.fingerprint} aria-hidden="true">
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="none">
       <circle cx="50" cy="50" r="8" stroke="currentColor" strokeWidth="1.5" />
@@ -65,7 +66,7 @@ const FingerprintStamp = () => (
       <path d="M50 14 C73 14 92 29 92 50 C92 71 77 84 50 86" stroke="currentColor" strokeWidth="1.5" fill="none" />
     </svg>
   </div>
-);
+));
 
 /* ─── Main Component ────────────────────────────────────── */
 const HeroSection = () => {

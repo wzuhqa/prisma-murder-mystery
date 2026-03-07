@@ -27,7 +27,8 @@
     width: 100%;
     background: linear-gradient(to bottom, #4a0000, #8b0000, #ff1744);
     box-shadow: 0 0 10px rgba(139, 0, 0, 0.8);
-    transition: height 0.1s ease-out;
+    transition: transform 0.1s ease-out;
+    transform-origin: top;
     position: relative;
 }
 
@@ -40,7 +41,7 @@
     background: #ff1744;
     border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
     box-shadow: 0 5px 15px rgba(255, 23, 68, 0.9);
-    transition: top 0.1s ease-out;
+    transition: transform 0.1s ease-out;
     animation: blood-drip-pulse 1s infinite alternate;
 }
 

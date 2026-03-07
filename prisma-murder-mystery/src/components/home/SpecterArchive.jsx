@@ -12,47 +12,46 @@ const artists = [
     name: 'NIKHITA GANDHI & MD DESI',
     year: '2024',
     description: 'A fusion of soulful melodies and energetic folk beats. The "Desi Desi" magic left an indelible mark on the digital archive.',
-    image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
+    image: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60&fm=webp&q=80'
   },
   {
     id: 2,
     name: 'JORDAN SANDHU & AJAY HOODA',
     year: '2023',
     description: 'Punjabi beats met raw Haryanvi energy. A high-voltage transmission that kept the system vibrating all night.',
-    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
+    image: 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60&fm=webp&q=80'
   },
   {
     id: 3,
     name: 'PARMISH VERMA',
     year: '2022',
     description: 'Iconic stage presence and powerful vocals. The "Aam Jahe Munde" frequency overwhelmed the auditorium sensors.',
-    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
+    image: 'https://images.unsplash.com/photo-1470229722913-7c0e2dbbafd3?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60&fm=webp&q=80'
   },
   {
     id: 4,
     name: 'LANDERS',
     year: '2020',
     description: 'A fresh fusion of pop, hip-hop, and Punjabi rhythms. Their performance remains a high-energy anomaly in the records.',
-    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
+    image: 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60&fm=webp&q=80'
   },
   {
     id: 5,
     name: 'JASSI GILL & BABBAL RAI',
     year: '2019',
     description: 'Electrifying charm and vibrant energy. The "Nikle Current" signal was caught in a loop of pure musical ecstasy.',
-    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
+    image: 'https://images.unsplash.com/photo-1501386761578-eac5c94b800a?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60&fm=webp&q=80'
   },
   {
     id: 6,
     name: 'AKHIL',
     year: '2018',
     description: 'Soulful melodies that haunted the halls. "Khaab" and "Duniya" created a mesmerizing emotional resonance still felt today.',
-    image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60'
+    image: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=800&h=600&fit=crop&sat=-100&bri=-20&con=60&fm=webp&q=80'
   }
 ];
 
-// Card component with 3D tilt and interactions
-function ArtistCard({ artist, index, isActive, onMouseMove, onMouseLeave }) {
+const ArtistCard = React.memo(function ArtistCard({ artist, index, isActive, onMouseMove, onMouseLeave }) {
   const cardRef = useRef(null);
   const [spotlightPos, setSpotlightPos] = useState({ x: '50%', y: '50%' });
   const [isHovered, setIsHovered] = useState(false);
@@ -122,13 +121,14 @@ function ArtistCard({ artist, index, isActive, onMouseMove, onMouseLeave }) {
         src={artist.image}
         alt={`Visual representation for ${artist.name}`}
         loading="lazy"
+        decoding="async"
         className="hidden" // Just to trigger lazy load while being handled by CSS background
       />
 
       <div className="card-scan-line" />
     </motion.div>
   );
-}
+});
 
 // Horizontal scroll timeline component
 function HorizontalTimeline({ artists }) {
@@ -190,8 +190,7 @@ function HorizontalTimeline({ artists }) {
   );
 }
 
-// Parallax background component
-function ParallaxBackground({ sectionRef }) {
+const ParallaxBackground = React.memo(function ParallaxBackground({ sectionRef }) {
   const fog1Ref = useRef(null);
   const fog2Ref = useRef(null);
   const fog3Ref = useRef(null);
@@ -250,7 +249,7 @@ function ParallaxBackground({ sectionRef }) {
       <div className="film-grain" ref={grainRef} />
     </>
   );
-}
+});
 
 // Main SpecterArchive component
 function SpecterArchive() {
