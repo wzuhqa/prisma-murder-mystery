@@ -351,9 +351,9 @@ const SponsorsMarquee = () => {
           whileInView={{ opacity: 1, scale: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
-          className="text-center"
+          className="text-center w-full block"
         >
-          <div className="inline-flex flex-col items-center relative group">
+          <div className="flex flex-col items-center justify-center relative group w-full">
             {/* Centered Heading Backer (Watermark) */}
             <div
               className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-mono font-black pointer-events-none select-none opacity-[0.03] text-8xl md:text-10xl tracking-tighter rotate-[-12deg] z-0"
@@ -362,7 +362,7 @@ const SponsorsMarquee = () => {
               PRISMA
             </div>
 
-            <h2 className="font-creepy text-4xl md:text-7xl tracking-widest text-[#C41E3A] uppercase bg-blood/5 px-12 py-7 border border-blood/20 relative z-10 backdrop-blur-md">
+            <h2 className="font-creepy text-4xl md:text-7xl tracking-widest text-[#C41E3A] uppercase bg-blood/5 px-12 py-7 border border-blood/20 relative z-10 backdrop-blur-md text-center">
               Classified Backers
             </h2>
             <div className="absolute inset-0 bg-blood/5 blur-2xl -z-10 group-hover:bg-blood/10 transition-colors duration-700" />

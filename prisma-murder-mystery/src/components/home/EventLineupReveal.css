@@ -1,3 +1,4 @@
+si
 /* EventLineupReveal - Cinematic Horror-Tech Event Lineup Section */
 
 /* CSS Variables (V2.6 Noir Refinement) */
@@ -1483,5 +1484,31 @@
 
   .lineup-stage-container {
     height: 160px;
+  }
+
+  .lineup-terminal-ui {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    right: auto;
+    margin-top: 40px;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding: 0 10px;
+  }
+
+  .lineup-buttons {
+    flex-direction: column;
+    width: 100%;
+    gap: 15px;
+    padding: 0 20px;
+  }
+
+  .lineup-btn {
+    width: 100%;
+    padding: 14px 20px;
+    font-size: 13px;
+    justify-content: center;
   }
 }

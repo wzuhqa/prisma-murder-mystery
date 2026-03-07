@@ -71,15 +71,6 @@ const Home = () => {
         </Suspense>
       </section>
 
-      <SectionDivider label="CLASSIFIED BACKERS" />
-
-      {/* ===== SPONSORS MARQUEE SECTION ===== */}
-      <section className="relative z-20 bg-base">
-        <Suspense fallback={<SectionLoader />}>
-          <SponsorsMarquee />
-        </Suspense>
-      </section>
-
       <SectionDivider label="COLD CASE FILES" />
 
       {/* ===== SPECTER ARCHIVE SECTION ===== */}
@@ -98,6 +89,15 @@ const Home = () => {
         </Suspense>
       </section>
 
+      <SectionDivider label="CLASSIFIED BACKERS" />
+
+      {/* ===== SPONSORS MARQUEE SECTION ===== */}
+      <section className="relative z-20 bg-base">
+        <Suspense fallback={<SectionLoader />}>
+          <SponsorsMarquee />
+        </Suspense>
+      </section>
+
       <Footer />
 
     </main>
@@ -105,4 +105,3 @@ const Home = () => {
 }
 
 export default Home
-
