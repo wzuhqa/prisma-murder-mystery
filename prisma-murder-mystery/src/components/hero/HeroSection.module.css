@@ -147,7 +147,8 @@
       85% 99%, 80% 94%, 75% 97%, 0% 100%);
 
   border-radius: 2px 40px 5px 2px;
-  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 /* ── Folder Tab ── */
@@ -744,11 +745,18 @@
     border-left: none;
     border-top: 2px solid #8b0000;
     padding-top: 1.5rem;
+    width: 100%;
   }
 
   .metaLabel {
-    width: auto;
+    width: 100%;
     margin-bottom: 0.2rem;
+    opacity: 0.5;
+  }
+
+  .metaValue {
+    font-size: 0.8rem;
+    width: 100%;
   }
 }
 

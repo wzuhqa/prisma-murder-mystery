@@ -363,7 +363,7 @@
 }
 
 .file-content {
-    padding: 2.5rem 2rem;
+    padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1rem, 5vw, 2rem);
 }
 
 .intro-text {
@@ -454,7 +454,7 @@
 /* Dossier Grid */
 .dossier-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(clamp(250px, 100%, 350px), 1fr));
     gap: var(--space-8, 2rem);
 }
 

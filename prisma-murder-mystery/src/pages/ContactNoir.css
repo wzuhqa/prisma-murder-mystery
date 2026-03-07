@@ -567,8 +567,20 @@
 .content-grid {
     display: grid;
     grid-template-columns: 200px 1fr;
-    gap: 2rem;
-    margin-bottom: 3rem;
+    gap: var(--space-8, 2rem);
+    margin-bottom: var(--space-12, 3rem);
+}
+
+@media (max-width: 900px) {
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .status-panel {
+        position: static;
+        width: 100%;
+        margin-bottom: 2rem;
+    }
 }
 
 /* Case Status Side Panel */
@@ -697,7 +709,7 @@
 
 .noir-title {
     font-family: 'Playfair Display', Georgia, serif;
-    font-size: clamp(4rem, 12vw, 7rem);
+    font-size: clamp(3.5rem, 15vw, 7rem);
     font-weight: 900;
     letter-spacing: 0.15em;
     text-transform: uppercase;
@@ -769,7 +781,7 @@
 
 /* Form */
 .dossier-form {
-    padding: 2.5rem 2rem;
+    padding: clamp(1.5rem, 5vw, 2.5rem) clamp(1rem, 5vw, 2rem);
 }
 
 .form-field {

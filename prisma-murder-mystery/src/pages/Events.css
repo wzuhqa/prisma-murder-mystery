@@ -595,10 +595,12 @@
 .dossier-header {
     background: rgba(0, 0, 0, 0.3);
     border-bottom: 1px solid rgba(200, 200, 200, 0.1);
-    padding: 1.5rem 2rem;
+    padding: clamp(1rem, 3vw, 1.5rem) clamp(1rem, 4vw, 2rem);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .dossier-label {
@@ -622,7 +624,7 @@
 
 .category-description {
     font-family: 'Inter', sans-serif;
-    font-size: 1.25rem;
+    font-size: clamp(1rem, 3vw, 1.25rem);
     color: rgba(232, 224, 208, 0.7);
     line-height: 1.6;
     max-width: 45rem;

@@ -12,9 +12,8 @@
   --nav-border: rgba(139, 0, 0, 0.25);
   --nav-mono: 'IBM Plex Mono', 'Courier New', monospace;
   --nav-text: #d9d9d9;
-  --nav-height: 80px;
-  /* Reduced from 100px */
-  --nav-height-scrolled: 58px;
+  --nav-height: clamp(64px, 10vh, 80px);
+  --nav-height-scrolled: clamp(52px, 8vh, 58px);
   --nav-transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -61,7 +60,7 @@
 }
 
 .navbar-zone--menu {
-  /* Absolutely center — add z-index so brand/status don't bleed into it */
+  /* Absolutely center only on desktop — use flex order/spacing otherwise */
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
@@ -69,7 +68,7 @@
   justify-content: center;
   z-index: 20;
   /* Prevent the menu from overlapping brand/status on tighter screens */
-  max-width: calc(100% - 420px);
+  max-width: min(calc(100% - 420px), 800px);
 }
 
 .navbar-zone--status {
