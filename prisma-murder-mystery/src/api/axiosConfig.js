@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 // ─── Base URL ──────────────────────────────────────────────────────────────────
-// Set VITE_API_URL in your .env file:  VITE_API_URL=http://localhost:5000/api
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+// Backend has been removed. All requests are simulated.
+const BASE_URL = '/api';
 
 const axiosInstance = axios.create({
     baseURL: BASE_URL,
@@ -16,7 +16,7 @@ const axiosInstance = axios.create({
 const CACHE = new Map();
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
-// ─── Request Interceptor — attach JWT ─────────────────────────────────────────
+// ─── Request Interceptor — Mock Responses ─────────────────────────────────────
 axiosInstance.interceptors.request.use(
     (config) => {
         const token = localStorage.getItem('pmm_token');
@@ -24,30 +24,41 @@ axiosInstance.interceptors.request.use(
             config.headers.Authorization = `Bearer ${token}`;
         }
 
-        // Check cache for GET requests
-        if (config.method === 'get') {
-            const cacheKey = config.url;
-            const cachedParams = config.params ? JSON.stringify(config.params) : '';
-            const fullKey = cacheKey + cachedParams;
+        // --- SIMULATION LOGIC ---
+        // Overriding the adapter to return mock data immediately
+        config.adapter = async (config) => {
+            console.log(`[API Simulation] ${config.method.toUpperCase()} ${config.url}`, config.data || '');
 
-            if (CACHE.has(fullKey)) {
-                const cachedData = CACHE.get(fullKey);
-                if (Date.now() - cachedData.timestamp < CACHE_TTL) {
-                    config.adapter = () => Promise.resolve({
-                        data: cachedData.data,
-                        status: 200,
-                        statusText: 'OK',
-                        headers: {},
-                        config,
-                        request: {}
-                    });
-                } else {
-                    CACHE.delete(fullKey);
-                }
+            await new Promise(resolve => setTimeout(resolve, 800)); // Simulate latency
+
+            // Mock responses based on URL
+            if (config.url.includes('/events')) {
+                return {
+                    data: {
+                        success: true,
+                        data: [
+                            { _id: 'ev1', title: 'The Midnight Masquerade', price: 999, availableTickets: 50, date: new Date().toISOString() },
+                            { _id: 'ev2', title: 'Shadows of Serenity', price: 1499, availableTickets: 20, date: new Date(Date.now() + 86400000).toISOString() },
+                            { _id: 'ev3', title: 'Gilded Cage Mystery', price: 799, availableTickets: 0, date: new Date(Date.now() + 172800000).toISOString() }
+                        ]
+                    },
+                    status: 200, statusText: 'OK', headers: {}, config
+                };
             }
-            config.meta = config.meta || {};
-            config.meta.cacheKey = fullKey;
-        }
+
+            if (config.url.includes('/auth/login') || config.url.includes('/auth/register')) {
+                const mockUser = { id: 'u1', name: 'Detective Operative', email: 'agent@prisma.io', role: 'user' };
+                return {
+                    data: { success: true, token: 'mock_jwt_token', user: mockUser },
+                    status: 200, statusText: 'OK', headers: {}, config
+                };
+            }
+
+            return {
+                data: { success: true, message: 'Simulated response' },
+                status: 200, statusText: 'OK', headers: {}, config
+            };
+        };
 
         return config;
     },
