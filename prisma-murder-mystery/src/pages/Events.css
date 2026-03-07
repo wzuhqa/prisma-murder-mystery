@@ -493,7 +493,7 @@
     border-left: 1px solid rgba(255, 255, 255, 0.05);
     border-right: 1px solid rgba(255, 255, 255, 0.05);
     font-family: 'Courier Prime', monospace;
-    font-size: 0.65rem;
+    font-size: 0.85rem;
     letter-spacing: 0.2em;
     color: rgba(232, 224, 208, 0.6);
     font-weight: 700;
@@ -520,7 +520,7 @@
     color: rgba(122, 0, 0, 0.6);
     font-family: 'Courier New', Courier, monospace;
     font-weight: 900;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     pointer-events: none;
@@ -603,7 +603,7 @@
 
 .dossier-label {
     font-family: 'Courier Prime', monospace;
-    font-size: 0.75rem;
+    font-size: 0.95rem;
     letter-spacing: 0.15em;
     color: rgba(232, 224, 208, 0.8);
     font-weight: 700;
@@ -622,19 +622,19 @@
 
 .category-description {
     font-family: 'Inter', sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
     color: rgba(232, 224, 208, 0.7);
     line-height: 1.6;
-    max-width: 40rem;
+    max-width: 45rem;
     margin: 0 auto;
 }
 
 .category-tagline {
     font-family: 'Courier Prime', monospace;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
     letter-spacing: 0.3em;
     color: #c41e3a;
-    margin-top: 1rem;
+    margin-top: 1.25rem;
     font-weight: 700;
     text-transform: uppercase;
 }
