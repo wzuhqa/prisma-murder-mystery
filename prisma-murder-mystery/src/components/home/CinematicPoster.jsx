@@ -4,9 +4,10 @@
  * 16:9 aspect ratio, 4K resolution ready
  */
 
+import { Link } from 'react-router-dom'
 import { Search, Ticket } from 'lucide-react'
 
-const CinematicPoster = ({ 
+const CinematicPoster = ({
   className = '',
   eventDate = '28 February to 1 March 2026'
 }) => {
@@ -685,7 +686,7 @@ const CinematicPoster = ({
           }
         }
       `}</style>
-      
+
       {/* Atmospheric layers */}
       <div className="fog-layer" />
       <div className="static-overlay" />
@@ -693,32 +694,32 @@ const CinematicPoster = ({
       <div className="distortion-bar" />
       <div className="distortion-bar" />
       <div className="distortion-bar" />
-      
+
       {/* Digital tearing */}
       <div className="tear-corner top-left" />
       <div className="tear-corner top-right" />
       <div className="tear-corner bottom-left" />
       <div className="tear-corner bottom-right" />
-      
+
       {/* Corrupted pixel fragments */}
       <div className="pixel-fragment" style={{ top: '15%', left: '20%', animationDelay: '0s' }} />
       <div className="pixel-fragment" style={{ top: '35%', left: '75%', animationDelay: '1s' }} />
       <div className="pixel-fragment" style={{ top: '65%', left: '10%', animationDelay: '2s' }} />
       <div className="pixel-fragment" style={{ top: '80%', left: '85%', animationDelay: '3s' }} />
       <div className="pixel-fragment" style={{ top: '45%', left: '55%', animationDelay: '4s' }} />
-      
+
       {/* Corner frame markers */}
       <div className="corner-frame top-left" />
       <div className="corner-frame top-right" />
       <div className="corner-frame bottom-left" />
       <div className="corner-frame bottom-right" />
-      
+
       {/* Top capsule label */}
       <div className="capsule-label">
         <span className="capsule-dot" />
         <span className="capsule-text">SRM University Delhi-NCR</span>
       </div>
-      
+
       {/* Main content */}
       <div className="poster-content">
         <h1 className="main-title">
@@ -731,20 +732,20 @@ const CinematicPoster = ({
         <p className="subtitle">Annual Tech & Cultural Fest</p>
         <p className="tagline">#TheMysteryUnfolds</p>
         <p className="event-date">{eventDate}</p>
-        
+
         {/* Buttons */}
         <div className="buttons-container">
-          <a href="/events" className="poster-button btn-investigate">
+          <Link to="/events" className="poster-button btn-investigate">
             <Search size={15} />
             Investigate Events
-          </a>
-          <a href="/register" className="poster-button btn-passes">
+          </Link>
+          <Link to="/register" className="poster-button btn-passes">
             <Ticket size={15} />
             Grab Your Passes
-          </a>
+          </Link>
         </div>
       </div>
-      
+
       {/* Scroll indicator */}
       <div className="scroll-indicator">
         <div className="scroll-icon" />
