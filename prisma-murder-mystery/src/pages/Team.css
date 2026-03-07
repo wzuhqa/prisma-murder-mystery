@@ -720,7 +720,7 @@
 @media (max-width: 767px) {
     .team-content {
         max-width: 100%;
-        padding: 30px 1rem;
+        padding: var(--section-padding-top) 1rem var(--space-12, 3rem);
     }
 
     /* Header */

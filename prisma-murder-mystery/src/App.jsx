@@ -70,7 +70,7 @@ const AppContent = () => {
   return (
     <div className="min-h-screen bg-base">
       <SlashNavbar />
-      <div className="pt-24 relative z-20">
+      <div className="relative z-20">
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Home />} />

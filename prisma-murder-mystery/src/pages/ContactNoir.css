@@ -1397,7 +1397,7 @@
 /* Mobile (max-width: 767px) */
 @media (max-width: 767px) {
     .noir-contact-container {
-        padding: 3rem 1rem 2rem;
+        padding: var(--section-padding-top) 1rem 2rem;
     }
 
     /* Grid to stack */

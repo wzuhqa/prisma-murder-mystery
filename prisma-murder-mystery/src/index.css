@@ -102,8 +102,8 @@
   --space-24: 6rem;
   /* 96px */
   --section-padding-x: clamp(1.25rem, 5vw, 3rem);
-  --section-padding-top: 7rem;
-  /* clears navbar (90px) + breathing room */
+  --section-padding-top: clamp(6.25rem, 10vh, 8rem);
+  /* Responsive clearing: 100px on small screens to clear 80px navbar */
 
   /* ── Typographic Scale ── */
   --text-xs: 0.65rem;

@@ -157,7 +157,10 @@ const Events = () => {
       </AnimatePresence>
 
       {/* Main content */}
-      <div className="relative max-w-7xl mx-auto px-[var(--section-padding-x)] pt-28 md:pt-32 lg:pt-36 pb-24 z-10">
+      <div
+        className="relative max-w-7xl mx-auto px-[var(--section-padding-x)] pb-24 z-10"
+        style={{ paddingTop: 'var(--section-padding-top)' }}
+      >
         {/* Header */}
         <header className="events-header">
           <motion.div
@@ -194,11 +197,7 @@ const Events = () => {
           ))}
         </div>
 
-        {/* Footer */}
-        <footer className="mt-20 pb-12 border-t border-white/5 pt-10 flex flex-col md:flex-row justify-between items-center text-[0.6rem] uppercase tracking-[0.3em] text-gray-700 font-mono">
-          <div>Every program has an architect.</div>
-          <div className="mt-4 md:mt-0">© 2026 <span className="glitch-hover" data-text="PRISMA TERMINAL">PRISMA TERMINAL</span> // ALL RIGHTS RESERVED</div>
-        </footer>
+
       </div>
 
       {/* Index keyword overlay */}
