@@ -892,6 +892,26 @@
   .clue-icon {
     font-size: 20px;
   }
+
+  /* Reduce shadow element sizes on mobile */
+  .shadow-1 {
+    width: 300px;
+    height: 400px;
+    left: -100px;
+  }
+
+  .shadow-2 {
+    width: 250px;
+    height: 350px;
+    right: -80px;
+  }
+
+  .shadow-3 {
+    width: 200px;
+    height: 250px;
+    left: 20%;
+    bottom: -80px;
+  }
 }
 
 @media (max-width: 480px) {

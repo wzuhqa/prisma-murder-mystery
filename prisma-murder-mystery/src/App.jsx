@@ -5,6 +5,7 @@ import SlashNavbar from './components/common/SlashNavbar'
 import ForensicCursor from './components/common/ForensicCursor/ForensicCursor'
 import { NavigationProvider } from './context/NavigationContext'
 import ErrorBoundary from './components/ErrorBoundary'
+import ScrollToTop from './components/common/ScrollToTop'
 
 // Lazy load page components for code splitting
 const Home = lazy(() => import('./pages/Home'))
@@ -96,6 +97,7 @@ function App() {
       <BrowserRouter basename={import.meta.env.BASE_URL}>
         <ForensicCursor />
         <NavigationProvider>
+          <ScrollToTop />
           <AppContent />
         </NavigationProvider>
       </BrowserRouter>

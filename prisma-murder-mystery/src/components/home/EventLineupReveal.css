@@ -1442,18 +1442,30 @@
 
 /* Responsive */
 @media (max-width: 768px) {
+  .lineup-hero {
+    padding: 80px 15px;
+  }
+
+  .lineup-headline {
+    font-size: clamp(1.8rem, 8vw, 3.2rem);
+    letter-spacing: 0.05em;
+  }
+
+  .lineup-subtext-inner {
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+  }
+
   .lineup-dossier-grid {
     grid-template-columns: 1fr;
-    gap: 30px;
-    padding: 0 15px;
+    gap: 20px;
+    padding: 0 10px;
     perspective: none;
-    /* Disable 3D on mobile for better perf */
   }
 
   .artist-card {
-    padding: 24px;
+    padding: 15px;
     filter: none;
-    /* Let them be visible on mobile easily */
   }
 
   .artist-card:nth-child(even) {
@@ -1461,11 +1473,15 @@
   }
 
   .artist-name {
-    font-size: 20px;
+    font-size: 18px;
   }
 
   .portrait-container {
-    aspect-ratio: 1/1;
-    /* Square on mobile to save space */
+    aspect-ratio: 4/5;
+    max-height: 300px;
+  }
+
+  .lineup-stage-container {
+    height: 160px;
   }
 }

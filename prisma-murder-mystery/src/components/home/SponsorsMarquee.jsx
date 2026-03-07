@@ -116,7 +116,7 @@ const SponsorCard = ({ sponsor, tier, tierKey, index }) => {
       >
         <div
           className={`relative rounded-sm border-l-4 ${tier.borderColor} border border-white/5 ${tier.cardBg} shadow-[12px_12px_30px_rgba(0,0,0,0.7)] transition-all duration-500 overflow-hidden
-            ${isGold ? 'px-10 py-8 md:px-16 md:py-14 min-w-[260px] md:min-w-[360px]' : isSilver ? 'px-7 py-6 md:px-12 md:py-10 min-w-[200px] md:min-w-[280px]' : 'px-5 py-4 md:px-8 md:py-7 min-w-[140px] md:min-w-[200px]'}`}
+            ${isGold ? 'px-6 py-6 md:px-16 md:py-14 min-w-[200px] md:min-w-[360px]' : isSilver ? 'px-5 py-5 md:px-12 md:py-10 min-w-[160px] md:min-w-[280px]' : 'px-4 py-4 md:px-8 md:py-7 min-w-[130px] md:min-w-[200px]'}`}
         >
           {/* Breathing glow animation */}
           <div

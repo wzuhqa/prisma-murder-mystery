@@ -14,7 +14,6 @@ const CinematicPoster = ({
   return (
     <div className={`horror-poster ${className}`}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap');
         
         .horror-poster {
           position: relative;
